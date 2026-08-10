@@ -1284,3 +1284,113 @@ test "real_ops: softmax approx_equal" {
   @test.assert_eq(aees.data[1], 1.0)
   @test.assert_eq(aees.data[2], 0.0)
 }
+
+///|
+test "perf: map_elem_inplace" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let y = map_elem_inplace(x, fn(v) { v * v })
+  @test.assert_eq(y.data[0], 1.0)
+  @test.assert_eq(y.data[1], 4.0)
+  @test.assert_eq(y.data[2], 9.0)
+  @test.assert_eq(y.data[3], 16.0)
+  // Verify it's the same array (in-place)
+  @test.assert_eq(x.data[0], 1.0)
+  @test.assert_eq(x.data[3], 16.0)
+}
+
+///|
+test "perf: add_scalar_inplace" {
+  let x = of_array([1.0, 2.0, 3.0], [3])
+  let y = add_scalar_inplace(x, 10.0)
+  @test.assert_eq(y.data[0], 11.0)
+  @test.assert_eq(y.data[1], 12.0)
+  @test.assert_eq(y.data[2], 13.0)
+  // Verify in-place
+  @test.assert_eq(x.data[0], 11.0)
+}
+
+///|
+test "perf: mul_scalar_inplace" {
+  let x = of_array([1.0, 2.0, 3.0], [3])
+  let y = mul_scalar_inplace(x, 2.0)
+  @test.assert_eq(y.data[0], 2.0)
+  @test.assert_eq(y.data[1], 4.0)
+  @test.assert_eq(y.data[2], 6.0)
+  // Verify in-place
+  @test.assert_eq(x.data[1], 4.0)
+}
+
+///|
+test "perf: add_inplace" {
+  let x = of_array([1.0, 2.0, 3.0], [3])
+  let y = of_array([10.0, 20.0, 30.0], [3])
+  let z = add_inplace(x, y)
+  @test.assert_eq(z.data[0], 11.0)
+  @test.assert_eq(z.data[1], 22.0)
+  @test.assert_eq(z.data[2], 33.0)
+  // Verify in-place
+  @test.assert_eq(x.data[0], 11.0)
+}
+
+///|
+test "perf: fma single-pass" {
+  let x = of_array([1.0, 2.0, 3.0], [3])
+  let y = of_array([4.0, 5.0, 6.0], [3])
+  let z = of_array([0.1, 0.2, 0.3], [3])
+  let r = fma(x, y, z)
+  @test.assert_eq(r.data[0], 4.1)
+  @test.assert_eq(r.data[1], 10.2)
+  @test.assert_eq(r.data[2], 18.3)
+}
+
+///|
+test "perf: same-shape add fast path" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let y = of_array([5.0, 6.0, 7.0, 8.0], [2, 2])
+  let r = add(x, y)
+  @test.assert_eq(r.data[0], 6.0)
+  @test.assert_eq(r.data[1], 8.0)
+  @test.assert_eq(r.data[2], 10.0)
+  @test.assert_eq(r.data[3], 12.0)
+}
+
+///|
+test "perf: same-shape mul fast path" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let y = of_array([2.0, 3.0, 4.0, 5.0], [2, 2])
+  let r = mul(x, y)
+  @test.assert_eq(r.data[0], 2.0)
+  @test.assert_eq(r.data[1], 6.0)
+  @test.assert_eq(r.data[2], 12.0)
+  @test.assert_eq(r.data[3], 20.0)
+}
+
+///|
+test "perf: matmul i-p-j order" {
+  let a = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let b = of_array([5.0, 6.0, 7.0, 8.0], [2, 2])
+  let c = dot(a, b)
+  // [1*5+2*7, 1*6+2*8] = [19, 22]
+  // [3*5+4*7, 3*6+4*8] = [43, 50]
+  @test.assert_eq(c.data[0], 19.0)
+  @test.assert_eq(c.data[1], 22.0)
+  @test.assert_eq(c.data[2], 43.0)
+  @test.assert_eq(c.data[3], 50.0)
+}
+
+///|
+test "perf: get 1D fast path" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0], [5])
+  @test.assert_eq(get(x, [0]), 1.0)
+  @test.assert_eq(get(x, [4]), 5.0)
+  @test.assert_eq(get(x, [2]), 3.0)
+}
+
+///|
+test "perf: get 2D fast path" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  @test.assert_eq(get(x, [0, 0]), 1.0)
+  @test.assert_eq(get(x, [0, 2]), 3.0)
+  @test.assert_eq(get(x, [1, 0]), 4.0)
+  @test.assert_eq(get(x, [1, 2]), 6.0)
+}

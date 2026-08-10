@@ -38,8 +38,16 @@ pub fn slice_size(x : Ndarray) -> Array[Int] {
 ///|
 /// Get element at multi-dimensional index.
 pub fn get(x : Ndarray, index : Array[Int]) -> Double raise {
-  let st = calc_strides(x.shape)
-  let idx = flat_index(index, st)
+  let nd = x.shape.length()
+  // Fast paths for 1D and 2D (avoid calc_strides allocation)
+  let idx = match nd {
+    1 => index[0]
+    2 => index[0] * x.shape[1] + index[1]
+    _ => {
+      let st = calc_strides(x.shape)
+      flat_index(index, st)
+    }
+  }
   if idx < 0 || idx >= x.data.length() {
     raise @types.OwlError::InvalidArgument("index out of bounds")
   }
@@ -49,8 +57,16 @@ pub fn get(x : Ndarray, index : Array[Int]) -> Double raise {
 ///|
 /// Set element at multi-dimensional index.
 pub fn set(x : Ndarray, index : Array[Int], value : Double) -> Unit raise {
-  let st = calc_strides(x.shape)
-  let idx = flat_index(index, st)
+  let nd = x.shape.length()
+  // Fast paths for 1D and 2D (avoid calc_strides allocation)
+  let idx = match nd {
+    1 => index[0]
+    2 => index[0] * x.shape[1] + index[1]
+    _ => {
+      let st = calc_strides(x.shape)
+      flat_index(index, st)
+    }
+  }
   if idx < 0 || idx >= x.data.length() {
     raise @types.OwlError::InvalidArgument("index out of bounds")
   }

@@ -169,7 +169,7 @@ pub fn dot(x : Ndarray, y : Ndarray) -> Ndarray raise {
           }
           { shape: [r], data }
         }
-        // matrix @ matrix
+        // matrix @ matrix (i-p-j order for cache locality)
         2 => {
           let r = x.shape[0]
           let k = x.shape[1]
@@ -178,13 +178,16 @@ pub fn dot(x : Ndarray, y : Ndarray) -> Ndarray raise {
             raise @types.OwlError::InvalidArgument("dot: dimension mismatch")
           }
           let data = FixedArray::make(r * c, 0.0)
+          let xd = x.data
+          let yd = y.data
           for i in 0..<r {
-            for j in 0..<c {
-              let mut s = 0.0
-              for p in 0..<k {
-                s += x.data[i * k + p] * y.data[p * c + j]
+            let row_off = i * c
+            for p in 0..<k {
+              let x_ip = xd[i * k + p]
+              let y_off = p * c
+              for j in 0..<c {
+                data[row_off + j] += x_ip * yd[y_off + j]
               }
-              data[i * c + j] = s
             }
           }
           { shape: [r, c], data }

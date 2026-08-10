@@ -1,7 +1,12 @@
 ///|
 /// Apply a unary function element-wise.
 fn _map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
-  let data = FixedArray::makei(x.data.length(), fn(i) { f(x.data[i]) })
+  let n = x.data.length()
+  let data = FixedArray::make(n, 0.0)
+  let xd = x.data
+  for i in 0..<n {
+    data[i] = f(xd[i])
+  }
   { shape: x.shape.copy(), data }
 }
 
@@ -12,6 +17,18 @@ pub fn map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
 }
 
 ///|
+/// Apply a unary function element-wise IN-PLACE (modifies x.data directly, no allocation).
+/// Returns x for chaining.
+pub fn map_elem_inplace(x : Ndarray, f : (Double) -> Double) -> Ndarray {
+  let n = x.data.length()
+  let xd = x.data
+  for i in 0..<n {
+    xd[i] = f(xd[i])
+  }
+  x
+}
+
+///|
 /// Apply a binary function element-wise (public).
 pub fn map_elem2(
   x : Ndarray,
@@ -19,7 +36,12 @@ pub fn map_elem2(
   f : (Double, Double) -> Double,
 ) -> Ndarray {
   let n = x.data.length()
-  let data = FixedArray::makei(n, fn(i) { f(x.data[i], y.data[i]) })
+  let data = FixedArray::make(n, 0.0)
+  let xd = x.data
+  let yd = y.data
+  for i in 0..<n {
+    data[i] = f(xd[i], yd[i])
+  }
   { shape: x.shape.copy(), data }
 }
 
@@ -155,8 +177,11 @@ pub fn relu(x : Ndarray) -> Ndarray {
 
 ///|
 pub fn dawsn(x : Ndarray) -> Ndarray raise {
-  let data = FixedArray::makei(x.data.length(), fn(i) raise {
-    @maths.dawsn(x.data[i])
-  })
+  let n = x.data.length()
+  let data = FixedArray::make(n, 0.0)
+  let xd = x.data
+  for i in 0..<n {
+    data[i] = @maths.dawsn(xd[i])
+  }
   { shape: x.shape.copy(), data }
 }
