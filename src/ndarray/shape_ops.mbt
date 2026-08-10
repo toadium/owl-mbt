@@ -75,6 +75,19 @@ pub fn expand(x : Ndarray, _d : Int, hi? : Bool = false) -> Ndarray {
 /// Transpose (reverse all axes). For 2D this is matrix transpose.
 pub fn transpose(x : Ndarray, axis? : Array[Int] = []) -> Ndarray {
   let n = x.shape.length()
+  // Fast path: 2D transpose (most common case)
+  if n == 2 && axis.length() == 0 {
+    let r = x.shape[0]
+    let c = x.shape[1]
+    let data = FixedArray::make(r * c, 0.0)
+    let xd = x.data
+    for i in 0..<r {
+      for j in 0..<c {
+        data[j * r + i] = xd[i * c + j]
+      }
+    }
+    return { shape: [c, r], data }
+  }
   let perm = if axis.length() == 0 {
     Array::makei(n, fn(i) { n - 1 - i })
   } else {
@@ -86,9 +99,10 @@ pub fn transpose(x : Ndarray, axis? : Array[Int] = []) -> Ndarray {
   let total = _numel_shape(x.shape)
   let data = FixedArray::make(total, 0.0)
   let old_idx = Array::make(n, 0)
+  // Pre-allocate new_idx to avoid per-iteration allocation
+  let new_idx = Array::make(n, 0)
   let mut should_stop = false
   while !should_stop {
-    let new_idx = Array::make(n, 0)
     for i in 0..<n {
       new_idx[i] = old_idx[perm[i]]
     }
@@ -123,9 +137,13 @@ pub fn concatenate(arrs : Array[Ndarray], axis? : Int = 0) -> Ndarray raise {
   for arr in arrs {
     let arr_strides = calc_strides(arr.shape)
     let arr_idx = Array::make(n_dims, 0)
+    // Pre-allocate out_idx and reuse
+    let out_idx = Array::make(n_dims, 0)
     let mut should_stop = false
     while !should_stop {
-      let out_idx = arr_idx.copy()
+      for i in 0..<n_dims {
+        out_idx[i] = arr_idx[i]
+      }
       out_idx[ax] += offset
       let arr_flat = flat_index(arr_idx, arr_strides)
       let out_flat = flat_index(out_idx, new_strides)
@@ -161,10 +179,11 @@ pub fn stack(arrs : Array[Ndarray], axis? : Int = 0) -> Ndarray raise {
     let arr = arrs[k]
     let arr_strides = calc_strides(arr.shape)
     let arr_idx = Array::make(n_dims, 0)
+    // Pre-allocate out_idx and reuse
+    let out_idx = Array::make(n_dims + 1, 0)
+    out_idx[insert_pos] = k
     let mut should_stop = false
     while !should_stop {
-      let out_idx = Array::make(n_dims + 1, 0)
-      out_idx[insert_pos] = k
       for i in 0..<n_dims {
         let target = if i < insert_pos { i } else { i + 1 }
         out_idx[target] = arr_idx[i]
@@ -193,9 +212,10 @@ pub fn tile(x : Ndarray, reps : Array[Int]) -> Ndarray {
   let new_strides = calc_strides(new_shape)
   let old_strides = calc_strides(x.shape)
   let out_idx = Array::make(n, 0)
+  // Pre-allocate old_idx to avoid per-iteration allocation
+  let old_idx = Array::make(n, 0)
   let mut should_stop = false
   while !should_stop {
-    let old_idx = Array::make(n, 0)
     for i in 0..<n {
       old_idx[i] = out_idx[i] % x.shape[i]
     }
@@ -222,9 +242,10 @@ pub fn repeat(x : Ndarray, reps : Array[Int]) -> Ndarray {
   let new_strides = calc_strides(new_shape)
   let old_strides = calc_strides(x.shape)
   let out_idx = Array::make(n, 0)
+  // Pre-allocate old_idx to avoid per-iteration allocation
+  let old_idx = Array::make(n, 0)
   let mut should_stop = false
   while !should_stop {
-    let old_idx = Array::make(n, 0)
     for i in 0..<n {
       old_idx[i] = out_idx[i] / reps[i]
     }

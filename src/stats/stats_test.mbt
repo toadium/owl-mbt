@@ -283,3 +283,123 @@ test "choose" {
   let y = choose(x, 3)
   @test.assert_eq(y.length(), 3)
 }
+
+// ===== Business Scenario Tests =====
+
+///|
+test "scenario: descriptive statistics workflow" {
+  let data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+  let m = mean(data)
+  @test.assert_eq(true, (m - 5.5).abs() < 1.0e-10)
+  let v = variance(Some(m), data)
+  @test.assert_eq(true, v > 0.0)
+  let s = std(Some(m), data)
+  @test.assert_eq(true, (s - v.sqrt()).abs() < 1.0e-10)
+  let sk = skew(Some(m), Some(s), data)
+  // Symmetric data → skewness ≈ 0
+  @test.assert_eq(true, sk.abs() < 1.0e-10)
+  let k = kurtosis(Some(m), Some(s), data)
+  @test.assert_eq(true, k > 0.0)
+  let ad = absdev(Some(m), data)
+  @test.assert_eq(true, ad > 0.0)
+  let cm = central_moment(3, data)
+  // Symmetric data → odd central moment ≈ 0
+  @test.assert_eq(true, cm.abs() < 1.0e-8)
+}
+
+///|
+test "scenario: covariance and correlation" {
+  let x = [1.0, 2.0, 3.0, 4.0, 5.0]
+  let y = [2.0, 4.0, 6.0, 8.0, 10.0]
+  let c = cov(None, None, x, y)
+  // y = 2x, so cov(x,y) = 2*var(x) = 2*2 = 4
+  @test.assert_eq(true, (c - 4.0).abs() < 1.0e-10)
+  let tau = kendall_tau(x, y)
+  // Perfect monotonic → tau = 1
+  @test.assert_eq(true, (tau - 1.0).abs() < 1.0e-10)
+}
+
+///|
+test "scenario: distribution sampling" {
+  prng_init(42)
+  // Gaussian sampling
+  let mut gauss_sum = 0.0
+  let n = 1000
+  for _ in 0..<n {
+    gauss_sum += gaussian_rvs(0.0, 1.0)
+  }
+  // Mean of samples should be close to 0 (within reasonable bounds)
+  let sample_mean = gauss_sum / n.to_double()
+  @test.assert_eq(true, sample_mean.abs() < 0.2)
+  // Exponential sampling
+  let mut exp_sum = 0.0
+  for _ in 0..<n {
+    exp_sum += exponential_rvs(1.0)
+  }
+  // Mean of exp(1) samples should be close to 1
+  let exp_mean = exp_sum / n.to_double()
+  @test.assert_eq(true, (exp_mean - 1.0).abs() < 0.3)
+}
+
+///|
+test "scenario: quantile and percentile analysis" {
+  let data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+  let med = median(data)
+  @test.assert_eq(true, (med - 5.5).abs() < 1.0e-10)
+  let q1 = first_quartile(data)
+  @test.assert_eq(true, q1 > 0.0)
+  let q3 = third_quartile(data)
+  @test.assert_eq(true, q3 > q1)
+  let iqr = interquartile(data)
+  @test.assert_eq(true, iqr > 0.0)
+  let p90 = percentile(data, 90.0)
+  @test.assert_eq(true, p90 > med)
+}
+
+///|
+test "scenario: order statistics and sorting" {
+  let data = [5.0, 3.0, 8.0, 1.0, 9.0, 2.0, 7.0, 4.0, 6.0]
+  let sorted = sort(data)
+  @test.assert_eq(1.0, sorted[0])
+  @test.assert_eq(9.0, sorted[8])
+  let sorted_desc = sort(inc=false, data)
+  @test.assert_eq(9.0, sorted_desc[0])
+  let (min_v, max_v) = minmax(data)
+  @test.assert_eq(1.0, min_v)
+  @test.assert_eq(9.0, max_v)
+  let min_idx = min_i(data)
+  @test.assert_eq(3, min_idx)
+  let max_idx = max_i(data)
+  @test.assert_eq(4, max_idx)
+}
+
+///|
+test "scenario: histogram construction" {
+  prng_init(42)
+  let data = []
+  for _ in 0..<100 {
+    data.push(gaussian_rvs(0.0, 1.0))
+  }
+  let (bins, counts) = hist_uniform(10, data)
+  @test.assert_eq(10, counts.length())
+  @test.assert_eq(11, bins.length())
+  // Total count should equal data length
+  let mut total = 0
+  for c in counts {
+    total += c
+  }
+  @test.assert_eq(100, total)
+}
+
+///|
+test "scenario: PRNG reproducibility" {
+  prng_init(123)
+  let v1 = std_uniform_rvs()
+  let v2 = std_uniform_rvs()
+  prng_init(123)
+  let v3 = std_uniform_rvs()
+  let v4 = std_uniform_rvs()
+  // Same seed → same sequence
+  @test.assert_eq(v1, v3)
+  @test.assert_eq(v2, v4)
+}

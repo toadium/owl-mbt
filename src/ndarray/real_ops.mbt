@@ -100,6 +100,31 @@ pub fn log_sum_exp(
 /// Softmax along an axis.
 pub fn softmax(x : Ndarray, axis? : Int = -1) -> Ndarray raise {
   let ax = if axis < 0 { x.shape.length() - 1 } else { axis }
+  // Fast path: 1D softmax (most common in ML)
+  if x.shape.length() == 1 {
+    let n = x.data.length()
+    let data = FixedArray::make(n, 0.0)
+    let xd = x.data
+    // Find max for numerical stability
+    let mut m = xd[0]
+    for i in 1..<n {
+      if xd[i] > m {
+        m = xd[i]
+      }
+    }
+    // exp(x - max) and sum in one pass
+    let mut s = 0.0
+    for i in 0..<n {
+      let e = @math.exp(xd[i] - m)
+      data[i] = e
+      s += e
+    }
+    // Normalize in-place
+    for i in 0..<n {
+      data[i] /= s
+    }
+    return { shape: x.shape.copy(), data }
+  }
   let m = max(x, axis=ax, keep_dims=true)
   let shifted = sub(x, m)
   let e = exp(shifted)

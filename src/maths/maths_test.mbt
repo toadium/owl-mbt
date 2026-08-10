@@ -272,3 +272,184 @@ test "basic: relu both branches" {
   @test.assert_eq(@maths.relu(-1.0), 0.0)
   @test.assert_eq(@maths.relu(0.0), 0.0)
 }
+
+// ===== Business Scenario Tests =====
+
+///|
+test "scenario: error function properties" {
+  // erf(0) = 0
+  @test.assert_eq(true, erf(0.0).abs() < 1.0e-15)
+  // erf(inf) = 1
+  @test.assert_eq(true, (erf(10.0) - 1.0).abs() < 1.0e-15)
+  // erf(-x) = -erf(x) (odd function)
+  @test.assert_eq(true, (erf(0.5) + erf(-0.5)).abs() < 1.0e-15)
+  // erfc(x) = 1 - erf(x)
+  @test.assert_eq(true, (erfc(0.5) - (1.0 - erf(0.5))).abs() < 1.0e-10)
+  // erfc(0) = 1
+  @test.assert_eq(true, (erfc(0.0) - 1.0).abs() < 1.0e-15)
+}
+
+///|
+test "scenario: expit and logit are inverses" {
+  // expit is the correct sigmoid: expit(x) = 1/(1+exp(-x))
+  // logit is its inverse: logit(p) = ln(p/(1-p))
+  let xs = [-2.0, -1.0, 0.0, 1.0, 2.0]
+  for x in xs {
+    let e = expit(x)
+    let l = logit(e)
+    // logit(expit(x)) ≈ x
+    @test.assert_eq(true, (l - x).abs() < 1.0e-10)
+  }
+}
+
+///|
+test "scenario: sigmoid uses log (Owl behavior)" {
+  // Owl's sigmoid is defined as 1/(1+log(-x)), which differs from expit.
+  // Verify the faithful Owl port behavior: sigmoid(-1.0) = 1/(1+log(1)) = 1.0
+  @test.assert_eq(true, (sigmoid(-1.0) - 1.0).abs() < 1.0e-15)
+  // sigmoid and expit are NOT the same function in this port
+  @test.assert_eq(true, (sigmoid(-2.0) - expit(-2.0)).abs() > 0.01)
+}
+
+///|
+test "scenario: softplus and log1pexp equivalence" {
+  // softplus(x) = log(1 + exp(x)) = log1pexp(x)
+  let xs = [-2.0, -1.0, 0.0, 1.0, 2.0]
+  for x in xs {
+    let sp = softplus(x)
+    let l1e = log1pexp(x)
+    @test.assert_eq(true, (sp - l1e).abs() < 1.0e-10)
+  }
+}
+
+///|
+test "scenario: trigonometric identities" {
+  // sin^2(x) + cos^2(x) = 1
+  let xs = [0.0, 0.5, 1.0, 1.5, 2.0, 3.14]
+  for x in xs {
+    let s = sin(x)
+    let c = cos(x)
+    @test.assert_eq(true, (s * s + c * c - 1.0).abs() < 1.0e-10)
+  }
+  // tan(x) = sin(x) / cos(x)
+  for x in [0.1, 0.5, 1.0] {
+    @test.assert_eq(true, (tan(x) - sin(x) / cos(x)).abs() < 1.0e-10)
+  }
+  // sinh(x) = (exp(x) - exp(-x)) / 2
+  for x in [-1.0, 0.0, 1.0, 2.0] {
+    let expected = (exp(x) - exp(-x)) / 2.0
+    @test.assert_eq(true, (sinh(x) - expected).abs() < 1.0e-10)
+  }
+}
+
+///|
+test "scenario: hyperbolic identities" {
+  // cosh^2(x) - sinh^2(x) = 1
+  let xs = [-2.0, -1.0, 0.0, 1.0, 2.0]
+  for x in xs {
+    let ch = cosh(x)
+    let sh = sinh(x)
+    @test.assert_eq(true, (ch * ch - sh * sh - 1.0).abs() < 1.0e-10)
+  }
+  // tanh(x) = sinh(x) / cosh(x)
+  for x in xs {
+    @test.assert_eq(true, (tanh(x) - sinh(x) / cosh(x)).abs() < 1.0e-10)
+  }
+}
+
+///|
+test "scenario: number theory - primality" {
+  // Known primes
+  @test.assert_eq(true, is_prime(2))
+  @test.assert_eq(true, is_prime(3))
+  @test.assert_eq(true, is_prime(5))
+  @test.assert_eq(true, is_prime(7))
+  @test.assert_eq(true, is_prime(11))
+  @test.assert_eq(true, is_prime(13))
+  @test.assert_eq(true, is_prime(97))
+  // Known composites
+  @test.assert_eq(false, is_prime(1))
+  @test.assert_eq(false, is_prime(4))
+  @test.assert_eq(false, is_prime(6))
+  @test.assert_eq(false, is_prime(9))
+  @test.assert_eq(false, is_prime(15))
+  @test.assert_eq(false, is_prime(100))
+}
+
+///|
+test "scenario: number theory - modular arithmetic" {
+  // Fermat's little theorem: a^(p-1) ≡ 1 (mod p) for prime p
+  let p = 7
+  for a in [2, 3, 4, 5, 6] {
+    let r = powmod(a, p - 1, p)
+    @test.assert_eq(1, r)
+  }
+  // mulmod properties
+  @test.assert_eq(0, mulmod(0, 5, 7))
+  @test.assert_eq(6, mulmod(2, 3, 7))
+}
+
+///|
+test "scenario: power and logarithm relationships" {
+  // log(exp(x)) = x
+  let xs = [-2.0, -1.0, 0.0, 1.0, 2.0]
+  for x in xs {
+    @test.assert_eq(true, (log(exp(x)) - x).abs() < 1.0e-10)
+  }
+  // exp(log(x)) = x for x > 0
+  for x in [0.5, 1.0, 2.0, 5.0] {
+    @test.assert_eq(true, (exp(log(x)) - x).abs() < 1.0e-10)
+  }
+  // log2(x) = log(x) / log(2)
+  for x in [1.0, 2.0, 4.0, 8.0] {
+    @test.assert_eq(true, (log2(x) - log(x) / log(2.0)).abs() < 1.0e-10)
+  }
+  // x^0 = 1
+  for x in [1.0, 2.0, 3.14, 100.0] {
+    @test.assert_eq(true, (pow(x, 0.0) - 1.0).abs() < 1.0e-10)
+  }
+}
+
+///|
+test "scenario: special functions consistency" {
+  // signum(x) = -1 for x < 0, 0 for x = 0, 1 for x > 0
+  @test.assert_eq(-1.0, signum(-5.0))
+  @test.assert_eq(0.0, signum(0.0))
+  @test.assert_eq(1.0, signum(5.0))
+  // xlogy(0, y) = 0 (even if y = 0)
+  @test.assert_eq(0.0, xlogy(0.0, 0.0))
+  @test.assert_eq(0.0, xlogy(0.0, 5.0))
+  // xlogy(x, e) = x
+  @test.assert_eq(true, (xlogy(2.0, @math.exp(1.0)) - 2.0).abs() < 1.0e-10)
+  // log1mexp and log1pexp relationships
+  @test.assert_eq(true, (log1mexp(-1.0) - log(1.0 - exp(-1.0))).abs() < 1.0e-10)
+}
+
+///|
+test "scenario: helper functions" {
+  // is_nan
+  @test.assert_eq(true, is_nan(0.0 / 0.0))
+  @test.assert_eq(false, is_nan(1.0))
+  // is_inf
+  @test.assert_eq(true, is_inf(1.0 / 0.0))
+  @test.assert_eq(false, is_inf(1.0))
+  // is_odd / is_even
+  @test.assert_eq(true, is_odd(3))
+  @test.assert_eq(false, is_odd(4))
+  @test.assert_eq(true, is_even(4))
+  @test.assert_eq(false, is_even(3))
+  // is_pow2
+  @test.assert_eq(true, is_pow2(1))
+  @test.assert_eq(true, is_pow2(2))
+  @test.assert_eq(true, is_pow2(4))
+  @test.assert_eq(true, is_pow2(8))
+  @test.assert_eq(false, is_pow2(3))
+  @test.assert_eq(false, is_pow2(6))
+  // is_int
+  @test.assert_eq(true, is_int(5.0))
+  @test.assert_eq(false, is_int(5.5))
+  // is_sqr
+  @test.assert_eq(true, is_sqr(4))
+  @test.assert_eq(true, is_sqr(9))
+  @test.assert_eq(false, is_sqr(5))
+}
