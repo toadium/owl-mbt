@@ -123,7 +123,6 @@ pub fn conv2d(
   )
   let in_stride = input_cols * input_rows * in_channel
   let col_in_stride = input_rows * in_channel
-  let k_stride = kernel_cols * kernel_rows * in_channel
   let k_col_stride = kernel_rows * in_channel
   for b in 0..<batches {
     for i in 0..<output_cols {

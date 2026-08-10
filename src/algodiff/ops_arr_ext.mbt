@@ -90,7 +90,7 @@ pub fn get_slice(index_list : Array[Array[Int]], x : T) -> T raise {
 ///|
 /// Set a slice of the array (helper for get_slice backward)
 fn set_slice(
-  full_slice : Array[Array[Int]],
+  _full_slice : Array[Array[Int]],
   index_list : Array[Array[Int]],
   val : T,
   orig_shape : Array[Int],
@@ -109,7 +109,7 @@ fn set_slice(
 /// Softmax along specified axis
 pub fn softmax(x : T, axis? : Int = -1) -> T raise {
   match x {
-    F(v) => F(1.0)
+    F(_) => F(1.0)
     Arr(arr) => Arr(@ndarray.softmax(arr, axis~))
     DF(ap, at, ai) => {
       let cp = softmax(ap, axis~)

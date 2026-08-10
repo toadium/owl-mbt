@@ -18,7 +18,7 @@ pub fn matmul(a : T, b : T) -> T raise {
       let ca_val = ca.val
       (matmul(ca_val, transpose(b)), matmul(transpose(a), ca_val))
     },
-    fn(a, b, _cp, ca) raise { matmul(ca.val, transpose(b)) },
-    fn(a, b, _cp, ca) raise { matmul(transpose(a), ca.val) },
+    fn(_a, b, _cp, ca) raise { matmul(ca.val, transpose(b)) },
+    fn(a, _b, _cp, ca) raise { matmul(transpose(a), ca.val) },
   )
 }

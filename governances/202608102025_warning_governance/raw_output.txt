@@ -1,0 +1,1181 @@
+Warning: [0024]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_arr2.mbt:89:28 ]
+    鈹? 89 鈹?        ) -> Array[(T, T)] raise {
+    鈹?                           鈹€鈹€鈹攢鈹€  
+    鈹?                             鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_arr_ext.mbt:93:3 ]
+    鈹? 93 鈹?  full_slice : Array[Array[Int]],
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'full_slice'
+鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_arr_ext.mbt:112:7 ]
+     鈹? 112 鈹?    F(v) => F(1.0)
+     鈹?      鈹? 
+     鈹?      鈺扳攢鈹€ Warning (unused_value): Unused variable 'v'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_piso.mbt:123:8 ]
+     鈹? 123 鈹?    fn(cp, ap, at, bp, bt) raise { sub(div(at, bp), mul(div(ap, sqr(bp)), bt)) },
+     鈹?       鈹€鈹? 
+     鈹?        鈺扳攢鈹€ Warning (unused_value): Unused variable 'cp'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_piso.mbt:124:14 ]
+     鈹? 124 鈹?    fn(a, b, cp, ca) raise {
+     鈹?             鈹€鈹? 
+     鈹?              鈺扳攢鈹€ Warning (unused_value): Unused variable 'cp'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_piso.mbt:149:8 ]
+     鈹? 149 鈹?    fn(cp, ap, at, bp) raise { mul(mul(bp, pow(ap, sub(bp, F(1.0)))), at) },
+     鈹?       鈹€鈹? 
+     鈹?        鈺扳攢鈹€ Warning (unused_value): Unused variable 'cp'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0027]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_piso_ext.mbt:13:5 ]
+    鈹? 13 鈹?    fn(av, bv) { Arr(@ndarray.dot(av, bv)) },
+    鈹?    鈹€鈹? 
+    鈹?     鈺扳攢鈹€ Warning (deprecated_syntax): This `fn` may raise error but is not annotated with `raise`, this kind of effect inference is deprecated, use arrow function `(..) => ...` instead or add explicit `raise` annotation.
+鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_piso_ext.mbt:21:8 ]
+    鈹? 21 鈹?    fn(a, b, _cp, ca) raise { matmul(ca.val, transpose(b)) },
+    鈹?       鈹? 
+    鈹?       鈺扳攢鈹€ Warning (unused_value): Unused variable 'a'
+鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_piso_ext.mbt:22:11 ]
+    鈹? 22 鈹?    fn(a, b, _cp, ca) raise { matmul(transpose(a), ca.val) },
+    鈹?          鈹? 
+    鈹?          鈺扳攢鈹€ Warning (unused_value): Unused variable 'b'
+鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_siso.mbt:38:20 ]
+    鈹? 38 鈹?    fn(_cp, ap, _) raise { zero(ap) },
+    鈹?                   鈹€鈹€鈹攢鈹€  
+    鈹?                     鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_siso.mbt:39:19 ]
+    鈹? 39 鈹?    fn(a, _cp, _) raise { zero(a) },
+    鈹?                  鈹€鈹€鈹攢鈹€  
+    鈹?                    鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_siso.mbt:193:21 ]
+     鈹? 193 鈹?    fn(_cp, ap, at) raise { if is_positive(ap) { at } else { zero(at) } },
+     鈹?                    鈹€鈹€鈹攢鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\ops_siso.mbt:194:20 ]
+     鈹? 194 鈹?    fn(a, _cp, ca) raise { if is_positive(a) { ca.val } else { zero(ca.val) } },
+     鈹?                   鈹€鈹€鈹攢鈹€  
+     鈹?                     鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\algodiff\types.mbt:193:24 ]
+     鈹? 193 鈹?    ) -> Array[(T, T)] raise {
+     鈹?                       鈹€鈹€鈹攢鈹€  
+     鈹?                         鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:48:3 ]
+    鈹? 48 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:76:3 ]
+    鈹? 76 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:113:3 ]
+     鈹? 113 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:138:3 ]
+     鈹? 138 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:166:3 ]
+     鈹? 166 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:195:3 ]
+     鈹? 195 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:202:3 ]
+     鈹? 202 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:237:3 ]
+     鈹? 237 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:375:3 ]
+     鈹? 375 鈹?  @test.assert_eq(true, count > 100)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:388:3 ]
+     鈹? 388 鈹?  @test.assert_eq(1, outs.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:389:3 ]
+     鈹? 389 鈹?  @test.assert_eq(-1.0, @ndarray.get(outs[0], [0]))
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:400:3 ]
+     鈹? 400 鈹?  @test.assert_eq(1, get_inputs(g).length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:401:3 ]
+     鈹? 401 鈹?  @test.assert_eq(1, get_outputs(g).length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:402:3 ]
+     鈹? 402 鈹?  @test.assert_eq(2, get_nodes(g).length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:403:3 ]
+     鈹? 403 鈹?  @test.assert_eq(false, is_assigned(x))
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:405:3 ]
+     鈹? 405 鈹?  @test.assert_eq(true, is_assigned(x))
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:408:16 ]
+     鈹? 408 鈹?    Some(s) => @test.assert_eq([3], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:409:13 ]
+     鈹? 409 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:412:3 ]
+     鈹? 412 鈹?  @test.assert_eq(true, ancestors.length() >= 1)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:413:3 ]
+     鈹? 413 鈹?  @test.assert_eq(0, node_id(x))
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:414:3 ]
+     鈹? 414 鈹?  @test.assert_eq("x", node_name(x))
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:416:3 ]
+     鈹? 416 鈹?  @test.assert_eq(true, true)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:447:5 ]
+     鈹? 447 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:546:5 ]
+     鈹? 546 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:552:5 ]
+     鈹? 552 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:557:5 ]
+     鈹? 557 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:564:3 ]
+     鈹? 564 鈹?  @test.assert_eq(1, result1.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:566:16 ]
+     鈹? 566 鈹?    Some(s) => @test.assert_eq(0, s.length())
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:567:13 ]
+     鈹? 567 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:570:3 ]
+     鈹? 570 鈹?  @test.assert_eq(1, result2.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:572:16 ]
+     鈹? 572 鈹?    Some(s) => @test.assert_eq(0, s.length())
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:573:13 ]
+     鈹? 573 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:589:5 ]
+     鈹? 589 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:591:18 ]
+     鈹? 591 鈹?      Some(s) => @test.assert_eq([1], s)
+     鈹?                 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:592:15 ]
+     鈹? 592 鈹?      None => @test.assert_eq(true, false)
+     鈹?              鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                     鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:599:5 ]
+     鈹? 599 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:600:5 ]
+     鈹? 600 鈹?    @test.assert_eq(true, result[0].is_empty())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0020]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:600:37 ]
+     鈹? 600 鈹?    @test.assert_eq(true, result[0].is_empty())
+     鈹?                                    鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+     鈹?                                        鈺扳攢鈹€鈹€鈹€鈹€ Warning (deprecated): use `x is None` instead
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:606:5 ]
+     鈹? 606 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:608:18 ]
+     鈹? 608 鈹?      Some(s) => @test.assert_eq(0, s.length())
+     鈹?                 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:609:15 ]
+     鈹? 609 鈹?      None => @test.assert_eq(true, false)
+     鈹?              鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                     鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:615:5 ]
+     鈹? 615 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:647:5 ]
+     鈹? 647 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:653:5 ]
+     鈹? 653 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:658:5 ]
+     鈹? 658 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:664:5 ]
+     鈹? 664 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:669:5 ]
+     鈹? 669 鈹?    @test.assert_eq(1, result.length())
+     鈹?    鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:677:3 ]
+     鈹? 677 鈹?  @test.assert_eq(1, result.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:679:16 ]
+     鈹? 679 鈹?    Some(s) => @test.assert_eq([2, 3], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:680:13 ]
+     鈹? 680 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:684:3 ]
+     鈹? 684 鈹?  @test.assert_eq(1, result2.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:687:3 ]
+     鈹? 687 鈹?  @test.assert_eq(1, result3.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:695:3 ]
+     鈹? 695 鈹?  @test.assert_eq(1, result.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:697:16 ]
+     鈹? 697 鈹?    Some(s) => @test.assert_eq([2, 4], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:698:13 ]
+     鈹? 698 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:703:3 ]
+     鈹? 703 鈹?  @test.assert_eq(1, result2.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:705:16 ]
+     鈹? 705 鈹?    Some(s) => @test.assert_eq(0, s.length())
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:706:13 ]
+     鈹? 706 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:711:3 ]
+     鈹? 711 鈹?  @test.assert_eq(1, result3.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:715:3 ]
+     鈹? 715 鈹?  @test.assert_eq(1, result4.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:718:3 ]
+     鈹? 718 鈹?  @test.assert_eq(1, result5.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:733:16 ]
+     鈹? 733 鈹?    Some(s) => @test.assert_eq([3], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:734:13 ]
+     鈹? 734 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:738:16 ]
+     鈹? 738 鈹?    Some(s) => @test.assert_eq([3], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:739:13 ]
+     鈹? 739 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:749:3 ]
+     鈹? 749 鈹?  @test.assert_eq(1, result.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:751:16 ]
+     鈹? 751 鈹?    Some(s) => @test.assert_eq([2, 3], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:752:13 ]
+     鈹? 752 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:757:3 ]
+     鈹? 757 鈹?  @test.assert_eq(1, result2.length())
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:759:16 ]
+     鈹? 759 鈹?    Some(s) => @test.assert_eq([2, 3], s)
+     鈹?               鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                      鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\compute_wbtest.mbt:760:13 ]
+     鈹? 760 鈹?    None => @test.assert_eq(true, false)
+     鈹?            鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?                   鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:12:3 ]
+    鈹? 12 鈹?  Noop
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Noop' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:15:3 ]
+    鈹? 15 鈹?  Empty(Array[Int])
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Empty' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:18:3 ]
+    鈹? 18 鈹?  Create(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹攢鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Create' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:19:3 ]
+    鈹? 19 鈹?  Sequential(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Sequential' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:20:3 ]
+    鈹? 20 鈹?  Uniform(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Uniform' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:21:3 ]
+    鈹? 21 鈹?  Gaussian(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Gaussian' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:22:3 ]
+    鈹? 22 鈹?  Bernoulli(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Bernoulli' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:23:3 ]
+    鈹? 23 鈹?  Get(Array[Int])
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Get' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:24:3 ]
+    鈹? 24 鈹?  Set(Array[Int])
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Set' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:26:3 ]
+    鈹? 26 鈹?  Reset
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Reset' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:28:3 ]
+    鈹? 28 鈹?  Reverse
+    鈹?  鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Reverse' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:29:3 ]
+    鈹? 29 鈹?  Tile(Array[Int])
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Tile' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:30:3 ]
+    鈹? 30 鈹?  Repeat(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹攢鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Repeat' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:31:3 ]
+    鈹? 31 鈹?  Concatenate(Int)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Concatenate' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:32:3 ]
+    鈹? 32 鈹?  Stack(Int)
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Stack' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:33:3 ]
+    鈹? 33 鈹?  Split(Int, Array[Int])
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Split' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:34:3 ]
+    鈹? 34 鈹?  Draw(Int, Int)
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Draw' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:35:3 ]
+    鈹? 35 鈹?  OneHot(Int)
+    鈹?  鈹€鈹€鈹€鈹攢鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'OneHot' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:38:3 ]
+    鈹? 38 鈹?  Floor
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Floor' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:39:3 ]
+    鈹? 39 鈹?  Ceil
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Ceil' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:40:3 ]
+    鈹? 40 鈹?  Round
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Round' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:42:3 ]
+    鈹? 42 鈹?  Sqrt
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Sqrt' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:44:3 ]
+    鈹? 44 鈹?  Log2
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Log2' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:45:3 ]
+    鈹? 45 鈹?  Log10
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Log10' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:47:3 ]
+    鈹? 47 鈹?  Sin
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Sin' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:48:3 ]
+    鈹? 48 鈹?  Cos
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Cos' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:49:3 ]
+    鈹? 49 鈹?  Tan
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Tan' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:50:3 ]
+    鈹? 50 鈹?  Sinh
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Sinh' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:51:3 ]
+    鈹? 51 鈹?  Cosh
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Cosh' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:52:3 ]
+    鈹? 52 鈹?  Tanh
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Tanh' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:53:3 ]
+    鈹? 53 鈹?  Asin
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Asin' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:54:3 ]
+    鈹? 54 鈹?  Acos
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Acos' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:55:3 ]
+    鈹? 55 鈹?  Atan
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Atan' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:56:3 ]
+    鈹? 56 鈹?  Asinh
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Asinh' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:57:3 ]
+    鈹? 57 鈹?  Acosh
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Acosh' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:58:3 ]
+    鈹? 58 鈹?  Atanh
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Atanh' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:59:3 ]
+    鈹? 59 鈹?  Min(Bool, Int)
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Min' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:60:3 ]
+    鈹? 60 鈹?  Max(Bool, Int)
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Max' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:62:3 ]
+    鈹? 62 鈹?  SumReduce(Array[Int])
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'SumReduce' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:63:3 ]
+    鈹? 63 鈹?  Signum
+    鈹?  鈹€鈹€鈹€鈹攢鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Signum' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:64:3 ]
+    鈹? 64 鈹?  Sigmoid
+    鈹?  鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Sigmoid' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:65:3 ]
+    鈹? 65 鈹?  Relu
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Relu' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:66:3 ]
+    鈹? 66 鈹?  MinPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'MinPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:67:3 ]
+    鈹? 67 鈹?  MaxPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'MaxPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:68:3 ]
+    鈹? 68 鈹?  SumPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'SumPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:69:3 ]
+    鈹? 69 鈹?  LogSumExpPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'LogSumExpPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:70:3 ]
+    鈹? 70 鈹?  LogSumExp(Bool, Int)
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'LogSumExp' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:71:3 ]
+    鈹? 71 鈹?  L1normPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'L1normPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:72:3 ]
+    鈹? 72 鈹?  L2normPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'L2normPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:73:3 ]
+    鈹? 73 鈹?  L2NormSqrPrime
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'L2NormSqrPrime' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:74:3 ]
+    鈹? 74 鈹?  ClipByValue
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ClipByValue' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:75:3 ]
+    鈹? 75 鈹?  ClipByL2norm
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ClipByL2norm' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:76:3 ]
+    鈹? 76 鈹?  Pow
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Pow' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:77:3 ]
+    鈹? 77 鈹?  ScalarPow
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ScalarPow' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:78:3 ]
+    鈹? 78 鈹?  PowScalar
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'PowScalar' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:79:3 ]
+    鈹? 79 鈹?  Atan2
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Atan2' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:80:3 ]
+    鈹? 80 鈹?  ScalarAtan2
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ScalarAtan2' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:81:3 ]
+    鈹? 81 鈹?  Atan2Scalar
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Atan2Scalar' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:82:3 ]
+    鈹? 82 鈹?  Hypot
+    鈹?  鈹€鈹€鈹攢鈹€  
+    鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Hypot' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:83:3 ]
+    鈹? 83 鈹?  Min2
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Min2' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:84:3 ]
+    鈹? 84 鈹?  Max2
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Max2' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:86:3 ]
+    鈹? 86 鈹?  Sub
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Sub' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:88:3 ]
+    鈹? 88 鈹?  Div
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Div' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:89:3 ]
+    鈹? 89 鈹?  AddScalar
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'AddScalar' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:90:3 ]
+    鈹? 90 鈹?  SubScalar
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'SubScalar' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:91:3 ]
+    鈹? 91 鈹?  MulScalar
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'MulScalar' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:92:3 ]
+    鈹? 92 鈹?  DivScalar
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'DivScalar' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:93:3 ]
+    鈹? 93 鈹?  ScalarAdd
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ScalarAdd' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:94:3 ]
+    鈹? 94 鈹?  ScalarSub
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ScalarSub' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:95:3 ]
+    鈹? 95 鈹?  ScalarMul
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ScalarMul' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:96:3 ]
+    鈹? 96 鈹?  ScalarDiv
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ScalarDiv' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:97:3 ]
+    鈹? 97 鈹?  FMA
+    鈹?  鈹€鈹攢  
+    鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'FMA' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:98:3 ]
+    鈹? 98 鈹?  EltEqual
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltEqual' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:99:3 ]
+    鈹? 99 鈹?  EltNotEqual
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltNotEqual' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:100:3 ]
+     鈹? 100 鈹?  EltLess
+     鈹?  鈹€鈹€鈹€鈹攢鈹€鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltLess' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:101:3 ]
+     鈹? 101 鈹?  EltGreater
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltGreater' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:102:3 ]
+     鈹? 102 鈹?  EltLessEqual
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+     鈹?        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltLessEqual' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:103:3 ]
+     鈹? 103 鈹?  EltGreaterEqual
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltGreaterEqual' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:104:3 ]
+     鈹? 104 鈹?  EltEqualScalar
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltEqualScalar' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:105:3 ]
+     鈹? 105 鈹?  EltNotEqualScalar
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?          鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltNotEqualScalar' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:106:3 ]
+     鈹? 106 鈹?  EltLessScalar
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€  
+     鈹?        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltLessScalar' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:107:3 ]
+     鈹? 107 鈹?  EltGreaterScalar
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?          鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltGreaterScalar' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:108:3 ]
+     鈹? 108 鈹?  EltLessEqualScalar
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltLessEqualScalar' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:109:3 ]
+     鈹? 109 鈹?  EltGreaterEqualScalar
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?            鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'EltGreaterEqualScalar' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:110:3 ]
+     鈹? 110 鈹?  Conv1d(@types.Padding, Array[Int])
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Conv1d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:111:3 ]
+     鈹? 111 鈹?  Conv2d(@types.Padding, Array[Int])
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Conv2d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:112:3 ]
+     鈹? 112 鈹?  Conv3d(@types.Padding, Array[Int])
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Conv3d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:113:3 ]
+     鈹? 113 鈹?  TransposeConv1d(@types.Padding, Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'TransposeConv1d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:114:3 ]
+     鈹? 114 鈹?  TransposeConv2d(@types.Padding, Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'TransposeConv2d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:115:3 ]
+     鈹? 115 鈹?  TransposeConv3d(@types.Padding, Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'TransposeConv3d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:116:3 ]
+     鈹? 116 鈹?  MaxPool1d(@types.Padding, Array[Int], Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'MaxPool1d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:117:3 ]
+     鈹? 117 鈹?  MaxPool2d(@types.Padding, Array[Int], Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'MaxPool2d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:118:3 ]
+     鈹? 118 鈹?  MaxPool3d(@types.Padding, Array[Int], Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'MaxPool3d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:119:3 ]
+     鈹? 119 鈹?  AvgPool1d(@types.Padding, Array[Int], Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'AvgPool1d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:120:3 ]
+     鈹? 120 鈹?  AvgPool2d(@types.Padding, Array[Int], Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'AvgPool2d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:121:3 ]
+     鈹? 121 鈹?  AvgPool3d(@types.Padding, Array[Int], Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'AvgPool3d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:122:3 ]
+     鈹? 122 鈹?  UpSampling2d(Array[Int])
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+     鈹?        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'UpSampling2d' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:123:3 ]
+     鈹? 123 鈹?  RowNum
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'RowNum' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:124:3 ]
+     鈹? 124 鈹?  ColNum
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ColNum' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:125:3 ]
+     鈹? 125 鈹?  Row
+     鈹?  鈹€鈹攢  
+     鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Row' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:126:3 ]
+     鈹? 126 鈹?  Rows(Array[Int])
+     鈹?  鈹€鈹€鈹攢  
+     鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Rows' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:127:3 ]
+     鈹? 127 鈹?  CopyRowTo
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'CopyRowTo' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:128:3 ]
+     鈹? 128 鈹?  CopyColTo
+     鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'CopyColTo' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:130:3 ]
+     鈹? 130 鈹?  Inv
+     鈹?  鈹€鈹攢  
+     鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Inv' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:131:3 ]
+     鈹? 131 鈹?  Trace
+     鈹?  鈹€鈹€鈹攢鈹€  
+     鈹?    鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Trace' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:133:3 ]
+     鈹? 133 鈹?  ToRows
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'ToRows' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:134:3 ]
+     鈹? 134 鈹?  OfRows
+     鈹?  鈹€鈹€鈹€鈹攢鈹€  
+     鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'OfRows' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\compute\types.mbt:135:3 ]
+     鈹? 135 鈹?  FusedAdagrad(Double, Double)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+     鈹?        鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'FusedAdagrad' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0001]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\core.mbt:113:4 ]
+     鈹? 113 鈹?fn get_broadcasted_index(
+     鈹?   鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€  
+     鈹?             鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused function 'get_broadcasted_index'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0020]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\ndarray_test.mbt:817:44 ]
+     鈹? 817 鈹?  @test.assert_eq(true, (acos(a).data[0] - @math.pi / 2.0).abs() < 1.0e-10)
+     鈹?                                           鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+     鈹?                                               鈺扳攢鈹€鈹€鈹€鈹€ Warning (deprecated): Use `PI` instead
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:181:7 ]
+     鈹? 181 鈹?  let in_channel = input_shp[3]
+     鈹?      鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'in_channel'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:408:14 ]
+     鈹? 408 鈹?) -> Ndarray raise {
+     鈹?             鈹€鈹€鈹攢鈹€  
+     鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:414:7 ]
+     鈹? 414 鈹?  let in_channel = input_shp[4]
+     鈹?      鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+     鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'in_channel'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1034:14 ]
+      鈹? 1034 鈹?) -> Ndarray raise {
+      鈹?             鈹€鈹€鈹攢鈹€  
+      鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1047:14 ]
+      鈹? 1047 鈹?) -> Ndarray raise {
+      鈹?             鈹€鈹€鈹攢鈹€  
+      鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1049:7 ]
+      鈹? 1049 鈹?  let kernel_cols = kernel_shp[0]
+      鈹?      鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+      鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'kernel_cols'
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1050:7 ]
+      鈹? 1050 鈹?  let kernel_rows = kernel_shp[1]
+      鈹?      鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+      鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'kernel_rows'
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1051:7 ]
+      鈹? 1051 鈹?  let in_channel = kernel_shp[2]
+      鈹?      鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+      鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'in_channel'
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1052:7 ]
+      鈹? 1052 鈹?  let out_channel = kernel_shp[3]
+      鈹?      鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+      鈹?           鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'out_channel'
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1114:14 ]
+      鈹? 1114 鈹?) -> Ndarray raise {
+      鈹?             鈹€鈹€鈹攢鈹€  
+      鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+      鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_backward.mbt:1127:14 ]
+      鈹? 1127 鈹?) -> Ndarray raise {
+      鈹?             鈹€鈹€鈹攢鈹€  
+      鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_conv.mbt:101:14 ]
+     鈹? 101 鈹?) -> Ndarray raise {
+     鈹?             鈹€鈹€鈹攢鈹€  
+     鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_conv.mbt:126:7 ]
+     鈹? 126 鈹?  let k_stride = kernel_cols * kernel_rows * in_channel
+     鈹?      鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+     鈹?          鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_value): Unused variable 'k_stride'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\ndarray\nn_conv.mbt:264:14 ]
+     鈹? 264 鈹?) -> Ndarray raise {
+     鈹?             鈹€鈹€鈹攢鈹€  
+     鈹?               鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\neural\graph.mbt:243:43 ]
+     鈹? 243 鈹?pub fn input(inputs : Array[Int]) -> Node raise {
+     鈹?                                          鈹€鈹€鈹攢鈹€  
+     鈹?                                            鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0027]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\neural\neural_test.mbt:298:21 ]
+     鈹? 298 鈹?  let _ = lambda(x, fn(v) { @algodiff.mul(v, v) })
+     鈹?                    鈹€鈹? 
+     鈹?                     鈺扳攢鈹€ Warning (deprecated_syntax): This `fn` may raise error but is not annotated with `raise`, this kind of effect inference is deprecated, use arrow function `(..) => ...` instead or add explicit `raise` annotation.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\neural\neuron.mbt:95:60 ]
+    鈹? 95 鈹?fn _min_scalar(x : @algodiff.T, s : Double) -> @algodiff.T raise {
+    鈹?                                                           鈹€鈹€鈹攢鈹€  
+    鈹?                                                             鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\neural\types.mbt:120:3 ]
+     鈹? 120 鈹?  Add(AddNeuron)
+     鈹?  鈹€鈹攢  
+     鈹?   鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Add' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\neural\types.mbt:121:3 ]
+     鈹? 121 鈹?  Concatenate(ConcatenateNeuron)
+     鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+     鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Concatenate' is never constructed
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\modules.mbt:106:3 ]
+     鈹? 106 鈹?  f : (@algodiff.T) -> @algodiff.T raise,
+     鈹?  鈹? 
+     鈹?  鈺扳攢鈹€ Warning (unused_value): Unused variable 'f'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\modules.mbt:107:3 ]
+     鈹? 107 鈹?  w : @algodiff.T,
+     鈹?  鈹? 
+     鈹?  鈺扳攢鈹€ Warning (unused_value): Unused variable 'w'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0024]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\modules.mbt:192:69 ]
+     鈹? 192 鈹?pub fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
+     鈹?                                                                    鈹€鈹€鈹攢鈹€  
+     鈹?                                                                      鈺扳攢鈹€鈹€鈹€ Warning (unused_error_type): The error type of this function is never used.
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\modules.mbt:195:11 ]
+     鈹? 195 鈹?    Value(a, b) => x
+     鈹?          鈹? 
+     鈹?          鈺扳攢鈹€ Warning (unused_value): Unused variable 'a'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0002]
+     鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\modules.mbt:195:14 ]
+     鈹? 195 鈹?    Value(a, b) => x
+     鈹?             鈹? 
+     鈹?             鈺扳攢鈹€ Warning (unused_value): Unused variable 'b'
+鈹€鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:18:3 ]
+    鈹? 18 鈹?  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r), -2.0))
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:30:3 ]
+    鈹? 30 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:42:3 ]
+    鈹? 42 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:54:3 ]
+    鈹? 54 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:66:3 ]
+    鈹? 66 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:77:3 ]
+    鈹? 77 鈹?  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r1), -2.0))
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:79:3 ]
+    鈹? 79 鈹?  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r2), -2.0))
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0071]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\optimise_wbtest.mbt:88:3 ]
+    鈹? 88 鈹?  @test.assert_eq(true, true)
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€  
+    鈹?         鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ Warning (core_package_not_imported): Package `test` from `moonbitlang/core/` is used without import. This is deprecated. Please add it to the imports in the moon.pkg file.
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:17:3 ]
+    鈹? 17 鈹?  Mini(Int)
+    鈹?  鈹€鈹€鈹攢  
+    鈹?    鈺扳攢鈹€鈹€ Warning (unused_constructor): Variant 'Mini' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:18:3 ]
+    鈹? 18 鈹?  Sample(Int)
+    鈹?  鈹€鈹€鈹€鈹攢鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Sample' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:19:3 ]
+    鈹? 19 鈹?  Stochastic
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Stochastic' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:26:3 ]
+    鈹? 26 鈹?  CG
+    鈹?  鈹€鈹? 
+    鈹?   鈺扳攢鈹€ Warning (unused_constructor): Variant 'CG' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:27:3 ]
+    鈹? 27 鈹?  CD
+    鈹?  鈹€鈹? 
+    鈹?   鈺扳攢鈹€ Warning (unused_constructor): Variant 'CD' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:28:3 ]
+    鈹? 28 鈹?  NonlinearCG
+    鈹?  鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€  
+    鈹?       鈺扳攢鈹€鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'NonlinearCG' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:29:3 ]
+    鈹? 29 鈹?  DaiYuanCG
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'DaiYuanCG' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:30:3 ]
+    鈹? 30 鈹?  NewtonCG
+    鈹?  鈹€鈹€鈹€鈹€鈹攢鈹€鈹€  
+    鈹?      鈺扳攢鈹€鈹€鈹€鈹€ Warning (unused_constructor): Variant 'NewtonCG' is never constructed
+鈹€鈹€鈹€鈹€鈺?Warning: [0006]
+    鈺攢[ D:\CodeWorkspace\forMoonbit\owl-mbt\src\optimise\types.mbt:31:3 ]
+    鈹? 31 鈹?  Newton
+    鈹?  鈹€鈹€鈹€鈹攢鈹€  
+    鈹?     鈺扳攢鈹€鈹€鈹€ Warning (unused_constructor): Variant 'Newton' is never constructed
+鈹€鈹€鈹€鈹€鈺?Finished. moon: ran 9 tasks, now up to date (236 warnings, 0 errors)

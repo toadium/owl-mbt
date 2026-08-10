@@ -103,8 +103,8 @@ pub fn update_ch(
 /// Returns: (f, w, g_prev, p_prev, g') -> direction
 pub fn run_gradient(
   typ : GradientMethod,
-  f : (@algodiff.T) -> @algodiff.T raise,
-  w : @algodiff.T,
+  _f : (@algodiff.T) -> @algodiff.T raise,
+  _w : @algodiff.T,
   g_prev : @algodiff.T,
   p_prev : @algodiff.T,
   g_new : @algodiff.T,
@@ -192,7 +192,7 @@ pub fn run_regularisation(
 pub fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
   match typ {
     L2norm(_) => x
-    Value(a, b) => x
+    Value(_, _) => x
     None => x
   }
 }

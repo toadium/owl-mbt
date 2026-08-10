@@ -120,8 +120,8 @@ pub fn div(a : T, b : T) -> T raise {
     fn(av, bv) raise { Arr(@ndarray.div(av, bv)) },
     fn(_cp, _ap, at, bp) raise { div(at, bp) },
     fn(cp, ap, _bp, bt) raise { neg(mul(div(ap, sqr(cp)), bt)) },
-    fn(cp, ap, at, bp, bt) raise { sub(div(at, bp), mul(div(ap, sqr(bp)), bt)) },
-    fn(a, b, cp, ca) raise {
+    fn(_cp, ap, at, bp, bt) raise { sub(div(at, bp), mul(div(ap, sqr(bp)), bt)) },
+    fn(a, b, _cp, ca) raise {
       (
         squeeze_broadcast(div(ca.val, b), shape(a)),
         squeeze_broadcast(neg(mul(ca.val, div(a, sqr(b)))), shape(b)),
@@ -146,7 +146,7 @@ pub fn pow(a : T, b : T) -> T raise {
     fn(av, bv) { Arr(@ndarray.scalar_pow(av, bv)) },
     fn(av, bv) { Arr(@ndarray.pow_scalar(av, bv)) },
     fn(av, bv) raise { Arr(@ndarray.pow(av, bv)) },
-    fn(cp, ap, at, bp) raise { mul(mul(bp, pow(ap, sub(bp, F(1.0)))), at) },
+    fn(_cp, ap, at, bp) raise { mul(mul(bp, pow(ap, sub(bp, F(1.0)))), at) },
     fn(cp, ap, _bp, bt) raise { mul(mul(cp, log(ap)), bt) },
     fn(cp, ap, at, bp, bt) raise {
       add(mul(mul(bp, pow(ap, sub(bp, F(1.0)))), at), mul(mul(cp, log(ap)), bt))

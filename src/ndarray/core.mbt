@@ -109,28 +109,6 @@ fn get_broadcasted_dims(
 }
 
 ///|
-/// Map an output index to an input index for broadcasting.
-fn get_broadcasted_index(
-  index : Array[Int],
-  dims : Array[Int],
-) -> Array[Int] raise {
-  let n = dims.length()
-  let result = Array::make(n, 0)
-  for i in 0..<n {
-    let max_ind = dims[i]
-    let ind_val = index[i]
-    if ind_val < max_ind {
-      result[i] = ind_val
-    } else if max_ind == 1 {
-      result[i] = 0
-    } else {
-      raise @types.OwlError::InvalidArgument("not broadcasted correctly")
-    }
-  }
-  result
-}
-
-///|
 /// Compute reduce params for folding along an axis.
 /// Returns (m, n, o, output_shape) where:
 /// m = number of slices, n = slice size, o = strides, s = output shape

@@ -178,7 +178,6 @@ pub fn transpose_conv2d(
   let batches = input_shp[0]
   let input_cols = input_shp[1]
   let input_rows = input_shp[2]
-  let in_channel = input_shp[3]
   let kernel_shp = kernel.shape
   let kernel_cols = kernel_shp[0]
   let kernel_rows = kernel_shp[1]
@@ -411,7 +410,6 @@ pub fn transpose_conv3d(
   let input_cols = input_shp[1]
   let input_rows = input_shp[2]
   let input_dpts = input_shp[3]
-  let in_channel = input_shp[4]
   let kernel_shp = kernel.shape
   let kernel_cols = kernel_shp[0]
   let kernel_rows = kernel_shp[1]
@@ -1045,11 +1043,6 @@ pub fn dilated_conv2d_backward_kernel(
   rate : Array[Int],
   output_grad : Ndarray,
 ) -> Ndarray raise {
-  let kernel_shp = kernel.shape
-  let kernel_cols = kernel_shp[0]
-  let kernel_rows = kernel_shp[1]
-  let in_channel = kernel_shp[2]
-  let out_channel = kernel_shp[3]
   let kernel_4d = kernel
   let grad = conv2d_backward_kernel(input, kernel_4d, stride, output_grad)
   _downsample_kernel2d(grad, rate)
