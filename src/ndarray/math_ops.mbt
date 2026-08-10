@@ -12,6 +12,18 @@ pub fn map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
 }
 
 ///|
+/// Apply a binary function element-wise (public).
+pub fn map_elem2(
+  x : Ndarray,
+  y : Ndarray,
+  f : (Double, Double) -> Double,
+) -> Ndarray {
+  let n = x.data.length()
+  let data = FixedArray::makei(n, fn(i) { f(x.data[i], y.data[i]) })
+  { shape: x.shape.copy(), data }
+}
+
+///|
 pub fn abs(x : Ndarray) -> Ndarray {
   _map_elem(x, fn(v) { v.abs() })
 }

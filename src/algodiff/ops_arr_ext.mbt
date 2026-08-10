@@ -60,7 +60,8 @@ pub fn get_slice(index_list : Array[Array[Int]], x : T) -> T raise {
   match x {
     F(_) => x
     Arr(arr) => Arr(@ndarray.get_slice(index_list, arr))
-    DF(ap, at, ai) => DF(get_slice(index_list, ap), get_slice(index_list, at), ai)
+    DF(ap, at, ai) =>
+      DF(get_slice(index_list, ap), get_slice(index_list, at), ai)
     DR(ap, _, _, _, ai, _) => {
       let cp = get_slice(index_list, ap)
       let captured_x = x
@@ -72,7 +73,10 @@ pub fn get_slice(index_list : Array[Array[Int]], x : T) -> T raise {
         ) -> Array[(T, T)] raise {
           let orig_shape = shape(primal(captured_x))
           let full_slice = Array::make(orig_shape.length(), [])
-          _prepend((set_slice(full_slice, index_list, ca.val, orig_shape), captured_x), t)
+          _prepend(
+            (set_slice(full_slice, index_list, ca.val, orig_shape), captured_x),
+            t,
+          )
         },
         register: fn(t : Array[T]) -> Array[T] { _prepend(captured_x, t) },
         label_name: "get_slice",

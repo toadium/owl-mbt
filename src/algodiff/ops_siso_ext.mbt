@@ -29,15 +29,17 @@ pub fn softplus(a : T) -> T raise {
       }
     },
     fn(arr) {
-      Arr(@ndarray.map_elem(arr, fn(v) {
-        if v > 20.0 {
-          v
-        } else if v < -20.0 {
-          @math.exp(v)
-        } else {
-          @math.ln(1.0 + @math.exp(v))
-        }
-      }))
+      Arr(
+        @ndarray.map_elem(arr, fn(v) {
+          if v > 20.0 {
+            v
+          } else if v < -20.0 {
+            @math.exp(v)
+          } else {
+            @math.ln(1.0 + @math.exp(v))
+          }
+        }),
+      )
     },
     fn(_cp, ap, at) raise { mul(at, sigmoid(ap)) },
     fn(a, _cp, ca) raise { mul(ca.val, sigmoid(a)) },

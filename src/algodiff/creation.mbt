@@ -7,13 +7,13 @@ pub fn zeros_arr(shape : Array[Int]) -> T {
 ///|
 /// Create a uniform random array as T.
 pub fn uniform_arr(a : Double, b : Double, shape : Array[Int]) -> T {
-  Arr(@ndarray.uniform(shape, a=a, b=b))
+  Arr(@ndarray.uniform(shape, a~, b~))
 }
 
 ///|
 /// Create a gaussian random array as T.
 pub fn gaussian_arr(mu : Double, sigma : Double, shape : Array[Int]) -> T {
-  Arr(@ndarray.gaussian(shape, mu=mu, sigma=sigma))
+  Arr(@ndarray.gaussian(shape, mu~, sigma~))
 }
 
 ///|

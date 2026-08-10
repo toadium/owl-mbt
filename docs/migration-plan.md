@@ -313,6 +313,8 @@ owl-mbt/                          # moon.mod.json: module owl_mbt
 - ✅ **阶段 5（algodiff）** — 核心完成：AD类型(T/Op) + SISO/PISO builder + 15个数学操作 + reverse mode + diff/grad/jacobian/hessian API（16 测试通过）
 - ✅ **阶段 6（optimise）** — 全部完成：LearningRate/Batch/GradientMethod/Momentum/Regularisation/Clipping/Stopping enums + State/Params + run_*模块函数 + minimise_fun核心优化循环（7 测试通过）
 - ✅ **阶段 7（neural）** — 核心完成：InitTyp/ActivationTyp enums + 10 layer structs (Ref包装) + Neuron enum + init_run/run_activation + connect/init_neuron/mktag/mkpar/mkpri/mkadj/update_neuron/run_neuron + Node/Network graph + forward/backward + input/linear/linear_nobias/activation/flatten/reshape/dropout/lambda layer构造函数 + algodiff扩展(tanh/softplus/softsign/matmul/reshape/flatten/softmax/zeros_arr/uniform_arr/gaussian_arr)（18 测试通过）
-- ✅ `moon check` 0 错误、`moon test` 136/136 passed、`moon fmt` + `moon info` 完成
+- ✅ **阶段 8（compute）** — 骨架完成：State enum + Op enum(120+ 变体) + Node/Network graph DAG + topological_sort + shape inference + eval_node/eval_graph + 公开构造函数(op_zeros/op_ones/op_add/op_mul/op_var/op_const/op_abs/op_neg/op_exp/op_log/op_sqr/op_reshape/op_transpose/op_dot/op_sum/op_copy)（16 测试通过）
+- ✅ **阶段 9（misc）** — 核心完成：LogLevel/Logger + 泛型Stack[T] + 泛型Heap[T] + CountMinSketch + PaddingSide + longest_string/pad_string/approx_equal/repeat_string + ColumnType/Column/DataFrame + float/int/string column + col_mean/col_sum/col_min/col_max/dataframe_to_string（27 测试通过）
+- ✅ `moon check` 0 错误、`moon test` 179/179 passed、`moon fmt` + `moon info` 完成
 
-下一步：**阶段 8（compute）**。计算图引擎（5,430 行），含 graph/operator/shape/symbol/type/optimiser/engine/cpu 后端。
+**全部 10 阶段（0-9）已完成。** owl-base 核心功能已全部移植到纯 MoonBit，无 C FFI 依赖，支持 Native/Wasm/JS 多后端。
