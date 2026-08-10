@@ -295,7 +295,7 @@ test "scenario: reshape and flatten in network" {
 test "scenario: lambda custom layer" {
   // Custom layer: x -> x^2 (element-wise square)
   let x = input([3])
-  let _ = lambda(x, fn(v) { @algodiff.mul(v, v) })
+  let _ = lambda(x, v => @algodiff.mul(v, v))
   let nn = get_network(x)
   init_network(nn)
   let inp = @algodiff.pack_arr(@ndarray.from_data([1, 3], [2.0, 3.0, 4.0]))

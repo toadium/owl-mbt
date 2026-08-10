@@ -82,11 +82,7 @@ pub fn concatenate(arrs : Array[T], axis? : Int = 0) -> T raise {
       let captured_arrs = arrs
       let captured_axis = axis
       let op : Op = {
-        adjoint: fn(
-          _cp : T,
-          ca : Ref[T],
-          t : Array[(T, T)],
-        ) -> Array[(T, T)] raise {
+        adjoint: fn(_cp : T, ca : Ref[T], t : Array[(T, T)]) -> Array[(T, T)] {
           let _ = captured_arrs
           let _ = captured_axis
           _prepend((ca.val, captured_arrs[0]), t)

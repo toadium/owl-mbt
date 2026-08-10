@@ -35,8 +35,8 @@ pub fn signum(a : T) -> T raise {
     "signum",
     fn(v) { F(v.signum()) },
     fn(arr) { Arr(@ndarray.signum(arr)) },
-    fn(_cp, ap, _) raise { zero(ap) },
-    fn(a, _cp, _) raise { zero(a) },
+    fn(_cp, ap, _) { zero(ap) },
+    fn(a, _cp, _) { zero(a) },
   )
 }
 
@@ -190,8 +190,8 @@ pub fn relu(a : T) -> T raise {
     "relu",
     fn(v) { F(if v > 0.0 { v } else { 0.0 }) },
     fn(arr) { Arr(@ndarray.relu(arr)) },
-    fn(_cp, ap, at) raise { if is_positive(ap) { at } else { zero(at) } },
-    fn(a, _cp, ca) raise { if is_positive(a) { ca.val } else { zero(ca.val) } },
+    fn(_cp, ap, at) { if is_positive(ap) { at } else { zero(at) } },
+    fn(a, _cp, ca) { if is_positive(a) { ca.val } else { zero(ca.val) } },
   )
 }
 

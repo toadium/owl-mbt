@@ -12,6 +12,7 @@ pub enum LearningRate {
 
 ///|
 /// Batch types.
+#warnings("-unused_constructor")
 pub enum Batch {
   Full
   Mini(Int)
@@ -21,6 +22,7 @@ pub enum Batch {
 
 ///|
 /// Gradient methods.
+#warnings("-unused_constructor")
 pub enum GradientMethod {
   GD
   CG

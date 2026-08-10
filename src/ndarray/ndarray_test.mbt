@@ -814,7 +814,7 @@ test "math_ops: trig" {
 test "math_ops: inverse trig" {
   let a = of_array([0.0, 0.5], [2])
   @test.assert_eq(true, asin(a).data[0].abs() < 1.0e-10)
-  @test.assert_eq(true, (acos(a).data[0] - @math.pi / 2.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (acos(a).data[0] - @math.PI / 2.0).abs() < 1.0e-10)
   @test.assert_eq(true, atan(a).data[0].abs() < 1.0e-10)
   @test.assert_eq(true, asinh(a).data[0].abs() < 1.0e-10)
   @test.assert_eq(true, acosh(of_array([1.0], [1])).data[0].abs() < 1.0e-10)

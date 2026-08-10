@@ -109,6 +109,7 @@ pub struct LambdaNeuron {
 
 ///|
 /// Neuron variant type wrapping all layer types.
+#warnings("-unused_constructor")
 pub enum Neuron {
   Input(InputNeuron)
   Linear(LinearNeuron)

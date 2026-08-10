@@ -186,13 +186,7 @@ pub fn make_forward(p : T, t : T, i : Int) -> T {
 /// Create a reverse-mode node.
 pub fn make_reverse(p : T, i : Int) -> T {
   let op : Op = {
-    adjoint: fn(
-      _cp : T,
-      _ca : Ref[T],
-      t : Array[(T, T)],
-    ) -> Array[(T, T)] raise {
-      t
-    },
+    adjoint: fn(_cp : T, _ca : Ref[T], t : Array[(T, T)]) -> Array[(T, T)] { t },
     register: fn(t : Array[T]) -> Array[T] { t },
     label_name: "Noop",
     label_parents: [],

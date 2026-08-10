@@ -120,7 +120,9 @@ pub fn div(a : T, b : T) -> T raise {
     fn(av, bv) raise { Arr(@ndarray.div(av, bv)) },
     fn(_cp, _ap, at, bp) raise { div(at, bp) },
     fn(cp, ap, _bp, bt) raise { neg(mul(div(ap, sqr(cp)), bt)) },
-    fn(_cp, ap, at, bp, bt) raise { sub(div(at, bp), mul(div(ap, sqr(bp)), bt)) },
+    fn(_cp, ap, at, bp, bt) raise {
+      sub(div(at, bp), mul(div(ap, sqr(bp)), bt))
+    },
     fn(a, b, _cp, ca) raise {
       (
         squeeze_broadcast(div(ca.val, b), shape(a)),

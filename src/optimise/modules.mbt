@@ -189,6 +189,7 @@ pub fn run_regularisation(
 
 ///|
 /// Execute clipping.
+#warnings("-unused_error_type")
 pub fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
   match typ {
     L2norm(_) => x

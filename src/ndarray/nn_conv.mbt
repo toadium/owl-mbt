@@ -93,6 +93,7 @@ fn _calc_transpose_conv2d_output_shape(
 /// kernel: [k_col, k_row, in_channel, out_channel]
 /// stride: [col_stride, row_stride]
 /// output: [batch, out_col, out_row, out_channel]
+#warnings("-unused_error_type")
 pub fn conv2d(
   input : Ndarray,
   kernel : Ndarray,
@@ -255,6 +256,7 @@ fn _calc_conv3d_padding(
 /// kernel: [k_col, k_row, k_dpt, in_channel, out_channel]
 /// stride: [col_stride, row_stride, dpt_stride]
 /// output: [batch, out_col, out_row, out_dpt, out_channel]
+#warnings("-unused_error_type")
 pub fn conv3d(
   input : Ndarray,
   kernel : Ndarray,

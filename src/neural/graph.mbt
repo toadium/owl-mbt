@@ -240,6 +240,7 @@ pub fn backward(
 }
 
 ///|
+#warnings("-unused_error_type")
 pub fn input(inputs : Array[Int]) -> Node raise {
   let neuron = Input(input_create(inputs))
   let nn = make_network(0, [], [])

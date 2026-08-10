@@ -399,6 +399,7 @@ pub fn conv3d_backward_kernel(
 
 ///|
 /// 3D transpose convolution.
+#warnings("-unused_error_type")
 pub fn transpose_conv3d(
   input : Ndarray,
   kernel : Ndarray,
@@ -1023,6 +1024,7 @@ fn _downsample_kernel2d(kernel : Ndarray, rate : Array[Int]) -> Ndarray {
 
 ///|
 /// Dilated conv2d backward input.
+#warnings("-unused_error_type")
 pub fn dilated_conv2d_backward_input(
   input : Ndarray,
   kernel : Ndarray,
@@ -1036,6 +1038,7 @@ pub fn dilated_conv2d_backward_input(
 
 ///|
 /// Dilated conv2d backward kernel.
+#warnings("-unused_error_type")
 pub fn dilated_conv2d_backward_kernel(
   input : Ndarray,
   kernel : Ndarray,
@@ -1098,6 +1101,7 @@ fn _downsample_kernel3d(kernel : Ndarray, rate : Array[Int]) -> Ndarray {
 
 ///|
 /// Dilated conv3d backward input.
+#warnings("-unused_error_type")
 pub fn dilated_conv3d_backward_input(
   input : Ndarray,
   kernel : Ndarray,
@@ -1111,6 +1115,7 @@ pub fn dilated_conv3d_backward_input(
 
 ///|
 /// Dilated conv3d backward kernel.
+#warnings("-unused_error_type")
 pub fn dilated_conv3d_backward_kernel(
   input : Ndarray,
   kernel : Ndarray,

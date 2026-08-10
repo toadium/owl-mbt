@@ -597,7 +597,7 @@ test "wb infer_shape_fold" {
   for op in ops {
     let result = infer_shape(op, none_input)
     @test.assert_eq(1, result.length())
-    @test.assert_eq(true, result[0].is_empty())
+    @test.assert_eq(true, result[0] is None)
   }
   // With empty shape
   let empty_input = [[_some([])]]

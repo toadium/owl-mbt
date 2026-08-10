@@ -92,6 +92,7 @@ fn _relu6(x : @algodiff.T) -> @algodiff.T raise {
 }
 
 ///|
+#warnings("-unused_error_type")
 fn _min_scalar(x : @algodiff.T, s : Double) -> @algodiff.T raise {
   match x {
     F(v) => @algodiff.pack_flt(if v < s { v } else { s })

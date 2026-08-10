@@ -8,6 +8,7 @@ pub enum State {
 ///|
 /// Operation type stored in each graph node.
 /// Ported from owl_computation_type.ml op type.
+#warnings("-unused_constructor")
 pub enum Op {
   Noop
   Var
