@@ -214,3 +214,61 @@ test "mulmod rejects invalid inputs" {
     _ => fail("expected mulmod to reject negative a")
   }
 }
+
+///|
+test "basic: pow fmod atan2 hypot" {
+  @test.assert_eq(@maths.pow(2.0, 3.0), 8.0)
+  @test.assert_eq(@maths.fmod(7.0, 3.0), 1.0)
+  @test.assert_eq(@maths.atan2(0.0, 1.0), 0.0)
+  @test.assert_eq(@maths.hypot(3.0, 4.0), 5.0)
+}
+
+///|
+test "basic: softsign softplus cbrt" {
+  @test.assert_eq(@maths.softsign(1.0), 0.5)
+  @test.assert_eq(@maths.softplus(0.0), 0.6931471805599453)
+  @test.assert_eq(@maths.cbrt(8.0), 2.0)
+  @test.assert_eq(@maths.cbrt(-27.0), -3.0)
+}
+
+///|
+test "basic: exp2 exp10 expm1 log1p" {
+  @test.assert_eq(@maths.exp2(3.0), 8.0)
+  @test.assert_eq(@maths.exp10(2.0), 100.0)
+  @test.assert_eq(@maths.expm1(1.0), 1.718281828459045)
+  @test.assert_eq(@maths.log1p(1.0), 0.6931471805599453)
+}
+
+///|
+test "basic: cot sec csc" {
+  @test.assert_eq(@maths.cot(0.7853981633974483), 1.0000000000000002)
+  @test.assert_eq(@maths.sec(0.0), 1.0)
+  @test.assert_eq(@maths.csc(1.5707963267948966), 1.0)
+}
+
+///|
+test "basic: inverse trig" {
+  @test.assert_eq(@maths.asin(0.0), 0.0)
+  @test.assert_eq(@maths.acos(1.0), 0.0)
+  @test.assert_eq(@maths.atan(0.0), 0.0)
+  @test.assert_eq(@maths.acot(0.0), 1.5707963267948966)
+  @test.assert_eq(@maths.asec(2.0), 1.0471975511965979)
+  @test.assert_eq(@maths.acsc(2.0), 0.5235987755982989)
+}
+
+///|
+test "basic: inverse hyperbolic" {
+  @test.assert_eq(@maths.asinh(0.0), 0.0)
+  @test.assert_eq(@maths.acosh(1.0), 0.0)
+  @test.assert_eq(@maths.atanh(0.0), 0.0)
+  @test.assert_eq(@maths.acoth(2.0), 0.5493061443340548)
+  @test.assert_eq(@maths.asech(0.5), 1.3169578969248166)
+  @test.assert_eq(@maths.acsch(1.0), 0.881373587019543)
+}
+
+///|
+test "basic: relu both branches" {
+  @test.assert_eq(@maths.relu(3.0), 3.0)
+  @test.assert_eq(@maths.relu(-1.0), 0.0)
+  @test.assert_eq(@maths.relu(0.0), 0.0)
+}
