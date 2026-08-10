@@ -15,7 +15,7 @@ Owl 科学计算库的纯 MoonBit 移植，无 C FFI，多后端兼容（Native/
 | 4 | linalg | 656 | ✅ |
 | 5 | algodiff | 3,803 | ✅ |
 | 6 | optimise | 1,140 | ✅ |
-| 7 | neural | 6,183 | ⏳ |
+| 7 | neural | 6,183 | ✅ |
 | 8 | compute | 5,430 | ⏳ |
 | 9 | misc + 顶层聚合 | 4,068 | ⏳ |
 
@@ -28,7 +28,8 @@ Owl 科学计算库的纯 MoonBit 移植，无 C FFI，多后端兼容（Native/
 - **阶段 4**：`src/linalg/` — is_triu/is_tril/is_symmetric/is_diag/trace/lu/det/logdet/inv/linsolve_lu/chol/qr/rank/tridiag_solve（12 测试）
 - **阶段 5**：`src/algodiff/` — AD 类型(T/Op) + 核心helper + SISO/PISO操作builder + neg/abs/signum/sqr/sqrt/log/exp/sin/cos/tan/sinh/cosh/sigmoid/relu + add/sub/mul/div/pow + sum/transpose/concatenate + reverse_reset/push/prop + diff/grad/jacobian/hessian API（16 测试）
 - **阶段 6**：`src/optimise/` — LearningRate/Batch/GradientMethod/Momentum/Regularisation/Clipping/Stopping enums + State/Params + run_learning_rate/update_ch/run_gradient/run_momentum/run_regularisation/run_clipping/run_stopping + minimise_fun（7 测试）
-- **验证**：`moon check` 0 错误、`moon test` 118/118 passed
+- **阶段 7**：`src/neural/` — InitTyp/ActivationTyp enums + 10 layer structs (Ref包装) + Neuron enum + init_run/run_activation + connect/init_neuron/mktag/mkpar/mkpri/mkadj/update_neuron/run_neuron + Node/Network graph + forward/backward + input/linear/linear_nobias/activation/flatten/reshape/dropout/lambda layer构造函数 + algodiff扩展(tanh/softplus/softsign/matmul/reshape/flatten/softmax/zeros_arr/uniform_arr/gaussian_arr)（18 测试）
+- **验证**：`moon check` 0 错误、`moon test` 136/136 passed
 
 ## 构建
 

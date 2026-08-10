@@ -312,6 +312,7 @@ owl-mbt/                          # moon.mod.json: module owl_mbt
 - ✅ **阶段 4（linalg）** — 全部完成：is_triu/is_tril/is_symmetric/is_diag/trace/lu/det/logdet/inv/linsolve_lu/chol/qr/rank/tridiag_solve（12 测试通过）
 - ✅ **阶段 5（algodiff）** — 核心完成：AD类型(T/Op) + SISO/PISO builder + 15个数学操作 + reverse mode + diff/grad/jacobian/hessian API（16 测试通过）
 - ✅ **阶段 6（optimise）** — 全部完成：LearningRate/Batch/GradientMethod/Momentum/Regularisation/Clipping/Stopping enums + State/Params + run_*模块函数 + minimise_fun核心优化循环（7 测试通过）
-- ✅ `moon check` 0 错误、`moon test` 118/118 passed、`moon fmt` + `moon info` 完成
+- ✅ **阶段 7（neural）** — 核心完成：InitTyp/ActivationTyp enums + 10 layer structs (Ref包装) + Neuron enum + init_run/run_activation + connect/init_neuron/mktag/mkpar/mkpri/mkadj/update_neuron/run_neuron + Node/Network graph + forward/backward + input/linear/linear_nobias/activation/flatten/reshape/dropout/lambda layer构造函数 + algodiff扩展(tanh/softplus/softsign/matmul/reshape/flatten/softmax/zeros_arr/uniform_arr/gaussian_arr)（18 测试通过）
+- ✅ `moon check` 0 错误、`moon test` 136/136 passed、`moon fmt` + `moon info` 完成
 
-下一步：**阶段 7（neural）**。纯 OCaml 神经网络层（6,183 行），含 Linear/Conv/Pool/Activation/Loss/Sequential/Graph 等。
+下一步：**阶段 8（compute）**。计算图引擎（5,430 行），含 graph/operator/shape/symbol/type/optimiser/engine/cpu 后端。

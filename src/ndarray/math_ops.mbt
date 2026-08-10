@@ -6,6 +6,12 @@ fn _map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
 }
 
 ///|
+/// Apply a unary function element-wise (public).
+pub fn map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
+  _map_elem(x, f)
+}
+
+///|
 pub fn abs(x : Ndarray) -> Ndarray {
   _map_elem(x, fn(v) { v.abs() })
 }
