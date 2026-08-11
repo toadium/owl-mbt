@@ -22,7 +22,7 @@ pub struct Network {
 
 ///|
 /// Create a new network.
-pub fn make_network(
+fn make_network(
   size : Int,
   roots : Array[Node],
   topo : Array[Node],
@@ -39,7 +39,7 @@ pub fn make_network(
 
 ///|
 /// Create a new node.
-pub fn make_node(
+fn make_node(
   prev : Array[Node],
   next : Array[Node],
   neuron : Neuron,
@@ -133,7 +133,7 @@ fn connect_pair(prev : Node, next : Node) -> Unit {
 }
 
 ///|
-pub fn connect_to_parents(parents : Array[Node], child : Node) -> Unit {
+fn connect_to_parents(parents : Array[Node], child : Node) -> Unit {
   if parents.length() > 0 {
     let out_shapes = Array::makei(parents.length(), fn(i) {
       get_out_shape(parents[i].neuron.val)
@@ -174,24 +174,24 @@ pub fn init_network(nn : Network) -> Unit {
 }
 
 ///|
-pub fn mktag_network(t : Int, nn : Network) -> Unit {
+fn mktag_network(t : Int, nn : Network) -> Unit {
   for n in nn.topo.val {
     mktag(t, n.neuron.val)
   }
 }
 
 ///|
-pub fn mkpar_network(nn : Network) -> Array[Array[@algodiff.T]] {
+fn mkpar_network(nn : Network) -> Array[Array[@algodiff.T]] {
   Array::makei(nn.topo.val.length(), fn(i) { mkpar(nn.topo.val[i].neuron.val) })
 }
 
 ///|
-pub fn mkpri_network(nn : Network) -> Array[Array[@algodiff.T]] {
+fn mkpri_network(nn : Network) -> Array[Array[@algodiff.T]] {
   Array::makei(nn.topo.val.length(), fn(i) { mkpri(nn.topo.val[i].neuron.val) })
 }
 
 ///|
-pub fn mkadj_network(nn : Network) -> Array[Array[@algodiff.T]] raise {
+fn mkadj_network(nn : Network) -> Array[Array[@algodiff.T]] raise {
   Array::makei(nn.topo.val.length(), fn(i) raise {
     mkadj(nn.topo.val[i].neuron.val)
   })

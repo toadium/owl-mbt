@@ -1,7 +1,7 @@
 ///|
 /// Evaluate a single node given its input values.
 /// Returns the output ndarray.
-pub fn eval_node(
+fn eval_node(
   op : Op,
   inputs : Array[@ndarray.Ndarray],
 ) -> @ndarray.Ndarray raise {

@@ -151,7 +151,7 @@ pub fn get_node_shape(node : Node) -> Array[Array[Int]?] {
 ///|
 /// Collect all ancestor nodes of the given nodes in topological order.
 /// Uses recursive post-order DFS: parents are fully processed before the node.
-pub fn collect_ancestors(nodes : Array[Node], total_nodes : Int) -> Array[Node] {
+fn collect_ancestors(nodes : Array[Node], total_nodes : Int) -> Array[Node] {
   let visited = Array::make(total_nodes, false)
   let result : Array[Node] = []
   fn _dfs(n : Node) -> Unit {

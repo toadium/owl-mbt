@@ -1,7 +1,7 @@
 ///|
 /// Execute learning rate strategy.
 /// Returns: (iteration, gradient, cache) -> learning_rate
-pub fn run_learning_rate(
+fn run_learning_rate(
   typ : LearningRate,
   i : Int,
   g : @algodiff.T,
@@ -69,7 +69,7 @@ pub fn run_learning_rate(
 
 ///|
 /// Update cache for learning rate.
-pub fn update_ch(
+fn update_ch(
   typ : LearningRate,
   g : @algodiff.T,
   ch : Array[@algodiff.T],
@@ -101,7 +101,7 @@ pub fn update_ch(
 ///|
 /// Execute gradient method.
 /// Returns: (f, w, g_prev, p_prev, g') -> direction
-pub fn run_gradient(
+fn run_gradient(
   typ : GradientMethod,
   _f : (@algodiff.T) -> @algodiff.T raise,
   _w : @algodiff.T,
@@ -151,7 +151,7 @@ pub fn run_gradient(
 
 ///|
 /// Execute momentum strategy.
-pub fn run_momentum(
+fn run_momentum(
   typ : Momentum,
   u : @algodiff.T,
   u_new : @algodiff.T,
@@ -169,7 +169,7 @@ pub fn run_momentum(
 
 ///|
 /// Execute regularisation.
-pub fn run_regularisation(
+fn run_regularisation(
   typ : Regularisation,
   x : @algodiff.T,
 ) -> @algodiff.T raise {
@@ -190,7 +190,7 @@ pub fn run_regularisation(
 ///|
 /// Execute clipping.
 #warnings("-unused_error_type")
-pub fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
+fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
   match typ {
     L2norm(_) => x
     Value(_, _) => x
@@ -200,7 +200,7 @@ pub fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
 
 ///|
 /// Execute stopping criterion.
-pub fn run_stopping(typ : Stopping, loss : Double) -> Bool {
+fn run_stopping(typ : Stopping, loss : Double) -> Bool {
   match typ {
     Const(threshold) => loss < threshold
     Early(_, _) => false
