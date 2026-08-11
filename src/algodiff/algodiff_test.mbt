@@ -1044,3 +1044,138 @@ test "get_slice: primal" {
   let rp = unpack_arr(r)
   @test.assert_eq(true, approx_eq_val(rp.data[0], 1.0))
 }
+
+///|
+/// Coverage: squeeze_broadcast with scalar target (dim == 0)
+/// add(array, scalar) in reverse mode triggers squeeze_broadcast(ca, shape(scalar))
+test "dr add array+scalar: broadcast squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array([1.0, 2.0, 3.0], [3])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_flt(10.0), t)
+  let r = add(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([3])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 1.0))
+}
+
+///|
+/// Coverage: squeeze_broadcast with scalar target for mul
+test "dr mul array*scalar: broadcast squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array([1.0, 2.0, 3.0], [3])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_flt(2.0), t)
+  let r = mul(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([3])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 2.0))
+}
+
+///|
+/// Coverage: squeeze_broadcast with scalar target for sub
+test "dr sub array-scalar: broadcast squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array([5.0, 6.0], [2])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_flt(3.0), t)
+  let r = sub(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([2])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 1.0))
+}
+
+///|
+/// Coverage: squeeze_broadcast with scalar target for div
+test "dr div array/scalar: broadcast squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array([6.0, 8.0], [2])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_flt(2.0), t)
+  let r = div(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([2])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 0.5))
+}
+
+///|
+/// Coverage: squeeze_broadcast with scalar target for pow
+test "dr pow array^scalar: broadcast squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array([2.0, 3.0], [2])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_flt(2.0), t)
+  let r = pow(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([2])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 4.0))
+}
+
+///|
+/// Coverage: squeeze_broadcast with 2D broadcast (row broadcast)
+/// add([2,3] array, [1,3] array) triggers squeeze along axis 0
+test "dr add 2D broadcast row: squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array(
+    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+    [2, 3],
+  )
+  let b = @ndarray.of_array([10.0, 20.0, 30.0], [1, 3])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_arr(b), t)
+  let r = add(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([2, 3])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 1.0))
+}
+
+///|
+/// Coverage: squeeze_broadcast with 2D broadcast (col broadcast)
+/// add([2,3] array, [2,1] array) triggers squeeze along axis 1
+test "dr add 2D broadcast col: squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array(
+    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+    [2, 3],
+  )
+  let b = @ndarray.of_array([10.0, 20.0], [2, 1])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_arr(b), t)
+  let r = add(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([2, 3])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 1.0))
+}
+
+///|
+/// Coverage: squeeze_broadcast with 2D broadcast for mul
+test "dr mul 2D broadcast: squeeze" {
+  let t = tag()
+  let a = @ndarray.of_array(
+    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+    [2, 3],
+  )
+  let b = @ndarray.of_array([10.0, 20.0, 30.0], [1, 3])
+  let x = make_reverse(pack_arr(a), t)
+  let y = make_reverse(pack_arr(b), t)
+  let r = mul(x, y)
+  reverse_reset(r)
+  let ones = @ndarray.ones([2, 3])
+  reverse_push(pack_arr(ones), r)
+  let gx = unpack_arr(adjval(x))
+  @test.assert_eq(true, approx_eq_val(gx.data[0], 10.0))
+}
