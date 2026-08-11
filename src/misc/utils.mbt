@@ -78,9 +78,21 @@ pub fn pad_strings(
 }
 
 ///|
-/// Compare two floats with a tolerance.
+/// Compare two floats with absolute tolerance: `|a - b| < eps`.
+/// Suitable for values near zero. For large-magnitude values, prefer
+/// `approx_equal_rel` which uses relative tolerance.
 pub fn approx_equal(a : Double, b : Double, eps : Double) -> Bool {
   (a - b).abs() < eps
+}
+
+///|
+/// Compare two floats with relative tolerance:
+/// `|a - b| / (1 + max(|a|, |b|)) < eps`.
+/// Works well for both large and small magnitudes. The `1 +` in the
+/// denominator gracefully handles the case where both values are near zero.
+pub fn approx_equal_rel(a : Double, b : Double, eps : Double) -> Bool {
+  let max_abs = if a.abs() > b.abs() { a.abs() } else { b.abs() }
+  (a - b).abs() / (1.0 + max_abs) < eps
 }
 
 ///|

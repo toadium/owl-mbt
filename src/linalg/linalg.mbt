@@ -1,5 +1,6 @@
 ///|
 /// Check if a matrix is upper triangular.
+/// Uses exact floating-point comparison (`!= 0.0`) for structural zeros.
 pub fn is_triu(x : @ndarray.Ndarray) -> Bool {
   let m = x.shape[0]
   let n = x.shape[1]
@@ -15,6 +16,7 @@ pub fn is_triu(x : @ndarray.Ndarray) -> Bool {
 
 ///|
 /// Check if a matrix is lower triangular.
+/// Uses exact floating-point comparison (`!= 0.0`) for structural zeros.
 pub fn is_tril(x : @ndarray.Ndarray) -> Bool {
   let m = x.shape[0]
   let n = x.shape[1]
@@ -33,6 +35,8 @@ pub fn is_tril(x : @ndarray.Ndarray) -> Bool {
 
 ///|
 /// Check if a matrix is symmetric.
+/// Uses exact floating-point comparison. For numerical matrices with rounding
+/// errors, consider a tolerance-based check.
 pub fn is_symmetric(x : @ndarray.Ndarray) -> Bool {
   let m = x.shape[0]
   let n = x.shape[1]
@@ -51,8 +55,20 @@ pub fn is_symmetric(x : @ndarray.Ndarray) -> Bool {
 
 ///|
 /// Check if a matrix is diagonal.
+/// Single-pass scan of all off-diagonal elements (more efficient than
+/// `is_triu(x) && is_tril(x)` which scans the matrix twice).
+/// Uses exact floating-point comparison for structural zeros.
 pub fn is_diag(x : @ndarray.Ndarray) -> Bool {
-  is_triu(x) && is_tril(x)
+  let m = x.shape[0]
+  let n = x.shape[1]
+  for i in 0..<m {
+    for j in 0..<n {
+      if i != j && x.data[i * n + j] != 0.0 {
+        return false
+      }
+    }
+  }
+  true
 }
 
 ///|
@@ -72,6 +88,11 @@ pub fn trace(x : @ndarray.Ndarray) -> Double {
 /// LU decomposition with partial pivoting.
 /// Returns (L, U, piv) where L*U = A[piv,:].
 /// L is lower triangular with unit diagonal, U is upper triangular.
+///
+/// Note: for singular matrices, a zero pivot is replaced with `1e-40` and
+/// the decomposition continues, producing large numerical values. This
+/// matches the OCaml source behaviour. Use `det` (returns 0.0) or `inv`
+/// (raises) for reliable singularity detection.
 pub fn lu(
   a : @ndarray.Ndarray,
 ) -> (@ndarray.Ndarray, @ndarray.Ndarray, Array[Int]) raise {
@@ -214,6 +235,10 @@ pub fn det(a : @ndarray.Ndarray) -> Double raise {
 
 ///|
 /// Log determinant via LU decomposition.
+/// Raises if the matrix is exactly singular (a full zero row is encountered).
+/// Note: numerically singular matrices (zero pivot but no full zero row) do
+/// not raise; the tiny pivot `1e-40` contributes `ln(1e-40) ≈ -92.1` to the
+/// result, producing a large negative value.
 pub fn logdet(a : @ndarray.Ndarray) -> Double raise {
   let n = a.shape[0]
   if a.shape[1] != n {
@@ -439,7 +464,9 @@ pub fn linsolve_lu(
 
 ///|
 /// Cholesky decomposition: A = L * L^T for symmetric positive definite A.
-/// Returns lower triangular L.
+/// Returns lower triangular L (or upper triangular L^T if `upper=true`).
+/// Note: does not verify symmetry. Only the lower triangle of A is used.
+/// For non-symmetric input, the result corresponds to the symmetrised matrix.
 pub fn chol(
   a : @ndarray.Ndarray,
   upper? : Bool = false,
@@ -514,6 +541,8 @@ pub fn qr(
       continue
     }
     let alpha = if r_data[k * n + k] >= 0.0 { -norm } else { norm }
+    // Note: v is allocated fresh each iteration (min(m,n) allocations).
+    // Could be hoisted out of the loop and reused for performance.
     let v = Array::make(m, 0.0)
     v[k] = r_data[k * n + k] - alpha
     for i in (k + 1)..<m {
