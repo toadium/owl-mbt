@@ -1,0 +1,11 @@
+import {
+  "owl_mbt/const",
+  "owl_mbt/maths",
+  "owl_mbt/types",
+  "moonbitlang/core/math",
+  "moonbitlang/core/random",
+}
+
+import {
+  "moonbitlang/core/test",
+} for "test"
