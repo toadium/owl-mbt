@@ -510,10 +510,14 @@ test "dr sum: reverse mode array" {
   let x = make_reverse(pack_arr(arr), tag())
   let r = sum(x, axis=0)
   reverse_reset(r)
-  let ones = @ndarray.ones([2])
+  let ones = @ndarray.of_array([1.0, 1.0], [2])
   reverse_push(pack_arr(ones), r)
-  let _ = unpack_arr(adjval(x))
-  @test.assert_eq(true, true)
+  let g = unpack_arr(adjval(x))
+  // sum along axis=0:2)) = [4, 6], gradient w.r.t. x is ones([2,2])
+  @test.assert_eq(true, approx_eq_val(g.data[0], 1.0))
+  @test.assert_eq(true, approx_eq_val(g.data[1], 1.0))
+  @test.assert_eq(true, approx_eq_val(g.data[2], 1.0))
+  @test.assert_eq(true, approx_eq_val(g.data[3], 1.0))
 }
 
 ///|
@@ -535,8 +539,10 @@ test "dr transpose: reverse mode" {
   reverse_reset(r)
   let ones = @ndarray.ones([2, 2])
   reverse_push(pack_arr(ones), r)
-  let _ = unpack_arr(adjval(x))
-  @test.assert_eq(true, true)
+  let g = unpack_arr(adjval(x))
+  // transpose gradient is also transpose, ones maps to ones
+  @test.assert_eq(true, approx_eq_val(g.data[0], 1.0))
+  @test.assert_eq(true, approx_eq_val(g.data[3], 1.0))
 }
 
 ///|
@@ -558,8 +564,10 @@ test "dr reshape: reverse mode" {
   reverse_reset(r)
   let ones = @ndarray.ones([4])
   reverse_push(pack_arr(ones), r)
-  let _ = unpack_arr(adjval(x))
-  @test.assert_eq(true, true)
+  let g = unpack_arr(adjval(x))
+  // reshape gradient is identity, ones maps to ones
+  @test.assert_eq(true, approx_eq_val(g.data[0], 1.0))
+  @test.assert_eq(true, approx_eq_val(g.data[3], 1.0))
 }
 
 ///|
@@ -580,8 +588,10 @@ test "dr flatten: reverse mode" {
   reverse_reset(r)
   let ones = @ndarray.ones([4])
   reverse_push(pack_arr(ones), r)
-  let _ = unpack_arr(adjval(x))
-  @test.assert_eq(true, true)
+  let g = unpack_arr(adjval(x))
+  // flatten gradient is identity, ones maps to ones
+  @test.assert_eq(true, approx_eq_val(g.data[0], 1.0))
+  @test.assert_eq(true, approx_eq_val(g.data[3], 1.0))
 }
 
 ///|
@@ -603,8 +613,12 @@ test "dr softmax: reverse mode" {
   reverse_reset(r)
   let ones = @ndarray.ones([3])
   reverse_push(pack_arr(ones), r)
-  let _ = unpack_arr(adjval(x))
-  @test.assert_eq(true, true)
+  let g = unpack_arr(adjval(x))
+  // softmax Jacobian: J = diag(s) - s*s^T
+  // With ones pushed, gradient = J^T * ones = s - s * (sum(s)) = s - s*1 = 0
+  @test.assert_eq(true, approx_eq_val(g.data[0], 0.0, eps=1.0e-8))
+  @test.assert_eq(true, approx_eq_val(g.data[1], 0.0, eps=1.0e-8))
+  @test.assert_eq(true, approx_eq_val(g.data[2], 0.0, eps=1.0e-8))
 }
 
 ///|
@@ -630,9 +644,16 @@ test "dr matmul: reverse mode" {
   reverse_reset(r)
   let ones = @ndarray.ones([2, 2])
   reverse_push(pack_arr(ones), r)
-  let _ = unpack_arr(adjval(x))
-  let _ = unpack_arr(adjval(y))
-  @test.assert_eq(true, true)
+  let ga = unpack_arr(adjval(x))
+  let gy = unpack_arr(adjval(y))
+  // dA = dC * B^T = ones * I = ones
+  @test.assert_eq(true, approx_eq_val(ga.data[0], 1.0))
+  @test.assert_eq(true, approx_eq_val(ga.data[3], 1.0))
+  // dB = A^T * dC = [[1,3],[2,4]] * ones = [[4,4],[6,6]]
+  @test.assert_eq(true, approx_eq_val(gy.data[0], 4.0))
+  @test.assert_eq(true, approx_eq_val(gy.data[1], 4.0))
+  @test.assert_eq(true, approx_eq_val(gy.data[2], 6.0))
+  @test.assert_eq(true, approx_eq_val(gy.data[3], 6.0))
 }
 
 ///|
@@ -746,9 +767,9 @@ test "gaussian_arr: basic" {
 test "df sigmoid: forward mode" {
   let x = make_forward(pack_flt(-1.0), pack_flt(1.0), tag())
   let r = sigmoid(x)
-  let _ = unpack_flt(primal(r))
-  let _ = unpack_flt(tangent(r))
-  @test.assert_eq(true, true)
+  let s = 1.0 / (1.0 + @math.exp(1.0))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(primal(r)), s))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(tangent(r)), s * (1.0 - s)))
 }
 
 ///|
@@ -757,17 +778,17 @@ test "dr sigmoid: reverse mode" {
   let r = sigmoid(x)
   reverse_reset(r)
   reverse_push(pack_flt(1.0), r)
-  let _ = unpack_flt(adjval(x))
-  @test.assert_eq(true, true)
+  let s = 1.0 / (1.0 + @math.exp(1.0))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(adjval(x)), s * (1.0 - s)))
 }
 
 ///|
 test "df tanh: forward mode" {
   let x = make_forward(pack_flt(1.0), pack_flt(1.0), tag())
   let r = tanh(x)
-  let _ = unpack_flt(primal(r))
-  let _ = unpack_flt(tangent(r))
-  @test.assert_eq(true, true)
+  let t = @math.tanh(1.0)
+  @test.assert_eq(true, approx_eq_val(unpack_flt(primal(r)), t))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(tangent(r)), 1.0 - t * t))
 }
 
 ///|
@@ -776,17 +797,17 @@ test "dr tanh: reverse mode" {
   let r = tanh(x)
   reverse_reset(r)
   reverse_push(pack_flt(1.0), r)
-  let _ = unpack_flt(adjval(x))
-  @test.assert_eq(true, true)
+  let t = @math.tanh(1.0)
+  @test.assert_eq(true, approx_eq_val(unpack_flt(adjval(x)), 1.0 - t * t))
 }
 
 ///|
 test "df softplus: forward mode" {
   let x = make_forward(pack_flt(1.0), pack_flt(1.0), tag())
   let r = softplus(x)
-  let _ = unpack_flt(primal(r))
-  let _ = unpack_flt(tangent(r))
-  @test.assert_eq(true, true)
+  let sp = @math.ln(1.0 + @math.exp(1.0))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(primal(r)), sp))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(tangent(r)), 1.0 / (1.0 + @math.exp(-1.0))))
 }
 
 ///|
@@ -795,17 +816,16 @@ test "dr softplus: reverse mode" {
   let r = softplus(x)
   reverse_reset(r)
   reverse_push(pack_flt(1.0), r)
-  let _ = unpack_flt(adjval(x))
-  @test.assert_eq(true, true)
+  @test.assert_eq(true, approx_eq_val(unpack_flt(adjval(x)), 1.0 / (1.0 + @math.exp(-1.0))))
 }
 
 ///|
 test "df softsign: forward mode" {
   let x = make_forward(pack_flt(1.0), pack_flt(1.0), tag())
   let r = softsign(x)
-  let _ = unpack_flt(primal(r))
-  let _ = unpack_flt(tangent(r))
-  @test.assert_eq(true, true)
+  // softsign(1) = 1/(1+1) = 0.5, derivative = 1/(1+|x|)^2 = 0.25
+  @test.assert_eq(true, approx_eq_val(unpack_flt(primal(r)), 0.5))
+  @test.assert_eq(true, approx_eq_val(unpack_flt(tangent(r)), 0.25))
 }
 
 ///|
@@ -814,8 +834,7 @@ test "dr softsign: reverse mode" {
   let r = softsign(x)
   reverse_reset(r)
   reverse_push(pack_flt(1.0), r)
-  let _ = unpack_flt(adjval(x))
-  @test.assert_eq(true, true)
+  @test.assert_eq(true, approx_eq_val(unpack_flt(adjval(x)), 0.25))
 }
 
 ///|
