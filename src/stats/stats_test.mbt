@@ -437,3 +437,181 @@ test "invariance: minmax matches min/max" {
   @test.assert_eq(mn, min(x))
   @test.assert_eq(mx, max(x))
 }
+
+///|
+/// Coverage: weighted histogram uniform
+test "histogram weighted uniform" {
+  let x = [0.5, 1.5, 2.5, 3.5, 0.8, 1.2]
+  let w = [1.0, 2.0, 3.0, 4.0, 0.5, 0.5]
+  let h = histogram(BinSpec::N(4), Some(w), x)
+  @test.assert_eq(h.counts, [3, 1, 1, 1])
+  let wc = match h.weighted_counts {
+    Some(v) => v
+    None => []
+  }
+  @test.assert_eq(2.0, wc[0])
+  @test.assert_eq(2.0, wc[1])
+  @test.assert_eq(3.0, wc[2])
+  @test.assert_eq(4.0, wc[3])
+}
+
+///|
+/// Coverage: weighted histogram nonuniform
+test "histogram weighted nonuniform" {
+  let x = [0.5, 1.5, 2.5, 3.5]
+  let w = [1.0, 2.0, 3.0, 4.0]
+  let bins = [0.0, 1.0, 2.0, 3.0, 4.0]
+  let h = histogram(BinSpec::Bins(bins), Some(w), x)
+  @test.assert_eq(h.counts, [1, 1, 1, 1])
+  let wc = match h.weighted_counts {
+    Some(v) => v
+    None => []
+  }
+  @test.assert_eq(1.0, wc[0])
+  @test.assert_eq(2.0, wc[1])
+  @test.assert_eq(3.0, wc[2])
+  @test.assert_eq(4.0, wc[3])
+}
+
+///|
+/// Coverage: histogram_sorted with N bins
+test "histogram_sorted uniform" {
+  let x = [0.5, 0.8, 1.2, 1.5, 2.5, 3.5]
+  let h = histogram_sorted(BinSpec::N(4), None, x)
+  @test.assert_eq(h.counts, [3, 1, 1, 1])
+}
+
+///|
+/// Coverage: histogram_sorted with explicit bins
+test "histogram_sorted explicit bins" {
+  let x = [0.5, 1.5, 2.5, 3.5]
+  let bins = [0.0, 1.0, 2.0, 3.0, 4.0]
+  let h = histogram_sorted(BinSpec::Bins(bins), None, x)
+  @test.assert_eq(h.counts, [1, 1, 1, 1])
+}
+
+///|
+/// Coverage: histogram_sorted weighted
+test "histogram_sorted weighted" {
+  let x = [0.5, 0.8, 1.2, 1.5, 2.5, 3.5]
+  let w = [1.0, 0.5, 0.5, 2.0, 3.0, 4.0]
+  let h = histogram_sorted(BinSpec::N(4), Some(w), x)
+  @test.assert_eq(h.counts, [3, 1, 1, 1])
+  let wc = match h.weighted_counts {
+    Some(v) => v
+    None => []
+  }
+  @test.assert_eq(2.0, wc[0])
+  @test.assert_eq(2.0, wc[1])
+}
+
+///|
+/// Coverage: normalise with weighted counts
+test "histogram normalise weighted" {
+  let x = [0.5, 1.5, 2.5, 3.5]
+  let w = [1.0, 1.0, 2.0, 2.0]
+  let h = histogram(BinSpec::N(4), Some(w), x)
+  let hn = normalise(h)
+  let nc = match hn.normalised_counts {
+    Some(v) => v
+    None => []
+  }
+  @test.assert_eq(true, (nc[0] - 1.0 / 6.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (nc[2] - 2.0 / 6.0).abs() < 1.0e-10)
+}
+
+///|
+/// Coverage: normalise_density
+test "histogram normalise_density" {
+  let x = [0.5, 1.5, 2.5, 3.5, 0.8, 1.2]
+  let h = histogram(BinSpec::N(4), None, x)
+  let hd = normalise_density(h)
+  let ds = match hd.density {
+    Some(v) => v
+    None => []
+  }
+  // min=0.5, max=3.5, db=0.75, total=6
+  // density[i] = count[i] / db / total
+  let db = 0.75
+  @test.assert_eq(true, (ds[0] - 3.0 / db / 6.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (ds[1] - 1.0 / db / 6.0).abs() < 1.0e-10)
+}
+
+///|
+/// Coverage: normalise_density with weighted counts
+test "histogram normalise_density weighted" {
+  let x = [0.5, 1.5, 2.5, 3.5]
+  let w = [1.0, 1.0, 2.0, 2.0]
+  let h = histogram(BinSpec::N(4), Some(w), x)
+  let hd = normalise_density(h)
+  let ds = match hd.density {
+    Some(v) => v
+    None => []
+  }
+  // min=0.5, max=3.5, db=0.75, total=6
+  let db = 0.75
+  @test.assert_eq(true, (ds[0] - 1.0 / db / 6.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (ds[2] - 2.0 / db / 6.0).abs() < 1.0e-10)
+}
+
+///|
+/// Coverage: hist_weighted_uniform directly
+test "hist_weighted_uniform direct" {
+  let x = [1.0, 2.0, 3.0, 4.0, 5.0]
+  let w = [0.5, 1.0, 1.5, 2.0, 2.5]
+  let ((bins, counts), wc) = hist_weighted_uniform(5, w, x)
+  @test.assert_eq(5, counts.length())
+  @test.assert_eq(5, wc.length())
+  @test.assert_eq(6, bins.length())
+  @test.assert_eq(0.5, wc[0])
+  @test.assert_eq(2.5, wc[4])
+}
+
+///|
+/// Coverage: hist_weighted_nonuniform directly
+test "hist_weighted_nonuniform direct" {
+  let x = [1.0, 2.0, 3.0, 4.0, 5.0]
+  let w = [0.5, 1.0, 1.5, 2.0, 2.5]
+  let bins = [0.0, 2.0, 4.0, 6.0]
+  let ((_, counts), wc) = hist_weighted_nonuniform(bins, w, x)
+  @test.assert_eq(3, counts.length())
+  @test.assert_eq(0.5, wc[0])
+  @test.assert_eq(2.5, wc[1])
+  @test.assert_eq(4.5, wc[2])
+}
+
+///|
+/// Coverage: hist_sorted directly
+test "hist_sorted direct" {
+  let x = [0.5, 1.5, 2.5, 3.5]
+  let bins = [0.0, 1.0, 2.0, 3.0, 4.0]
+  let (b, c) = hist_sorted(bins, x)
+  @test.assert_eq([1, 1, 1, 1], c)
+  @test.assert_eq(bins, b)
+}
+
+///|
+/// Coverage: hist_weighted_sorted directly
+test "hist_weighted_sorted direct" {
+  let x = [0.5, 1.5, 2.5, 3.5]
+  let w = [1.0, 2.0, 3.0, 4.0]
+  let bins = [0.0, 1.0, 2.0, 3.0, 4.0]
+  let ((_, c), wc) = hist_weighted_sorted(bins, w, x)
+  @test.assert_eq([1, 1, 1, 1], c)
+  @test.assert_eq(1.0, wc[0])
+  @test.assert_eq(4.0, wc[3])
+}
+
+///|
+/// Coverage: histogram error - mismatched weights
+test "histogram error: mismatched weights" {
+  let x = [1.0, 2.0, 3.0]
+  let w = [1.0, 2.0]
+  let raised = try {
+    let _ = histogram(BinSpec::N(2), Some(w), x)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
