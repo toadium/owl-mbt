@@ -157,7 +157,10 @@ pub fn max_i(x : Array[Double]) -> Int raise {
 }
 
 ///|
-pub fn min(x : Array[Double]) -> Double {
+pub fn min(x : Array[Double]) -> Double raise {
+  if x.length() == 0 {
+    raise @types.OwlError::InvalidArgument("min: empty array")
+  }
   let mut result = x[0]
   for i in 1..<x.length() {
     if x[i] < result {
@@ -168,7 +171,10 @@ pub fn min(x : Array[Double]) -> Double {
 }
 
 ///|
-pub fn max(x : Array[Double]) -> Double {
+pub fn max(x : Array[Double]) -> Double raise {
+  if x.length() == 0 {
+    raise @types.OwlError::InvalidArgument("max: empty array")
+  }
   let mut result = x[0]
   for i in 1..<x.length() {
     if x[i] > result {
@@ -179,7 +185,10 @@ pub fn max(x : Array[Double]) -> Double {
 }
 
 ///|
-pub fn minmax(x : Array[Double]) -> (Double, Double) {
+pub fn minmax(x : Array[Double]) -> (Double, Double) raise {
+  if x.length() == 0 {
+    raise @types.OwlError::InvalidArgument("minmax: empty array")
+  }
   let mut mn = x[0]
   let mut mx = x[0]
   for a in x {

@@ -235,7 +235,13 @@ pub fn avg_pool2d(
       sum_val += v
       cnt += 1
     },
-    fn() { sum_val / cnt.to_double() },
+    fn() {
+      if cnt == 0 {
+        0.0
+      } else {
+        sum_val / cnt.to_double()
+      }
+    },
   )
 }
 
@@ -285,7 +291,13 @@ pub fn avg_pool3d(
       sum_val += v
       cnt += 1
     },
-    fn() { sum_val / cnt.to_double() },
+    fn() {
+      if cnt == 0 {
+        0.0
+      } else {
+        sum_val / cnt.to_double()
+      }
+    },
   )
 }
 

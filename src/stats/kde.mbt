@@ -21,7 +21,7 @@ fn _build_points(
   n_points : Int,
   h : Double,
   vs : Array[Double],
-) -> Array[Double] {
+) -> Array[Double] raise {
   let (mn, mx) = minmax(vs)
   let a = mn - 3.0 * h
   let b = mx + 3.0 * h

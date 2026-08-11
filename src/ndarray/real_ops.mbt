@@ -69,7 +69,7 @@ pub fn sum_slices(x : Ndarray, axis? : Int = 0) -> Ndarray {
 
 ///|
 /// log(sum(exp(x))) scalar version.
-pub fn log_sum_exp_(x : Ndarray) -> Double {
+pub fn log_sum_exp_(x : Ndarray) -> Double raise {
   let m = max_(x)
   let mut s = 0.0
   for i in 0..<x.data.length() {

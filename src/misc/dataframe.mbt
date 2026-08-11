@@ -43,7 +43,7 @@ pub fn string_column(name : String, data : Array[String]) -> Column {
 
 ///|
 /// Create a DataFrame from columns.
-pub fn make_dataframe(columns : Array[Column]) -> DataFrame {
+pub fn make_dataframe(columns : Array[Column]) -> DataFrame raise {
   let n_rows = if columns.length() > 0 {
     match columns[0].typ {
       FloatCol => columns[0].float_data.length()
@@ -52,6 +52,16 @@ pub fn make_dataframe(columns : Array[Column]) -> DataFrame {
     }
   } else {
     0
+  }
+  for col in columns {
+    let len = match col.typ {
+      FloatCol => col.float_data.length()
+      IntCol => col.int_data.length()
+      StringCol => col.string_data.length()
+    }
+    if len != n_rows {
+      raise @types.OwlError::InvalidArgument("make_dataframe: column length mismatch")
+    }
   }
   { columns, n_rows }
 }

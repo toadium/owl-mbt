@@ -94,7 +94,6 @@ pub fn get_outputs(nn : Network) -> Array[Node] {
 
 ///|
 pub fn get_network(n : Node) -> Network {
-  n.network.val.outputs.val = [n]
   n.network.val
 }
 
@@ -111,6 +110,8 @@ pub fn collect_output(nodes : Array[Node]) -> Array[@algodiff.T] {
 }
 
 ///|
+/// Check if a node is in the array by name comparison.
+/// Note: relies on unique node names; potential issue if names conflict.
 fn _contains_node(arr : Array[Node], name : String) -> Bool {
   let mut found = false
   for n in arr {
@@ -204,6 +205,8 @@ pub fn update_network(nn : Network, us : Array[Array[@algodiff.T]]) -> Unit {
 }
 
 ///|
+/// Run forward pass. Note: assumes single-input single-output network.
+/// All Input nodes are bound to the same input x.
 pub fn run(x : @algodiff.T, nn : Network) -> @algodiff.T raise {
   for n in nn.topo.val {
     let input = match n.neuron.val {

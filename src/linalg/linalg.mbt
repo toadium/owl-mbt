@@ -491,7 +491,7 @@ pub fn chol(
 pub fn qr(
   a : @ndarray.Ndarray,
   thin? : Bool = false,
-) -> (@ndarray.Ndarray, @ndarray.Ndarray) {
+) -> (@ndarray.Ndarray, @ndarray.Ndarray) raise {
   let m = a.shape[0]
   let n = a.shape[1]
   let r_data = FixedArray::make(m * n, 0.0)
@@ -505,7 +505,9 @@ pub fn qr(
     q_data[i * m + i] = 1.0
   }
   let k_max = if m < n { m } else { n }
-  let _ = thin
+  if thin {
+    raise @types.OwlError::NotImplemented("qr: thin QR not yet supported")
+  }
   for k in 0..<k_max {
     let mut norm = 0.0
     for i in k..<m {
@@ -561,7 +563,7 @@ pub fn qr(
 
 ///|
 /// Matrix rank via QR decomposition.
-pub fn rank(a : @ndarray.Ndarray, tol? : Double = -1.0) -> Int {
+pub fn rank(a : @ndarray.Ndarray, tol? : Double = -1.0) -> Int raise {
   let m = a.shape[0]
   let n = a.shape[1]
   let (_, r) = qr(a)
@@ -598,6 +600,12 @@ pub fn tridiag_solve(
   r : Array[Double],
 ) -> Array[Double] raise {
   let n = b.length()
+  if n == 0 {
+    raise @types.OwlError::InvalidArgument("tridiag_solve: empty system")
+  }
+  if a.length() < n || c.length() < n || r.length() < n {
+    raise @types.OwlError::InvalidArgument("tridiag_solve: array length mismatch")
+  }
   let x = Array::make(n, 0.0)
   let gam = Array::make(n, 0.0)
   let mut bet = b[0]

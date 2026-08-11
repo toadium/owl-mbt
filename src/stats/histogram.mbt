@@ -190,7 +190,7 @@ pub fn hist_weighted_nonuniform(
 
 ///|
 /// 从排序数组生成均匀分箱边界。
-fn make_uniform_bins_from_sorted(n : Int, x : Array[Double]) -> Array[Double] {
+fn make_uniform_bins_from_sorted(n : Int, x : Array[Double]) -> Array[Double] raise {
   let (bmin, bmax) = minmax(x)
   let db = (bmax - bmin) / n.to_double()
   let nbins = n + 1
