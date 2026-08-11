@@ -403,3 +403,35 @@ test "scenario: PRNG reproducibility" {
   @test.assert_eq(v1, v3)
   @test.assert_eq(v2, v4)
 }
+
+///|
+/// T111: sort then argsort gives sorted order
+test "invariance: sort-argsort relation" {
+  let x = [3.0, 1.0, 4.0, 1.0, 5.0, 9.0, 2.0, 6.0]
+  let s = sort(x)
+  let idx = argsort(x)
+  // argsort indices should produce sorted array
+  for i in 0..<x.length() {
+    @test.assert_eq(s[i], x[idx[i]])
+  }
+}
+
+///|
+/// T111: sort is idempotent (sort(sort(x)) == sort(x))
+test "invariance: sort idempotent" {
+  let x = [3.0, 1.0, 4.0, 1.0, 5.0]
+  let s1 = sort(x)
+  let s2 = sort(s1)
+  for i in 0..<x.length() {
+    @test.assert_eq(s1[i], s2[i])
+  }
+}
+
+///|
+/// T111: minmax matches min and max individually
+test "invariance: minmax matches min/max" {
+  let x = [3.0, 1.0, 4.0, 1.0, 5.0, 9.0, 2.0, 6.0]
+  let (mn, mx) = minmax(x)
+  @test.assert_eq(mn, min(x))
+  @test.assert_eq(mx, max(x))
+}
