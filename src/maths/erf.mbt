@@ -19,11 +19,15 @@ pub fn erf(x : Double) -> Double {
 }
 
 ///|
+/// 互补误差函数。注意：对大正 x 精度丧失（因 1.0 - erf(x) 的减法抵消）。
+/// 对 x > 5 建议使用 erfcx 或替代实现。
 pub fn erfc(x : Double) -> Double {
   1.0 - erf(x)
 }
 
 ///|
+/// 缩放互补误差函数 erfcx(x) = exp(x^2) * erfc(x)。
+/// 注意：对大正 x 精度丧失（因 erfc 的精度问题传递）。
 pub fn erfcx(x : Double) -> Double {
   @math.exp(x * x) * erfc(x)
 }

@@ -56,3 +56,7 @@ pub let max_float64 : Double = 1.7976931348623157e308
 
 ///|
 pub let min_float64 : Double = -1.7976931348623157e308
+
+///|
+/// Minimum positive normal double (DBL_MIN ≈ 2.225e-308)
+pub let min_normal64 : Double = 2.2250738585072014e-308

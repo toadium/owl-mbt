@@ -7,8 +7,7 @@ pub fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
   let mut c = 0
   for i in 0..<(n - 1) {
     for j in (i + 1)..<n {
-      if i != j &&
-        ((x0[i] < x0[j] && x1[i] < x1[j]) || (x0[i] > x0[j] && x1[i] > x1[j])) {
+      if (x0[i] < x0[j] && x1[i] < x1[j]) || (x0[i] > x0[j] && x1[i] > x1[j]) {
         c += 1
       }
     }
@@ -22,8 +21,7 @@ pub fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
   let mut c = 0
   for i in 0..<(n - 1) {
     for j in (i + 1)..<n {
-      if i != j &&
-        ((x0[i] < x0[j] && x1[i] > x1[j]) || (x0[i] > x0[j] && x1[i] < x1[j])) {
+      if (x0[i] < x0[j] && x1[i] > x1[j]) || (x0[i] > x0[j] && x1[i] < x1[j]) {
         c += 1
       }
     }

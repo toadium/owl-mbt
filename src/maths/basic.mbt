@@ -137,7 +137,8 @@ pub fn ceil(x : Double) -> Double {
 }
 
 ///|
-/// 忠实移植 OCaml `round x = floor (x +. 0.5)`（非银行家舍入）
+/// 忠实移植 OCaml `round x = floor (x +. 0.5)`（非银行家舍入）。
+/// 注意：负半整数向上取整，如 round(-0.5) = 0, round(-1.5) = -1, round(-2.5) = -2。
 pub fn round(x : Double) -> Double {
   @math.floor(x + 0.5)
 }

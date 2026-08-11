@@ -6,22 +6,22 @@
 ///|
 /// 二进制快速幂辅助。用于 powmod，f 为 mulmod（raise）。
 fn _binary_exp(
-  a : Int,
-  b : Int,
+  exp : Int,
+  base : Int,
   m : Int,
   f : (Int, Int, Int) -> Int raise @types.OwlError,
   id : Int,
 ) -> Int raise @types.OwlError {
   let mut r = id
-  let mut a = a
-  let mut b = b
-  while a > 0 {
-    if (a & 1) == 1 {
-      r = f(r, b, m)
+  let mut exp = exp
+  let mut base = base
+  while exp > 0 {
+    if (exp & 1) == 1 {
+      r = f(r, base, m)
     }
-    a = a >> 1
-    if a > 0 {
-      b = f(b, b, m)
+    exp = exp >> 1
+    if exp > 0 {
+      base = f(base, base, m)
     }
   }
   r

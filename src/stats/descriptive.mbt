@@ -22,6 +22,7 @@ fn _get_mean(m : Double?, x : Array[Double]) -> Double {
 
 ///|
 /// 方差。移植自 owl_base_stats.ml var。OCaml ?mean → MoonBit Double? 参数。
+/// 注意：单元素数组时分母为 1（而非 n-1=0），与 OCaml 行为一致但偏离统计惯例。
 pub fn variance(mean : Double?, x : Array[Double]) -> Double {
   let m = _get_mean(mean, x)
   let mut t = 0.0
@@ -125,4 +126,6 @@ pub fn cov(
     t += d0 * d1
   }
   t / n0.to_double()
+  // Note: uses population covariance (divisor n), while variance uses
+  // sample variance (divisor n-1). This matches the OCaml source.
 }

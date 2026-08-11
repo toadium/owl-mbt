@@ -39,18 +39,7 @@ pub fn std_gaussian_rvs() -> Double {
 ///|
 /// 正态分布 N(mu, sigma^2)。移植自 owl_base_stats_dist_gaussian.ml
 pub fn gaussian_rvs(mu : Double, sigma : Double) -> Double {
-  if _gauss_case.val {
-    _gauss_case.val = false
-    mu + sigma * _gauss_z1.val
-  } else {
-    _gauss_case.val = true
-    let u1 = rand01_exclusive()
-    let u2 = rand01_exclusive()
-    let r = (-2.0 * @math.ln(u1)).sqrt()
-    let z0 = r * @math.cos(2.0 * @const.pi * u2)
-    _gauss_z1.val = r * @math.sin(2.0 * @const.pi * u2)
-    mu + sigma * z0
-  }
+  mu + sigma * std_gaussian_rvs()
 }
 
 ///|

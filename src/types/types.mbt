@@ -13,7 +13,7 @@ pub(all) enum Index {
   I(Int)
   L(Array[Int])
   R(Array[Int])
-} derive(Debug)
+} derive(Debug, Eq)
 
 ///|
 /// 卷积/池化填充模式（移植自 owl_types_common.ml:padding）
