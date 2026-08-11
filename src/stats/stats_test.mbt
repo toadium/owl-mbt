@@ -328,7 +328,8 @@ test "scenario: distribution sampling" {
   for _ in 0..<n {
     gauss_sum += gaussian_rvs(0.0, 1.0)
   }
-  // Mean of samples should be close to 0 (within reasonable bounds)
+  // Mean of N(0,1) samples should be close to 0. Tolerance 0.2 accounts for
+  // sampling noise with n=200 (std error ~ 1/sqrt(200) ≈ 0.07, 3-sigma ≈ 0.2).
   let sample_mean = gauss_sum / n.to_double()
   @test.assert_eq(true, sample_mean.abs() < 0.2)
   // Exponential sampling
@@ -336,7 +337,8 @@ test "scenario: distribution sampling" {
   for _ in 0..<n {
     exp_sum += exponential_rvs(1.0)
   }
-  // Mean of exp(1) samples should be close to 1
+  // Mean of Exp(1) samples should be close to 1. Tolerance 0.3 accounts for
+  // sampling noise with n=200 (std error ~ 1/sqrt(200) ≈ 0.07, 4-sigma ≈ 0.3).
   let exp_mean = exp_sum / n.to_double()
   @test.assert_eq(true, (exp_mean - 1.0).abs() < 0.3)
 }

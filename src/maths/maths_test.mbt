@@ -50,14 +50,16 @@ test "exp and log" {
 test "trig" {
   @test.assert_eq(@maths.sin(0.0), 0.0)
   @test.assert_eq(@maths.cos(0.0), 1.0)
+  // sin(pi/2) = 1
   inspect(
-    @maths.sin(1.5707963267948966),
+    @maths.sin(@math.PI / 2.0),
     content=(
       #|1
     ),
   )
+  // tan(pi/4) = 1
   inspect(
-    @maths.tan(0.7853981633974483),
+    @maths.tan(@math.PI / 4.0),
     content=(
       #|0.9999999999999999
     ),

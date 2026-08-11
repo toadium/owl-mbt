@@ -22,7 +22,8 @@ pub fn mapi(f : (Int, Double) -> Double, x : Ndarray) -> Ndarray {
 }
 
 ///|
-/// Map elements.
+/// Map elements: apply `f` to each element, returning a new ndarray.
+/// Same as `map_elem` but with argument order `(f, x)`.
 pub fn map(f : (Double) -> Double, x : Ndarray) -> Ndarray {
   let data = FixedArray::makei(x.data.length(), fn(i) { f(x.data[i]) })
   { shape: x.shape.copy(), data }

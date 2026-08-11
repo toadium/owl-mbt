@@ -117,7 +117,9 @@ pub fn ones(shape : Array[Int]) -> Ndarray {
 }
 
 ///|
-/// Create an ndarray using a 1D index-based init function.
+/// Create an ndarray using a 1D flat-index init function.
+/// `f(i)` receives the flat index [0, numel). Prefer this over `init_nd`
+/// when the n-dimensional index is not needed (faster: avoids index decomposition).
 pub fn from_fn(shape : Array[Int], f : (Int) -> Double) -> Ndarray {
   let n = _numel_shape(shape)
   let data = FixedArray::makei(n, f)
@@ -126,6 +128,8 @@ pub fn from_fn(shape : Array[Int], f : (Int) -> Double) -> Ndarray {
 
 ///|
 /// Create an ndarray using an n-dimensional index-based init function.
+/// `f(idx)` receives the multi-dimensional index array. Slower than `from_fn`
+/// due to index decomposition. Use when the n-d index is needed.
 pub fn init_nd(shape : Array[Int], f : (Array[Int]) -> Double) -> Ndarray {
   let n = _numel_shape(shape)
   let st = calc_strides(shape)

@@ -41,6 +41,7 @@ pub fn std(mean : Double?, x : Array[Double]) -> Double {
 }
 
 ///|
+/// Standard error of the mean: std / sqrt(n).
 pub fn sem(mean : Double?, x : Array[Double]) -> Double {
   let s = std(mean, x)
   let n = x.length().to_double()
@@ -48,6 +49,7 @@ pub fn sem(mean : Double?, x : Array[Double]) -> Double {
 }
 
 ///|
+/// Absolute deviation: mean of |x_i - mean|.
 pub fn absdev(mean : Double?, x : Array[Double]) -> Double {
   let m = _get_mean(mean, x)
   let mut t = 0.0

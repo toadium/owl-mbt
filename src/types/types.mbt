@@ -9,6 +9,7 @@ pub(all) enum Number {
 
 ///|
 /// 切片索引类型（移植自 owl_types_common.ml:index）
+/// I(idx) — single index; L(list) — list of indices; R(range) — range of indices.
 pub(all) enum Index {
   I(Int)
   L(Array[Int])
