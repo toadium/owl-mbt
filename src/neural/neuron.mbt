@@ -8,6 +8,10 @@ fn _array_prod(arr : Array[Int]) -> Int {
 }
 
 ///|
+/// Calculate (fan_in, fan_out) for weight initialisation.
+/// For 2D weights: (rows, cols). For 3-5D weights (conv kernels): includes
+/// receptive field. For 1D or >=6D weights: falls back to (sqrt(prod), sqrt(prod))
+/// heuristic which may not be meaningful.
 fn calc_fans(s : Array[Int]) -> (Double, Double) {
   let l = s.length()
   if l == 2 {
@@ -100,17 +104,21 @@ fn _min_scalar(x : @algodiff.T, s : Double) -> @algodiff.T raise {
       @algodiff.pack_arr(
         @ndarray.map_elem(arr, fn(v) { if v < s { v } else { s } }),
       )
-    _ => x
+    // min(x, s) = x - relu(x - s), differentiable through AD
+    _ => @algodiff.sub(x, @algodiff.relu(@algodiff.sub(x, @algodiff.pack_flt(s))))
   }
 }
 
 ///|
-pub fn input_create(inputs : Array[Int]) -> InputNeuron {
+fn input_create(inputs : Array[Int]) -> InputNeuron {
   { in_shape: Ref(inputs.copy()), out_shape: Ref(inputs.copy()) }
 }
 
 ///|
-pub fn linear_create(outputs : Int, init_typ : InitTyp) -> LinearNeuron {
+/// Create a Linear neuron with placeholder [0,0] weights.
+/// Weights are reallocated with correct shape by `init_neuron`/`init_network`.
+/// Calling `run` without `init_network` will produce shape errors.
+fn linear_create(outputs : Int, init_typ : InitTyp) -> LinearNeuron {
   {
     w: Ref(@algodiff.pack_arr(@ndarray.zeros([0, 0]))),
     b: Ref(@algodiff.pack_arr(@ndarray.zeros([0, 0]))),
@@ -121,7 +129,7 @@ pub fn linear_create(outputs : Int, init_typ : InitTyp) -> LinearNeuron {
 }
 
 ///|
-pub fn linear_nobias_create(
+fn linear_nobias_create(
   outputs : Int,
   init_typ : InitTyp,
 ) -> LinearNoBiasNeuron {
@@ -134,37 +142,39 @@ pub fn linear_nobias_create(
 }
 
 ///|
-pub fn activation_create(typ : ActivationTyp) -> ActivationNeuron {
+fn activation_create(typ : ActivationTyp) -> ActivationNeuron {
   { activation: typ, in_shape: Ref([]), out_shape: Ref([]) }
 }
 
 ///|
-pub fn flatten_create() -> FlattenNeuron {
+fn flatten_create() -> FlattenNeuron {
   { in_shape: Ref([]), out_shape: Ref([]) }
 }
 
 ///|
-pub fn reshape_create(shape : Array[Int]) -> ReshapeNeuron {
+fn reshape_create(shape : Array[Int]) -> ReshapeNeuron {
   { in_shape: Ref([]), out_shape: Ref(shape.copy()) }
 }
 
 ///|
-pub fn dropout_create(rate : Double) -> DropoutNeuron {
+fn dropout_create(rate : Double) -> DropoutNeuron {
   { rate, in_shape: Ref([]), out_shape: Ref([]) }
 }
 
 ///|
-pub fn add_create() -> AddNeuron {
+#warnings("-unused_value")
+fn add_create() -> AddNeuron {
   { in_shape: Ref([]), out_shape: Ref([]) }
 }
 
 ///|
-pub fn concatenate_create(axis : Int) -> ConcatenateNeuron {
+#warnings("-unused_value")
+fn concatenate_create(axis : Int) -> ConcatenateNeuron {
   { axis, in_shape: Ref([]), out_shape: Ref([]) }
 }
 
 ///|
-pub fn lambda_create(f : (@algodiff.T) -> @algodiff.T raise) -> LambdaNeuron {
+fn lambda_create(f : (@algodiff.T) -> @algodiff.T raise) -> LambdaNeuron {
   { lambda: f, in_shape: Ref([]), out_shape: Ref([]) }
 }
 
@@ -201,7 +211,10 @@ pub fn get_out_shape(n : Neuron) -> Array[Int] {
 }
 
 ///|
-pub fn connect(out_shapes : Array[Array[Int]], n : Neuron) -> Unit {
+/// Propagate output shapes to set input shapes of next layer.
+/// Note: for Linear/LinearNoBias, only the first dimension of the parent's
+/// output shape is used as in_shape. This assumes flattened 1D input.
+fn connect(out_shapes : Array[Array[Int]], n : Neuron) -> Unit {
   match n {
     Input(_) => ()
     Linear(l) => l.in_shape.val = [out_shapes[0][0]]
@@ -261,7 +274,7 @@ pub fn init_neuron(n : Neuron) -> Unit {
 }
 
 ///|
-pub fn mktag(t : Int, n : Neuron) -> Unit {
+fn mktag(t : Int, n : Neuron) -> Unit {
   match n {
     Linear(l) => {
       l.w.val = @algodiff.make_reverse(l.w.val, t)
@@ -273,7 +286,7 @@ pub fn mktag(t : Int, n : Neuron) -> Unit {
 }
 
 ///|
-pub fn mkpar(n : Neuron) -> Array[@algodiff.T] {
+fn mkpar(n : Neuron) -> Array[@algodiff.T] {
   match n {
     Linear(l) => [l.w.val, l.b.val]
     LinearNoBias(l) => [l.w.val]
@@ -282,7 +295,7 @@ pub fn mkpar(n : Neuron) -> Array[@algodiff.T] {
 }
 
 ///|
-pub fn mkpri(n : Neuron) -> Array[@algodiff.T] {
+fn mkpri(n : Neuron) -> Array[@algodiff.T] {
   match n {
     Linear(l) => [@algodiff.primal(l.w.val), @algodiff.primal(l.b.val)]
     LinearNoBias(l) => [@algodiff.primal(l.w.val)]
@@ -291,7 +304,7 @@ pub fn mkpri(n : Neuron) -> Array[@algodiff.T] {
 }
 
 ///|
-pub fn mkadj(n : Neuron) -> Array[@algodiff.T] raise {
+fn mkadj(n : Neuron) -> Array[@algodiff.T] raise {
   match n {
     Linear(l) => [@algodiff.adjval(l.w.val), @algodiff.adjval(l.b.val)]
     LinearNoBias(l) => [@algodiff.adjval(l.w.val)]
@@ -320,7 +333,7 @@ pub fn run_neuron(input : Array[@algodiff.T], n : Neuron) -> @algodiff.T raise {
     Activation(l) => run_activation(input[0], l.activation)
     Flatten(_) => @algodiff.flatten(input[0])
     Reshape(l) => @algodiff.reshape(input[0], l.out_shape.val)
-    Dropout(_) => input[0]
+    Dropout(_) => input[0] // Not implemented: training-mode dropout is a no-op
     Add(_) => {
       let mut acc = input[0]
       for i in 1..<input.length() {

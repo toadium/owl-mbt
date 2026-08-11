@@ -37,15 +37,19 @@ pub let sqrtpi : Double = 1.772453850905516027298167483341145182
 pub let pi : Double = 3.141592653589793238462643383279502884
 
 ///|
+/// 2*pi (not pi/2 — see pi_2 for pi divided by 2)
 pub let pi2 : Double = 6.283185307179586476925286766559005768
 
 ///|
+/// 4*pi (not pi/4 — see pi_4 for pi divided by 4)
 pub let pi4 : Double = 12.56637061435917295385057353311801153
 
 ///|
+/// pi/2 (not 2*pi — see pi2 for pi multiplied by 2)
 pub let pi_2 : Double = 1.570796326794896619231321691639751442
 
 ///|
+/// pi/4 (not 4*pi — see pi4 for pi multiplied by 4)
 pub let pi_4 : Double = 0.785398163397448309615660845819875721
 
 ///|
@@ -56,3 +60,7 @@ pub let max_float64 : Double = 1.7976931348623157e308
 
 ///|
 pub let min_float64 : Double = -1.7976931348623157e308
+
+///|
+/// Minimum positive normal double (DBL_MIN ≈ 2.225e-308)
+pub let min_normal64 : Double = 2.2250738585072014e-308

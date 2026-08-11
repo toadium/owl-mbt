@@ -2,13 +2,12 @@
 /// 排序、秩、极值。移植自 owl_base_stats.ml 第 180-276 行。
 
 ///|
-pub fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
+fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
   let n = x0.length()
   let mut c = 0
   for i in 0..<(n - 1) {
     for j in (i + 1)..<n {
-      if i != j &&
-        ((x0[i] < x0[j] && x1[i] < x1[j]) || (x0[i] > x0[j] && x1[i] > x1[j])) {
+      if (x0[i] < x0[j] && x1[i] < x1[j]) || (x0[i] > x0[j] && x1[i] > x1[j]) {
         c += 1
       }
     }
@@ -17,13 +16,12 @@ pub fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
 }
 
 ///|
-pub fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
+fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
   let n = x0.length()
   let mut c = 0
   for i in 0..<(n - 1) {
     for j in (i + 1)..<n {
-      if i != j &&
-        ((x0[i] < x0[j] && x1[i] > x1[j]) || (x0[i] > x0[j] && x1[i] < x1[j])) {
+      if (x0[i] < x0[j] && x1[i] > x1[j]) || (x0[i] > x0[j] && x1[i] < x1[j]) {
         c += 1
       }
     }
@@ -32,7 +30,12 @@ pub fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
 }
 
 ///|
-pub fn kendall_tau(x0 : Array[Double], x1 : Array[Double]) -> Double {
+pub fn kendall_tau(x0 : Array[Double], x1 : Array[Double]) -> Double raise {
+  if x0.length() < 2 {
+    raise @types.OwlError::InvalidArgument(
+      "kendall_tau: need at least 2 elements",
+    )
+  }
   let a = concordant(x0, x1).to_double()
   let b = discordant(x0, x1).to_double()
   let n = x0.length().to_double()
@@ -157,7 +160,10 @@ pub fn max_i(x : Array[Double]) -> Int raise {
 }
 
 ///|
-pub fn min(x : Array[Double]) -> Double {
+pub fn min(x : Array[Double]) -> Double raise {
+  if x.length() == 0 {
+    raise @types.OwlError::InvalidArgument("min: empty array")
+  }
   let mut result = x[0]
   for i in 1..<x.length() {
     if x[i] < result {
@@ -168,7 +174,10 @@ pub fn min(x : Array[Double]) -> Double {
 }
 
 ///|
-pub fn max(x : Array[Double]) -> Double {
+pub fn max(x : Array[Double]) -> Double raise {
+  if x.length() == 0 {
+    raise @types.OwlError::InvalidArgument("max: empty array")
+  }
   let mut result = x[0]
   for i in 1..<x.length() {
     if x[i] > result {
@@ -179,7 +188,10 @@ pub fn max(x : Array[Double]) -> Double {
 }
 
 ///|
-pub fn minmax(x : Array[Double]) -> (Double, Double) {
+pub fn minmax(x : Array[Double]) -> (Double, Double) raise {
+  if x.length() == 0 {
+    raise @types.OwlError::InvalidArgument("minmax: empty array")
+  }
   let mut mn = x[0]
   let mut mx = x[0]
   for a in x {

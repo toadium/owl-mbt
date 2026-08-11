@@ -88,7 +88,9 @@ pub fn get_slice(index_list : Array[Array[Int]], x : T) -> T raise {
 }
 
 ///|
-/// Set a slice of the array (helper for get_slice backward)
+/// Set a slice of the array (helper for get_slice backward).
+/// Only handles primal types (F and Arr). For DF/DR (which should not appear
+/// as adjoint values in normal usage), the value is returned unchanged.
 fn set_slice(
   _full_slice : Array[Array[Int]],
   index_list : Array[Array[Int]],

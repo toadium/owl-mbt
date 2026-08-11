@@ -328,7 +328,8 @@ test "scenario: distribution sampling" {
   for _ in 0..<n {
     gauss_sum += gaussian_rvs(0.0, 1.0)
   }
-  // Mean of samples should be close to 0 (within reasonable bounds)
+  // Mean of N(0,1) samples should be close to 0. Tolerance 0.2 accounts for
+  // sampling noise with n=200 (std error ~ 1/sqrt(200) ≈ 0.07, 3-sigma ≈ 0.2).
   let sample_mean = gauss_sum / n.to_double()
   @test.assert_eq(true, sample_mean.abs() < 0.2)
   // Exponential sampling
@@ -336,7 +337,8 @@ test "scenario: distribution sampling" {
   for _ in 0..<n {
     exp_sum += exponential_rvs(1.0)
   }
-  // Mean of exp(1) samples should be close to 1
+  // Mean of Exp(1) samples should be close to 1. Tolerance 0.3 accounts for
+  // sampling noise with n=200 (std error ~ 1/sqrt(200) ≈ 0.07, 4-sigma ≈ 0.3).
   let exp_mean = exp_sum / n.to_double()
   @test.assert_eq(true, (exp_mean - 1.0).abs() < 0.3)
 }
@@ -402,4 +404,36 @@ test "scenario: PRNG reproducibility" {
   // Same seed → same sequence
   @test.assert_eq(v1, v3)
   @test.assert_eq(v2, v4)
+}
+
+///|
+/// T111: sort then argsort gives sorted order
+test "invariance: sort-argsort relation" {
+  let x = [3.0, 1.0, 4.0, 1.0, 5.0, 9.0, 2.0, 6.0]
+  let s = sort(x)
+  let idx = argsort(x)
+  // argsort indices should produce sorted array
+  for i in 0..<x.length() {
+    @test.assert_eq(s[i], x[idx[i]])
+  }
+}
+
+///|
+/// T111: sort is idempotent (sort(sort(x)) == sort(x))
+test "invariance: sort idempotent" {
+  let x = [3.0, 1.0, 4.0, 1.0, 5.0]
+  let s1 = sort(x)
+  let s2 = sort(s1)
+  for i in 0..<x.length() {
+    @test.assert_eq(s1[i], s2[i])
+  }
+}
+
+///|
+/// T111: minmax matches min and max individually
+test "invariance: minmax matches min/max" {
+  let x = [3.0, 1.0, 4.0, 1.0, 5.0, 9.0, 2.0, 6.0]
+  let (mn, mx) = minmax(x)
+  @test.assert_eq(mn, min(x))
+  @test.assert_eq(mx, max(x))
 }

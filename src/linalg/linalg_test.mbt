@@ -271,3 +271,108 @@ test "scenario: matrix properties check" {
   @test.assert_eq(true, is_diag(diag_mat))
   @test.assert_eq(true, (trace(diag_mat) - 12.0).abs() < 1.0e-10)
 }
+
+///|
+test "boundary: is_diag single-pass" {
+  // Non-diagonal matrix
+  let nd = @ndarray.of_arrays([[1.0, 2.0], [3.0, 4.0]])
+  @test.assert_eq(false, is_diag(nd))
+  // 3x3 diagonal
+  let d3 = @ndarray.of_arrays([[1.0, 0.0, 0.0], [0.0, 2.0, 0.0], [0.0, 0.0, 3.0]])
+  @test.assert_eq(true, is_diag(d3))
+  // 3x3 non-diagonal (off-diagonal in lower triangle)
+  let nd3 = @ndarray.of_arrays([[1.0, 0.0, 0.0], [0.5, 2.0, 0.0], [0.0, 0.0, 3.0]])
+  @test.assert_eq(false, is_diag(nd3))
+}
+
+///|
+test "boundary: inv singular matrix raises" {
+  let singular = @ndarray.of_arrays([[1.0, 2.0], [2.0, 4.0]])
+  let raised = try {
+    let _ = inv(singular)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
+
+///|
+test "boundary: chol non-positive-definite raises" {
+  let neg_def = @ndarray.of_arrays([[-1.0, 0.0], [0.0, -1.0]])
+  let raised = try {
+    let _ = chol(neg_def)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
+
+///|
+test "boundary: chol upper=true" {
+  let spd = @ndarray.of_arrays([[4.0, 2.0], [2.0, 3.0]])
+  let upper = chol(spd, upper=true)
+  let lower = chol(spd, upper=false)
+  // upper should be transpose of lower
+  @test.assert_eq(true, (upper.data[0] - lower.data[0]).abs() < 1.0e-10)
+  @test.assert_eq(true, (upper.data[1] - lower.data[2]).abs() < 1.0e-10)
+  @test.assert_eq(true, (upper.data[2] - lower.data[1]).abs() < 1.0e-10)
+  @test.assert_eq(true, (upper.data[3] - lower.data[3]).abs() < 1.0e-10)
+}
+
+///|
+test "boundary: det singular matrix returns 0" {
+  let singular = @ndarray.of_arrays([[1.0, 2.0], [2.0, 4.0]])
+  let d = det(singular)
+  @test.assert_eq(true, d.abs() < 1.0e-10)
+}
+
+///|
+test "boundary: non-square matrix raises" {
+  let rect = @ndarray.of_arrays([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+  // det
+  let r1 = try {
+    let _ = det(rect)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r1)
+  // inv
+  let r2 = try {
+    let _ = inv(rect)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r2)
+  // lu
+  let r3 = try {
+    let _ = lu(rect)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r3)
+  // chol
+  let r4 = try {
+    let _ = chol(rect)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r4)
+}
+
+///|
+test "boundary: rank non-square and zero matrix" {
+  // Non-square matrix 2x3
+  let rect = @ndarray.of_arrays([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+  let r_rect = rank(rect)
+  @test.assert_eq(true, r_rect >= 1 && r_rect <= 2)
+  // Zero matrix
+  let zero = @ndarray.of_arrays([[0.0, 0.0], [0.0, 0.0]])
+  let r_zero = rank(zero)
+  @test.assert_eq(0, r_zero)
+}

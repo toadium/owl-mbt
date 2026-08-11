@@ -1,5 +1,6 @@
 ///|
 /// Check if a matrix is upper triangular.
+/// Uses exact floating-point comparison (`!= 0.0`) for structural zeros.
 pub fn is_triu(x : @ndarray.Ndarray) -> Bool {
   let m = x.shape[0]
   let n = x.shape[1]
@@ -15,6 +16,7 @@ pub fn is_triu(x : @ndarray.Ndarray) -> Bool {
 
 ///|
 /// Check if a matrix is lower triangular.
+/// Uses exact floating-point comparison (`!= 0.0`) for structural zeros.
 pub fn is_tril(x : @ndarray.Ndarray) -> Bool {
   let m = x.shape[0]
   let n = x.shape[1]
@@ -33,6 +35,8 @@ pub fn is_tril(x : @ndarray.Ndarray) -> Bool {
 
 ///|
 /// Check if a matrix is symmetric.
+/// Uses exact floating-point comparison. For numerical matrices with rounding
+/// errors, consider a tolerance-based check.
 pub fn is_symmetric(x : @ndarray.Ndarray) -> Bool {
   let m = x.shape[0]
   let n = x.shape[1]
@@ -51,8 +55,20 @@ pub fn is_symmetric(x : @ndarray.Ndarray) -> Bool {
 
 ///|
 /// Check if a matrix is diagonal.
+/// Single-pass scan of all off-diagonal elements (more efficient than
+/// `is_triu(x) && is_tril(x)` which scans the matrix twice).
+/// Uses exact floating-point comparison for structural zeros.
 pub fn is_diag(x : @ndarray.Ndarray) -> Bool {
-  is_triu(x) && is_tril(x)
+  let m = x.shape[0]
+  let n = x.shape[1]
+  for i in 0..<m {
+    for j in 0..<n {
+      if i != j && x.data[i * n + j] != 0.0 {
+        return false
+      }
+    }
+  }
+  true
 }
 
 ///|
@@ -72,6 +88,11 @@ pub fn trace(x : @ndarray.Ndarray) -> Double {
 /// LU decomposition with partial pivoting.
 /// Returns (L, U, piv) where L*U = A[piv,:].
 /// L is lower triangular with unit diagonal, U is upper triangular.
+///
+/// Note: for singular matrices, a zero pivot is replaced with `1e-40` and
+/// the decomposition continues, producing large numerical values. This
+/// matches the OCaml source behaviour. Use `det` (returns 0.0) or `inv`
+/// (raises) for reliable singularity detection.
 pub fn lu(
   a : @ndarray.Ndarray,
 ) -> (@ndarray.Ndarray, @ndarray.Ndarray, Array[Int]) raise {
@@ -214,6 +235,10 @@ pub fn det(a : @ndarray.Ndarray) -> Double raise {
 
 ///|
 /// Log determinant via LU decomposition.
+/// Raises if the matrix is exactly singular (a full zero row is encountered).
+/// Note: numerically singular matrices (zero pivot but no full zero row) do
+/// not raise; the tiny pivot `1e-40` contributes `ln(1e-40) ≈ -92.1` to the
+/// result, producing a large negative value.
 pub fn logdet(a : @ndarray.Ndarray) -> Double raise {
   let n = a.shape[0]
   if a.shape[1] != n {
@@ -403,13 +428,9 @@ pub fn linsolve_lu(
   }
   let x_data = FixedArray::make(n * m, 0.0)
   for col in 0..<m {
-    let b_col = Array::make(n, 0.0)
-    for i in 0..<n {
-      b_col[i] = b.data[i * m + col]
-    }
     let x_col = Array::make(n, 0.0)
     for i in 0..<n {
-      x_col[i] = b_col[i]
+      x_col[i] = b.data[i * m + col]
     }
     let mut ii = -1
     for i in 0..<n {
@@ -443,7 +464,9 @@ pub fn linsolve_lu(
 
 ///|
 /// Cholesky decomposition: A = L * L^T for symmetric positive definite A.
-/// Returns lower triangular L.
+/// Returns lower triangular L (or upper triangular L^T if `upper=true`).
+/// Note: does not verify symmetry. Only the lower triangle of A is used.
+/// For non-symmetric input, the result corresponds to the symmetrised matrix.
 pub fn chol(
   a : @ndarray.Ndarray,
   upper? : Bool = false,
@@ -491,7 +514,7 @@ pub fn chol(
 pub fn qr(
   a : @ndarray.Ndarray,
   thin? : Bool = false,
-) -> (@ndarray.Ndarray, @ndarray.Ndarray) {
+) -> (@ndarray.Ndarray, @ndarray.Ndarray) raise {
   let m = a.shape[0]
   let n = a.shape[1]
   let r_data = FixedArray::make(m * n, 0.0)
@@ -505,7 +528,9 @@ pub fn qr(
     q_data[i * m + i] = 1.0
   }
   let k_max = if m < n { m } else { n }
-  let _ = thin
+  if thin {
+    raise @types.OwlError::NotImplemented("qr: thin QR not yet supported")
+  }
   for k in 0..<k_max {
     let mut norm = 0.0
     for i in k..<m {
@@ -516,6 +541,8 @@ pub fn qr(
       continue
     }
     let alpha = if r_data[k * n + k] >= 0.0 { -norm } else { norm }
+    // Note: v is allocated fresh each iteration (min(m,n) allocations).
+    // Could be hoisted out of the loop and reused for performance.
     let v = Array::make(m, 0.0)
     v[k] = r_data[k * n + k] - alpha
     for i in (k + 1)..<m {
@@ -550,18 +577,12 @@ pub fn qr(
       }
     }
   }
-  let q_result = FixedArray::make(m * m, 0.0)
-  for i in 0..<m {
-    for j in 0..<m {
-      q_result[i * m + j] = q_data[i * m + j]
-    }
-  }
-  (@ndarray.from_data([m, m], q_result), @ndarray.from_data([m, n], r_data))
+  (@ndarray.from_data([m, m], q_data), @ndarray.from_data([m, n], r_data))
 }
 
 ///|
 /// Matrix rank via QR decomposition.
-pub fn rank(a : @ndarray.Ndarray, tol? : Double = -1.0) -> Int {
+pub fn rank(a : @ndarray.Ndarray, tol? : Double = -1.0) -> Int raise {
   let m = a.shape[0]
   let n = a.shape[1]
   let (_, r) = qr(a)
@@ -598,6 +619,12 @@ pub fn tridiag_solve(
   r : Array[Double],
 ) -> Array[Double] raise {
   let n = b.length()
+  if n == 0 {
+    raise @types.OwlError::InvalidArgument("tridiag_solve: empty system")
+  }
+  if a.length() < n || c.length() < n || r.length() < n {
+    raise @types.OwlError::InvalidArgument("tridiag_solve: array length mismatch")
+  }
   let x = Array::make(n, 0.0)
   let gam = Array::make(n, 0.0)
   let mut bet = b[0]

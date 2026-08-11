@@ -1,5 +1,9 @@
 ///|
 /// 基础算术与数学函数测试。golden values 来自 OCaml owl-base 参考行为。
+fn approx_eq(actual : Double, expected : Double, eps? : Double = 1.0e-12) -> Unit raise {
+  @test.assert_eq(true, (actual - expected).abs() < eps)
+}
+
 test "basic arithmetic" {
   @test.assert_eq(@maths.add(1.0, 2.0), 3.0)
   @test.assert_eq(@maths.sub(5.0, 3.0), 2.0)
@@ -46,14 +50,16 @@ test "exp and log" {
 test "trig" {
   @test.assert_eq(@maths.sin(0.0), 0.0)
   @test.assert_eq(@maths.cos(0.0), 1.0)
+  // sin(pi/2) = 1
   inspect(
-    @maths.sin(1.5707963267948966),
+    @maths.sin(@math.PI / 2.0),
     content=(
       #|1
     ),
   )
+  // tan(pi/4) = 1
   inspect(
-    @maths.tan(0.7853981633974483),
+    @maths.tan(@math.PI / 4.0),
     content=(
       #|0.9999999999999999
     ),
@@ -184,6 +190,9 @@ test "helpers: predicates" {
   @test.assert_eq(@maths.is_pow2(8), true)
   @test.assert_eq(@maths.is_pow2(6), false)
   @test.assert_eq(@maths.is_pow2(1), true)
+  @test.assert_eq(@maths.is_pow2(0), false)
+  @test.assert_eq(@maths.is_pow2(-1), false)
+  @test.assert_eq(@maths.is_pow2(-2147483648), false)
   @test.assert_eq(@maths.is_int(3.0), true)
   @test.assert_eq(@maths.is_int(3.5), false)
   @test.assert_eq(@maths.is_sqr(9), true)
@@ -226,7 +235,7 @@ test "basic: pow fmod atan2 hypot" {
 ///|
 test "basic: softsign softplus cbrt" {
   @test.assert_eq(@maths.softsign(1.0), 0.5)
-  @test.assert_eq(@maths.softplus(0.0), 0.6931471805599453)
+  approx_eq(@maths.softplus(0.0), @math.ln(2.0))
   @test.assert_eq(@maths.cbrt(8.0), 2.0)
   @test.assert_eq(@maths.cbrt(-27.0), -3.0)
 }
@@ -235,15 +244,15 @@ test "basic: softsign softplus cbrt" {
 test "basic: exp2 exp10 expm1 log1p" {
   @test.assert_eq(@maths.exp2(3.0), 8.0)
   @test.assert_eq(@maths.exp10(2.0), 100.0)
-  @test.assert_eq(@maths.expm1(1.0), 1.718281828459045)
-  @test.assert_eq(@maths.log1p(1.0), 0.6931471805599453)
+  approx_eq(@maths.expm1(1.0), @math.exp(1.0) - 1.0)
+  approx_eq(@maths.log1p(1.0), @math.ln(2.0))
 }
 
 ///|
 test "basic: cot sec csc" {
-  @test.assert_eq(@maths.cot(0.7853981633974483), 1.0000000000000002)
+  approx_eq(@maths.cot(@math.PI / 4.0), 1.0)
   @test.assert_eq(@maths.sec(0.0), 1.0)
-  @test.assert_eq(@maths.csc(1.5707963267948966), 1.0)
+  approx_eq(@maths.csc(@math.PI / 2.0), 1.0)
 }
 
 ///|
@@ -251,9 +260,9 @@ test "basic: inverse trig" {
   @test.assert_eq(@maths.asin(0.0), 0.0)
   @test.assert_eq(@maths.acos(1.0), 0.0)
   @test.assert_eq(@maths.atan(0.0), 0.0)
-  @test.assert_eq(@maths.acot(0.0), 1.5707963267948966)
-  @test.assert_eq(@maths.asec(2.0), 1.0471975511965979)
-  @test.assert_eq(@maths.acsc(2.0), 0.5235987755982989)
+  approx_eq(@maths.acot(0.0), @math.PI / 2.0)
+  approx_eq(@maths.asec(2.0), @math.PI / 3.0)
+  approx_eq(@maths.acsc(2.0), @math.PI / 6.0)
 }
 
 ///|
@@ -261,9 +270,9 @@ test "basic: inverse hyperbolic" {
   @test.assert_eq(@maths.asinh(0.0), 0.0)
   @test.assert_eq(@maths.acosh(1.0), 0.0)
   @test.assert_eq(@maths.atanh(0.0), 0.0)
-  @test.assert_eq(@maths.acoth(2.0), 0.5493061443340548)
-  @test.assert_eq(@maths.asech(0.5), 1.3169578969248166)
-  @test.assert_eq(@maths.acsch(1.0), 0.881373587019543)
+  approx_eq(@maths.acoth(2.0), @math.ln(3.0) / 2.0)
+  approx_eq(@maths.asech(0.5), @math.acosh(2.0))
+  approx_eq(@maths.acsch(1.0), @math.asinh(1.0))
 }
 
 ///|
@@ -303,12 +312,12 @@ test "scenario: expit and logit are inverses" {
 }
 
 ///|
-test "scenario: sigmoid uses log (Owl behavior)" {
-  // Owl's sigmoid is defined as 1/(1+log(-x)), which differs from expit.
-  // Verify the faithful Owl port behavior: sigmoid(-1.0) = 1/(1+log(1)) = 1.0
-  @test.assert_eq(true, (sigmoid(-1.0) - 1.0).abs() < 1.0e-15)
-  // sigmoid and expit are NOT the same function in this port
-  @test.assert_eq(true, (sigmoid(-2.0) - expit(-2.0)).abs() > 0.01)
+test "scenario: sigmoid uses exp (standard)" {
+  // sigmoid is now standard 1/(1+exp(-x)), matching the derivative cp*(1-cp)
+  // sigmoid(-1.0) = 1/(1+exp(1)) ≈ 0.2689
+  approx_eq(sigmoid(-1.0), 1.0 / (1.0 + @math.exp(1.0)))
+  // sigmoid and expit are the same function
+  approx_eq(sigmoid(-2.0), expit(-2.0))
 }
 
 ///|

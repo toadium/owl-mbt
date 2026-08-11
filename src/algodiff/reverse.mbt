@@ -1,6 +1,12 @@
 ///|
 /// Reset adjoints in reverse mode.
 /// Traverses the computation graph and zeros out all adjoint values.
+///
+/// Must be paired with `reverse_push` (typically via `reverse_prop`).
+/// Calling `reverse_reset` multiple times without an intervening `reverse_push`
+/// will double-count `af` and `tracker`, breaking subsequent gradient
+/// propagation. Similarly, calling `reverse_push` multiple times without
+/// `reverse_reset` will drive `af` negative, preventing adjoint propagation.
 pub fn reverse_reset(x : T) -> Unit raise {
   let stack = [x]
   while stack.length() > 0 {
@@ -25,6 +31,9 @@ pub fn reverse_reset(x : T) -> Unit raise {
 ///|
 /// Push gradient in reverse mode.
 /// Propagates the gradient v through the computation graph starting from x.
+///
+/// Must be called after `reverse_reset` (typically via `reverse_prop`).
+/// See `reverse_reset` for pairing requirements.
 pub fn reverse_push(v : T, x : T) -> Unit raise {
   let stack : Array[(T, T)] = [(v, x)]
   while stack.length() > 0 {

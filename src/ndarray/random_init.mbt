@@ -1,6 +1,7 @@
 ///|
 /// Initialize an ndarray with a flat-index function.
 /// f receives the flat (row-major) index [0, n).
+/// Alias for `from_fn`; prefer `from_fn` for new code.
 pub fn init_flat(shape : Array[Int], f : (Int) -> Double) -> Ndarray {
   let n = _numel_shape(shape)
   let data = FixedArray::make(n, 0.0)

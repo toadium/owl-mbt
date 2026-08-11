@@ -1,7 +1,15 @@
 ///|
 /// Evaluate a single node given its input values.
 /// Returns the output ndarray.
-pub fn eval_node(
+///
+/// Note: many ops are passthrough (return `inputs[0]` unchanged) because their
+/// semantics are not yet implemented. These include: Tile, Repeat, Concatenate,
+/// Stack, Split, Draw, OneHot, ScalarPow, PowScalar, AddScalar..ScalarDiv,
+/// EltEqualScalar..EltGreaterEqualScalar, all Conv/Pool/UpSampling, RowNum,
+/// ColNum, Row, Rows, CopyRowTo, CopyColTo, Inv, Trace, ToRows, OfRows,
+/// FusedAdagrad, and several Prime variants. Calling these ops will silently
+/// return the first input rather than the correct result.
+fn eval_node(
   op : Op,
   inputs : Array[@ndarray.Ndarray],
 ) -> @ndarray.Ndarray raise {
@@ -53,6 +61,8 @@ pub fn eval_node(
     Asinh => @ndarray.asinh(inputs[0])
     Acosh => @ndarray.acosh(inputs[0])
     Atanh => @ndarray.atanh(inputs[0])
+    // Note: Min/Max/Sum ignore the (Bool, Int) axis parameters and always
+    // perform a global reduction.
     Min(_, _) => @ndarray.min(inputs[0])
     Max(_, _) => @ndarray.max(inputs[0])
     Sum(_, _) => @ndarray.sum(inputs[0])
@@ -171,6 +181,9 @@ fn _array_prod(arr : Array[Int]) -> Int {
 }
 
 ///|
+/// Reverse the element order of an ndarray.
+/// Note: directly accesses `x.data` assuming contiguous row-major layout.
+/// This bypasses ndarray's stride/shape abstraction.
 fn _reverse(x : @ndarray.Ndarray) -> @ndarray.Ndarray {
   let shape = @ndarray.shape(x)
   let n = @ndarray.numel(x)
@@ -185,7 +198,7 @@ pub fn eval_graph(graph : Graph) -> Unit raise {
   let topo = topological_sort(graph)
   for n in topo {
     if !is_assigned(n) {
-      let inputs = Array::makei(n.prev.val.length(), fn(i) {
+      let inputs = Array::makei(n.prev.val.length(), fn(i) raise {
         get_node_value(n.prev.val[i])
       })
       let result = eval_node(n.op.val, inputs)
@@ -198,7 +211,7 @@ pub fn eval_graph(graph : Graph) -> Unit raise {
 /// Evaluate the graph and return the output values.
 pub fn eval_outputs(graph : Graph) -> Array[@ndarray.Ndarray] raise {
   eval_graph(graph)
-  Array::makei(graph.output.val.length(), fn(i) {
+  Array::makei(graph.output.val.length(), fn(i) raise {
     get_node_value(graph.output.val[i])
   })
 }

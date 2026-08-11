@@ -1,6 +1,13 @@
 ///|
 /// Minimise f : x -> y w.r.t. x using gradient descent.
 /// Returns (state, optimised_x).
+///
+/// Limitations (faithfully ported from OCaml source):
+/// * Only supports single-parameter Full-batch gradient descent. The `params.batch`
+///   field is ignored and `batches_per_epoch` is hardcoded to 1.
+/// * The gradient from the previous iteration is reused for the parameter update,
+///   so the first iteration's update uses `g0` (the initial gradient) rather than
+///   recomputing at the current point. This matches the OCaml source behaviour.
 pub fn minimise_fun(
   params : Params,
   f : (@algodiff.T) -> @algodiff.T raise,
@@ -22,6 +29,9 @@ pub fn minimise_fun(
     let (loss_new, g_new) = @algodiff.grad_prime(optz_fun, xi)
     let loss_flt = @algodiff.unpack_flt(loss_new)
     state.stop = run_stopping(params.stopping, loss_flt)
+    if state.stop {
+      break
+    }
     if state.current_batch < state.loss.length() {
       state.loss[state.current_batch] = loss_new
     }

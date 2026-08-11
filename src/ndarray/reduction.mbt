@@ -10,7 +10,10 @@ pub fn sum_(x : Ndarray) -> Double {
 
 ///|
 /// Minimum element (scalar).
-pub fn min_(x : Ndarray) -> Double {
+pub fn min_(x : Ndarray) -> Double raise {
+  if x.data.length() == 0 {
+    raise @types.OwlError::InvalidArgument("min_: empty array")
+  }
   let mut m = x.data[0]
   for i in 1..<x.data.length() {
     if x.data[i] < m {
@@ -22,7 +25,10 @@ pub fn min_(x : Ndarray) -> Double {
 
 ///|
 /// Maximum element (scalar).
-pub fn max_(x : Ndarray) -> Double {
+pub fn max_(x : Ndarray) -> Double raise {
+  if x.data.length() == 0 {
+    raise @types.OwlError::InvalidArgument("max_: empty array")
+  }
   let mut m = x.data[0]
   for i in 1..<x.data.length() {
     if x.data[i] > m {
@@ -82,7 +88,7 @@ pub fn sum(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray {
 
 ///|
 /// Min along an axis.
-pub fn min(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray {
+pub fn min(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray raise {
   let ax = axis
   if ax < 0 {
     create([1], min_(x))
@@ -108,7 +114,7 @@ pub fn min(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray {
 
 ///|
 /// Max along an axis.
-pub fn max(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray {
+pub fn max(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray raise {
   let ax = axis
   if ax < 0 {
     create([1], max_(x))
@@ -134,7 +140,10 @@ pub fn max(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray {
 
 ///|
 /// Mean of all elements (scalar).
-pub fn mean_(x : Ndarray) -> Double {
+pub fn mean_(x : Ndarray) -> Double raise {
+  if x.data.length() == 0 {
+    raise @types.OwlError::InvalidArgument("mean_: empty array")
+  }
   sum_(x) / x.data.length().to_double()
 }
 

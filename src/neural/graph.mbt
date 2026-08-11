@@ -22,7 +22,7 @@ pub struct Network {
 
 ///|
 /// Create a new network.
-pub fn make_network(
+fn make_network(
   size : Int,
   roots : Array[Node],
   topo : Array[Node],
@@ -39,7 +39,7 @@ pub fn make_network(
 
 ///|
 /// Create a new node.
-pub fn make_node(
+fn make_node(
   prev : Array[Node],
   next : Array[Node],
   neuron : Neuron,
@@ -94,23 +94,24 @@ pub fn get_outputs(nn : Network) -> Array[Node] {
 
 ///|
 pub fn get_network(n : Node) -> Network {
-  n.network.val.outputs.val = [n]
   n.network.val
 }
 
 ///|
-pub fn collect_output(nodes : Array[Node]) -> Array[@algodiff.T] {
+pub fn collect_output(nodes : Array[Node]) -> Array[@algodiff.T] raise {
   let result = Array::make(nodes.length(), @algodiff.pack_flt(0.0))
   for i in 0..<nodes.length() {
     match nodes[i].output.val {
       Some(o) => result[i] = o
-      None => abort("collect_output: node has no output")
+      None => raise @types.OwlError::InvalidArgument("collect_output: node has no output")
     }
   }
   result
 }
 
 ///|
+/// Check if a node is in the array by name comparison.
+/// Note: relies on unique node names; potential issue if names conflict.
 fn _contains_node(arr : Array[Node], name : String) -> Bool {
   let mut found = false
   for n in arr {
@@ -132,7 +133,7 @@ fn connect_pair(prev : Node, next : Node) -> Unit {
 }
 
 ///|
-pub fn connect_to_parents(parents : Array[Node], child : Node) -> Unit {
+fn connect_to_parents(parents : Array[Node], child : Node) -> Unit {
   if parents.length() > 0 {
     let out_shapes = Array::makei(parents.length(), fn(i) {
       get_out_shape(parents[i].neuron.val)
@@ -173,24 +174,24 @@ pub fn init_network(nn : Network) -> Unit {
 }
 
 ///|
-pub fn mktag_network(t : Int, nn : Network) -> Unit {
+fn mktag_network(t : Int, nn : Network) -> Unit {
   for n in nn.topo.val {
     mktag(t, n.neuron.val)
   }
 }
 
 ///|
-pub fn mkpar_network(nn : Network) -> Array[Array[@algodiff.T]] {
+fn mkpar_network(nn : Network) -> Array[Array[@algodiff.T]] {
   Array::makei(nn.topo.val.length(), fn(i) { mkpar(nn.topo.val[i].neuron.val) })
 }
 
 ///|
-pub fn mkpri_network(nn : Network) -> Array[Array[@algodiff.T]] {
+fn mkpri_network(nn : Network) -> Array[Array[@algodiff.T]] {
   Array::makei(nn.topo.val.length(), fn(i) { mkpri(nn.topo.val[i].neuron.val) })
 }
 
 ///|
-pub fn mkadj_network(nn : Network) -> Array[Array[@algodiff.T]] raise {
+fn mkadj_network(nn : Network) -> Array[Array[@algodiff.T]] raise {
   Array::makei(nn.topo.val.length(), fn(i) raise {
     mkadj(nn.topo.val[i].neuron.val)
   })
@@ -204,6 +205,8 @@ pub fn update_network(nn : Network, us : Array[Array[@algodiff.T]]) -> Unit {
 }
 
 ///|
+/// Run forward pass. Note: assumes single-input single-output network.
+/// All Input nodes are bound to the same input x.
 pub fn run(x : @algodiff.T, nn : Network) -> @algodiff.T raise {
   for n in nn.topo.val {
     let input = match n.neuron.val {
@@ -216,7 +219,7 @@ pub fn run(x : @algodiff.T, nn : Network) -> @algodiff.T raise {
   let sink = nn.topo.val[nn.topo.val.length() - 1]
   match sink.output.val {
     Some(o) => o
-    None => abort("run: sink node has no output")
+    None => raise @types.OwlError::InvalidArgument("run: sink node has no output")
   }
 }
 
@@ -231,6 +234,9 @@ pub fn forward(
 }
 
 ///|
+/// Backward pass: propagate gradient from output y through the network.
+/// Note: uses scalar 1.0 as initial adjoint, assuming y is a scalar.
+/// For array outputs, the initial gradient should be a same-shaped ones array.
 pub fn backward(
   nn : Network,
   y : @algodiff.T,

@@ -9,11 +9,12 @@ pub(all) enum Number {
 
 ///|
 /// 切片索引类型（移植自 owl_types_common.ml:index）
+/// I(idx) — single index; L(list) — list of indices; R(range) — range of indices.
 pub(all) enum Index {
   I(Int)
   L(Array[Int])
   R(Array[Int])
-} derive(Debug)
+} derive(Debug, Eq)
 
 ///|
 /// 卷积/池化填充模式（移植自 owl_types_common.ml:padding）
@@ -24,6 +25,7 @@ pub(all) enum Padding {
 
 ///|
 /// 计算设备类型（移植自 owl_types_common.ml:device_type）
+/// Note: OpenCl and Cuda are not supported in pure MoonBit backend.
 pub(all) enum DeviceType {
   Cpu
   OpenCl

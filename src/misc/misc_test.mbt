@@ -217,24 +217,24 @@ test "dataframe_to_string" {
 ///|
 test "log_basic" {
   let logger = make_logger()
-  @test.assert_eq(true, shall_print(logger, level_info()))
-  @test.assert_eq(true, shall_print(logger, level_warn()))
-  @test.assert_eq(true, shall_print(logger, level_error()))
-  @test.assert_eq(true, shall_print(logger, level_fatal()))
-  @test.assert_eq(false, shall_print(logger, level_debug()))
+  @test.assert_eq(true, should_print(logger, level_info()))
+  @test.assert_eq(true, should_print(logger, level_warn()))
+  @test.assert_eq(true, should_print(logger, level_error()))
+  @test.assert_eq(true, should_print(logger, level_fatal()))
+  @test.assert_eq(false, should_print(logger, level_debug()))
 }
 
 ///|
 test "log_set_level" {
   let logger = make_logger()
   set_level(logger, level_debug())
-  @test.assert_eq(true, shall_print(logger, level_debug()))
-  @test.assert_eq(true, shall_print(logger, level_info()))
+  @test.assert_eq(true, should_print(logger, level_debug()))
+  @test.assert_eq(true, should_print(logger, level_info()))
   set_level(logger, level_error())
-  @test.assert_eq(false, shall_print(logger, level_info()))
-  @test.assert_eq(false, shall_print(logger, level_warn()))
-  @test.assert_eq(true, shall_print(logger, level_error()))
-  @test.assert_eq(true, shall_print(logger, level_fatal()))
+  @test.assert_eq(false, should_print(logger, level_info()))
+  @test.assert_eq(false, should_print(logger, level_warn()))
+  @test.assert_eq(true, should_print(logger, level_error()))
+  @test.assert_eq(true, should_print(logger, level_fatal()))
 }
 
 ///|
@@ -260,5 +260,18 @@ test "log_set_colorful" {
   let logger = make_logger()
   set_colorful(logger, false)
   set_colorful(logger, true)
-  @test.assert_eq(true, shall_print(logger, level_info()))
+  @test.assert_eq(true, should_print(logger, level_info()))
+}
+
+///|
+test "approx_equal_rel: large and small values" {
+  // Large values: relative error is small
+  @test.assert_eq(true, approx_equal_rel(1.0e10, 1.0e10 + 1.0, 1.0e-8))
+  // Large values: relative error is large
+  @test.assert_eq(false, approx_equal_rel(1.0e10, 2.0e10, 1.0e-8))
+  // Both near zero: the 1+ denominator makes this true (graceful handling)
+  @test.assert_eq(true, approx_equal_rel(0.0, 0.0, 1.0e-8))
+  // Moderate values
+  @test.assert_eq(true, approx_equal_rel(1.0, 1.0 + 1.0e-10, 1.0e-8))
+  @test.assert_eq(false, approx_equal_rel(1.0, 1.5, 1.0e-8))
 }

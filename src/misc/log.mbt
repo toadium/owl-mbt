@@ -59,7 +59,7 @@ pub fn level_fatal() -> LogLevel {
 }
 
 ///|
-/// Logger state.
+/// Logger state. Note: colorful field is not yet implemented in output.
 pub struct Logger {
   level : Ref[LogLevel]
   colorful : Ref[Bool]
@@ -85,14 +85,14 @@ pub fn set_colorful(logger : Logger, b : Bool) -> Unit {
 
 ///|
 /// Check if a message at the given level should be printed.
-pub fn shall_print(logger : Logger, l : LogLevel) -> Bool {
+pub fn should_print(logger : Logger, l : LogLevel) -> Bool {
   _level_to_int(l) >= _level_to_int(logger.level.val)
 }
 
 ///|
 /// Format a log message.
 pub fn format_msg(logger : Logger, l : LogLevel, msg : String) -> String {
-  if shall_print(logger, l) {
+  if should_print(logger, l) {
     "\{level_to_str(l)} : \{msg}"
   } else {
     ""

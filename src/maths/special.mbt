@@ -16,10 +16,10 @@ pub fn signum(x : Double) -> Double {
 }
 
 ///|
-/// 忠实移植 OCaml `sigmoid x = 1. /. (1. +. log (-.x))`。
-/// 注意：源码用 `log` 而非 `exp`，对 x>0 返回 nan。此行为与 OCaml 一致。
+/// Standard sigmoid: 1 / (1 + exp(-x)).
+/// Note: OCaml source uses log instead of exp (suspected bug), fixed to standard.
 pub fn sigmoid(x : Double) -> Double {
-  1.0 / (1.0 + @math.ln(-x))
+  1.0 / (1.0 + @math.exp(-x))
 }
 
 ///|
@@ -29,6 +29,7 @@ pub fn dawsn(_x : Double) -> Double raise @types.OwlError {
 }
 
 ///|
+/// x * log(y), with the convention that 0 * log(y) = 0 for y >= 0.
 pub fn xlogy(x : Double, y : Double) -> Double {
   if x == 0.0 && !y.is_nan() {
     0.0
@@ -38,6 +39,7 @@ pub fn xlogy(x : Double, y : Double) -> Double {
 }
 
 ///|
+/// x * log(1 + y), with the convention that 0 * log(1+y) = 0.
 pub fn xlog1py(x : Double, y : Double) -> Double {
   if x == 0.0 && !y.is_nan() {
     0.0

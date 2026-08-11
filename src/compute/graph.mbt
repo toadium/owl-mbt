@@ -78,6 +78,9 @@ pub fn node_op(n : Node) -> Op {
 
 ///|
 /// Connect nodes: parent -> child.
+/// Note: does not check for duplicate edges. Calling connect(p, c) multiple
+/// times will add redundant edges, which may cause redundant computation
+/// or incorrect results in binary ops that index into inputs by position.
 pub fn connect(parent : Node, child : Node) -> Unit {
   child.prev.val.push(parent)
   parent.next.val.push(child)
@@ -123,10 +126,10 @@ pub fn set_node_value(node : Node, v : @ndarray.Ndarray) -> Unit {
 
 ///|
 /// Get a node's value.
-pub fn get_node_value(node : Node) -> @ndarray.Ndarray {
+pub fn get_node_value(node : Node) -> @ndarray.Ndarray raise {
   match node.value.val {
     Some(v) => v
-    None => abort("get_node_value: node has no value")
+    None => raise @types.OwlError::InvalidArgument("get_node_value: node has no value")
   }
 }
 
@@ -150,29 +153,24 @@ pub fn get_node_shape(node : Node) -> Array[Array[Int]?] {
 
 ///|
 /// Collect all ancestor nodes of the given nodes in topological order.
-pub fn collect_ancestors(nodes : Array[Node], total_nodes : Int) -> Array[Node] {
+/// Uses recursive post-order DFS: parents are fully processed before the node.
+fn collect_ancestors(nodes : Array[Node], total_nodes : Int) -> Array[Node] {
   let visited = Array::make(total_nodes, false)
   let result : Array[Node] = []
-  let stack : Array[Node] = []
-  for n in nodes {
-    stack.push(n)
-  }
-  while stack.length() > 0 {
-    let n = stack.remove(stack.length() - 1)
+  fn _dfs(n : Node) -> Unit {
     let nid = n.id.val
     if nid < total_nodes && !visited[nid] {
       visited[nid] = true
-      result.push(n)
       for p in n.prev.val {
-        stack.push(p)
+        _dfs(p)
       }
+      result.push(n)
     }
   }
-  let reversed : Array[Node] = []
-  for i in 0..<result.length() {
-    reversed.push(result[result.length() - 1 - i])
+  for n in nodes {
+    _dfs(n)
   }
-  reversed
+  result
 }
 
 ///|

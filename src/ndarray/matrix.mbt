@@ -121,6 +121,7 @@ pub fn of_cols(arrs : Array[Ndarray]) -> Ndarray {
 /// For 2D x 2D: matrix multiplication.
 /// For 1D x 2D: vector-matrix product.
 /// For 2D x 1D: matrix-vector product.
+/// Note: `algodiff.matmul` is the AD-wrapped equivalent.
 pub fn dot(x : Ndarray, y : Ndarray) -> Ndarray raise {
   let ndx = x.shape.length()
   let ndy = y.shape.length()

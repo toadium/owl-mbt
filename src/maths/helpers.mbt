@@ -12,9 +12,9 @@ pub fn is_inf(x : Double) -> Bool {
 }
 
 ///|
-/// subnormal：非零且绝对值小于最小 normal 数（DBL_MIN ≈ 2.225e-308）
+/// subnormal：非零且绝对值小于最小 normal 数
 pub fn is_subnormal(x : Double) -> Bool {
-  x != 0.0 && x.abs() < 2.2250738585072014e-308
+  x != 0.0 && x.abs() < @const.min_normal64
 }
 
 ///|
@@ -34,10 +34,11 @@ pub fn is_even(x : Int) -> Bool {
 
 ///|
 pub fn is_pow2(x : Int) -> Bool {
-  x != 0 && (x & (x - 1)) == 0
+  x > 0 && (x & (x - 1)) == 0
 }
 
 ///|
+/// 判断两数是否同号。注意：+0.0 和 -0.0 视为同号（均 >= 0.0）。
 pub fn same_sign(x : Double, y : Double) -> Bool {
   if x >= 0.0 && y >= 0.0 {
     true

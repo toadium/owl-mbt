@@ -829,7 +829,7 @@ test "math_ops: signum sigmoid relu" {
   @test.assert_eq(0.0, s.data[1])
   @test.assert_eq(1.0, s.data[2])
   let sg = sigmoid(of_array([-1.0], [1]))
-  @test.assert_eq(true, (sg.data[0] - 1.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (sg.data[0] - 1.0 / (1.0 + @math.exp(1.0))).abs() < 1.0e-10)
   let r = relu(a)
   @test.assert_eq(0.0, r.data[0])
   @test.assert_eq(0.0, r.data[1])
@@ -1393,4 +1393,40 @@ test "perf: get 2D fast path" {
   @test.assert_eq(get(x, [0, 2]), 3.0)
   @test.assert_eq(get(x, [1, 0]), 4.0)
   @test.assert_eq(get(x, [1, 2]), 6.0)
+}
+
+///|
+/// T111: transpose twice returns original (transpose²=I)
+test "invariance: transpose twice is identity" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  let tt = transpose(transpose(x))
+  @test.assert_eq(tt.shape[0], 2)
+  @test.assert_eq(tt.shape[1], 3)
+  for i in 0..<6 {
+    @test.assert_eq(tt.data[i], x.data[i])
+  }
+}
+
+///|
+/// T111: reshape preserves data
+test "invariance: reshape preserves total" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  let y = reshape(x, [3, 2])
+  @test.assert_eq(numel(y), numel(x))
+  for i in 0..<6 {
+    @test.assert_eq(y.data[i], x.data[i])
+  }
+}
+
+///|
+/// T111: flatten then reshape restores data
+test "invariance: flatten then reshape" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  let f = flatten(x)
+  @test.assert_eq(f.shape.length(), 1)
+  @test.assert_eq(f.shape[0], 6)
+  let r = reshape(f, [2, 3])
+  for i in 0..<6 {
+    @test.assert_eq(r.data[i], x.data[i])
+  }
 }

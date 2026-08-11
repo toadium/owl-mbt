@@ -161,6 +161,10 @@ fn _infer_shape_fold(
 }
 
 ///|
+/// Infer output shape of Concatenate op.
+/// Note: currently returns the first input's shape unchanged (passthrough),
+/// which is incorrect. A proper implementation would sum dimensions along
+/// the concatenation axis and keep other dimensions equal across inputs.
 fn _infer_shape_concatenate(
   input_shapes : Array[Array[Array[Int]?]],
 ) -> Array[Array[Int]?] {

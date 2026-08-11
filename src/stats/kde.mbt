@@ -21,7 +21,7 @@ fn _build_points(
   n_points : Int,
   h : Double,
   vs : Array[Double],
-) -> Array[Double] {
+) -> Array[Double] raise {
   let (mn, mx) = minmax(vs)
   let a = mn - 3.0 * h
   let b = mx + 3.0 * h
@@ -47,6 +47,11 @@ pub fn gaussian_kde(
   let iqr = interquartile(vs)
   let sd_val = std(None, vs)
   let s = if sd_val < iqr / 0.34 { sd_val } else { iqr / 0.34 }
+  if s <= 0.0 {
+    raise @types.OwlError::InvalidArgument(
+      "gaussian_kde: bandwidth is zero (constant data?)",
+    )
+  }
   let h = match bandwidth {
     Bandwidth::Silverman => 0.90 * s * @math.pow(n, -0.2)
     Bandwidth::Scott => 1.06 * s * @math.pow(n, -0.2)

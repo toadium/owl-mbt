@@ -77,8 +77,8 @@ pub fn conv2d_backward_input(
                       out_col * (output_rows * out_channel) +
                       out_row * out_channel +
                       k
-                    let k_idx = di * (kernel_rows * in_channel) +
-                      dj * in_channel +
+                    let k_idx = di * (kernel_rows * in_channel * out_channel) +
+                      dj * (in_channel * out_channel) +
                       q * out_channel +
                       k
                     sum += output_grad.data[out_grad_idx] * kernel.data[k_idx]
@@ -287,9 +287,14 @@ pub fn conv3d_backward_input(
                           out_dpt * out_channel +
                           k
                         let k_idx = di *
-                          (kernel_rows * kernel_dpts * in_channel) +
-                          dj * (kernel_dpts * in_channel) +
-                          d_dpt * in_channel +
+                          (
+                            kernel_rows *
+                            kernel_dpts *
+                            in_channel *
+                            out_channel
+                          ) +
+                          dj * (kernel_dpts * in_channel * out_channel) +
+                          d_dpt * (in_channel * out_channel) +
                           q * out_channel +
                           k
                         sum += output_grad.data[out_grad_idx] *
@@ -494,6 +499,9 @@ pub fn conv1d_backward_kernel(
 
 ///|
 /// Max pool 2d backward.
+/// Note: parameter order differs from the forward `max_pool2d` — `padding`
+/// is the first parameter here (required) vs the last parameter in the forward
+/// (optional). This is faithfully ported from the OCaml source.
 pub fn max_pool2d_backward(
   padding : @types.Padding,
   input : Ndarray,

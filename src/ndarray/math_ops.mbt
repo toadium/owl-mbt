@@ -11,7 +11,8 @@ fn _map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
 }
 
 ///|
-/// Apply a unary function element-wise (public).
+/// Apply a unary function element-wise, returning a new ndarray.
+/// Same as `map` but with argument order `(x, f)` instead of `(f, x)`.
 pub fn map_elem(x : Ndarray, f : (Double) -> Double) -> Ndarray {
   _map_elem(x, f)
 }

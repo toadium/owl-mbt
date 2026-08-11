@@ -1,5 +1,6 @@
 import {
   "owl_mbt/stats",
+  "owl_mbt/types",
   "moonbitlang/core/math",
 }
 

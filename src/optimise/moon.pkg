@@ -9,5 +9,6 @@ import {
 } for "test"
 
 import {
+  "owl_mbt/ndarray",
   "moonbitlang/core/test",
 } for "wbtest"
