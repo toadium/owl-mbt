@@ -8,6 +8,10 @@ fn _array_prod(arr : Array[Int]) -> Int {
 }
 
 ///|
+/// Calculate (fan_in, fan_out) for weight initialisation.
+/// For 2D weights: (rows, cols). For 3-5D weights (conv kernels): includes
+/// receptive field. For 1D or >=6D weights: falls back to (sqrt(prod), sqrt(prod))
+/// heuristic which may not be meaningful.
 fn calc_fans(s : Array[Int]) -> (Double, Double) {
   let l = s.length()
   if l == 2 {
@@ -111,6 +115,9 @@ fn input_create(inputs : Array[Int]) -> InputNeuron {
 }
 
 ///|
+/// Create a Linear neuron with placeholder [0,0] weights.
+/// Weights are reallocated with correct shape by `init_neuron`/`init_network`.
+/// Calling `run` without `init_network` will produce shape errors.
 fn linear_create(outputs : Int, init_typ : InitTyp) -> LinearNeuron {
   {
     w: Ref(@algodiff.pack_arr(@ndarray.zeros([0, 0]))),
@@ -204,6 +211,9 @@ pub fn get_out_shape(n : Neuron) -> Array[Int] {
 }
 
 ///|
+/// Propagate output shapes to set input shapes of next layer.
+/// Note: for Linear/LinearNoBias, only the first dimension of the parent's
+/// output shape is used as in_shape. This assumes flattened 1D input.
 fn connect(out_shapes : Array[Array[Int]], n : Neuron) -> Unit {
   match n {
     Input(_) => ()
@@ -323,7 +333,7 @@ pub fn run_neuron(input : Array[@algodiff.T], n : Neuron) -> @algodiff.T raise {
     Activation(l) => run_activation(input[0], l.activation)
     Flatten(_) => @algodiff.flatten(input[0])
     Reshape(l) => @algodiff.reshape(input[0], l.out_shape.val)
-    Dropout(_) => input[0]
+    Dropout(_) => input[0] // Not implemented: training-mode dropout is a no-op
     Add(_) => {
       let mut acc = input[0]
       for i in 1..<input.length() {

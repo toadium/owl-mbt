@@ -1,6 +1,14 @@
 ///|
 /// Evaluate a single node given its input values.
 /// Returns the output ndarray.
+///
+/// Note: many ops are passthrough (return `inputs[0]` unchanged) because their
+/// semantics are not yet implemented. These include: Tile, Repeat, Concatenate,
+/// Stack, Split, Draw, OneHot, ScalarPow, PowScalar, AddScalar..ScalarDiv,
+/// EltEqualScalar..EltGreaterEqualScalar, all Conv/Pool/UpSampling, RowNum,
+/// ColNum, Row, Rows, CopyRowTo, CopyColTo, Inv, Trace, ToRows, OfRows,
+/// FusedAdagrad, and several Prime variants. Calling these ops will silently
+/// return the first input rather than the correct result.
 fn eval_node(
   op : Op,
   inputs : Array[@ndarray.Ndarray],
@@ -53,6 +61,8 @@ fn eval_node(
     Asinh => @ndarray.asinh(inputs[0])
     Acosh => @ndarray.acosh(inputs[0])
     Atanh => @ndarray.atanh(inputs[0])
+    // Note: Min/Max/Sum ignore the (Bool, Int) axis parameters and always
+    // perform a global reduction.
     Min(_, _) => @ndarray.min(inputs[0])
     Max(_, _) => @ndarray.max(inputs[0])
     Sum(_, _) => @ndarray.sum(inputs[0])
@@ -171,6 +181,9 @@ fn _array_prod(arr : Array[Int]) -> Int {
 }
 
 ///|
+/// Reverse the element order of an ndarray.
+/// Note: directly accesses `x.data` assuming contiguous row-major layout.
+/// This bypasses ndarray's stride/shape abstraction.
 fn _reverse(x : @ndarray.Ndarray) -> @ndarray.Ndarray {
   let shape = @ndarray.shape(x)
   let n = @ndarray.numel(x)

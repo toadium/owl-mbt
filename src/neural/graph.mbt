@@ -234,6 +234,9 @@ pub fn forward(
 }
 
 ///|
+/// Backward pass: propagate gradient from output y through the network.
+/// Note: uses scalar 1.0 as initial adjoint, assuming y is a scalar.
+/// For array outputs, the initial gradient should be a same-shaped ones array.
 pub fn backward(
   nn : Network,
   y : @algodiff.T,

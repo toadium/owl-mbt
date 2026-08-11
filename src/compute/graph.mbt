@@ -78,6 +78,9 @@ pub fn node_op(n : Node) -> Op {
 
 ///|
 /// Connect nodes: parent -> child.
+/// Note: does not check for duplicate edges. Calling connect(p, c) multiple
+/// times will add redundant edges, which may cause redundant computation
+/// or incorrect results in binary ops that index into inputs by position.
 pub fn connect(parent : Node, child : Node) -> Unit {
   child.prev.val.push(parent)
   parent.next.val.push(child)
