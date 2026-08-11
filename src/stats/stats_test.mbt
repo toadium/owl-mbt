@@ -615,3 +615,149 @@ test "histogram error: mismatched weights" {
   }
   @test.assert_eq(true, raised)
 }
+
+///|
+/// Coverage: std_gaussian_rvs with cache (second call uses cached z1)
+test "dist: std_gaussian_rvs cache" {
+  prng_init(42)
+  let _ = std_gaussian_rvs()
+  let v = std_gaussian_rvs()
+  @test.assert_eq(true, !v.is_nan())
+}
+
+///|
+/// Coverage: std_exponential_rvs
+test "dist: std_exponential_rvs" {
+  prng_init(42)
+  let v = std_exponential_rvs()
+  @test.assert_eq(true, v >= 0.0)
+}
+
+///|
+/// Coverage: exponential_rvs error branch (lambda <= 0)
+test "dist: exponential_rvs invalid lambda" {
+  prng_init(42)
+  let raised = try {
+    let _ = exponential_rvs(0.0)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
+
+///|
+/// Coverage: std_cauchy_rvs
+test "dist: std_cauchy_rvs" {
+  prng_init(42)
+  let v = std_cauchy_rvs()
+  @test.assert_eq(true, !v.is_nan())
+}
+
+///|
+/// Coverage: cauchy_rvs
+test "dist: cauchy_rvs" {
+  prng_init(42)
+  let v = cauchy_rvs(1.0, 2.0)
+  @test.assert_eq(true, !v.is_nan())
+}
+
+///|
+/// Coverage: std_gamma_rvs shape == 1.0 (exponential fallback)
+test "dist: std_gamma_rvs shape 1" {
+  prng_init(42)
+  let v = std_gamma_rvs(1.0)
+  @test.assert_eq(true, v >= 0.0)
+}
+
+///|
+/// Coverage: std_gamma_rvs shape < 1.0
+test "dist: std_gamma_rvs shape < 1" {
+  prng_init(42)
+  let v = std_gamma_rvs(0.5)
+  @test.assert_eq(true, v >= 0.0)
+}
+
+///|
+/// Coverage: std_gamma_rvs shape > 1.0 (Marsaglia-Tsang)
+test "dist: std_gamma_rvs shape > 1" {
+  prng_init(42)
+  let v = std_gamma_rvs(3.0)
+  @test.assert_eq(true, v >= 0.0)
+}
+
+///|
+/// Coverage: gamma_rvs with different shape/scale
+test "dist: gamma_rvs shape scale" {
+  prng_init(42)
+  let v = gamma_rvs(0.5, 2.0)
+  @test.assert_eq(true, v >= 0.0)
+}
+
+///|
+/// Coverage: gumbel1_rvs
+test "dist: gumbel1_rvs" {
+  prng_init(42)
+  let v = gumbel1_rvs(1.0, 1.0)
+  @test.assert_eq(true, !v.is_nan())
+}
+
+///|
+/// Coverage: gumbel1_rvs error: a == 0
+test "dist: gumbel1_rvs a zero" {
+  prng_init(42)
+  let raised = try {
+    let _ = gumbel1_rvs(0.0, 1.0)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
+
+///|
+/// Coverage: gumbel1_rvs error: b <= 0
+test "dist: gumbel1_rvs b negative" {
+  prng_init(42)
+  let raised = try {
+    let _ = gumbel1_rvs(1.0, -1.0)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
+
+///|
+/// Coverage: gumbel2_rvs
+test "dist: gumbel2_rvs" {
+  prng_init(42)
+  let v = gumbel2_rvs(2.0, 1.0)
+  @test.assert_eq(true, !v.is_nan())
+}
+
+///|
+/// Coverage: gumbel2_rvs error: a == 0
+test "dist: gumbel2_rvs a zero" {
+  prng_init(42)
+  let raised = try {
+    let _ = gumbel2_rvs(0.0, 1.0)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
+
+///|
+/// Coverage: gumbel2_rvs error: b <= 0
+test "dist: gumbel2_rvs b negative" {
+  prng_init(42)
+  let raised = try {
+    let _ = gumbel2_rvs(1.0, 0.0)
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, raised)
+}
