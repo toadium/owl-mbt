@@ -829,7 +829,7 @@ test "math_ops: signum sigmoid relu" {
   @test.assert_eq(0.0, s.data[1])
   @test.assert_eq(1.0, s.data[2])
   let sg = sigmoid(of_array([-1.0], [1]))
-  @test.assert_eq(true, (sg.data[0] - 1.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (sg.data[0] - 1.0 / (1.0 + @math.exp(1.0))).abs() < 1.0e-10)
   let r = relu(a)
   @test.assert_eq(0.0, r.data[0])
   @test.assert_eq(0.0, r.data[1])
