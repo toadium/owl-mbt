@@ -185,7 +185,7 @@ pub fn eval_graph(graph : Graph) -> Unit raise {
   let topo = topological_sort(graph)
   for n in topo {
     if !is_assigned(n) {
-      let inputs = Array::makei(n.prev.val.length(), fn(i) {
+      let inputs = Array::makei(n.prev.val.length(), fn(i) raise {
         get_node_value(n.prev.val[i])
       })
       let result = eval_node(n.op.val, inputs)
@@ -198,7 +198,7 @@ pub fn eval_graph(graph : Graph) -> Unit raise {
 /// Evaluate the graph and return the output values.
 pub fn eval_outputs(graph : Graph) -> Array[@ndarray.Ndarray] raise {
   eval_graph(graph)
-  Array::makei(graph.output.val.length(), fn(i) {
+  Array::makei(graph.output.val.length(), fn(i) raise {
     get_node_value(graph.output.val[i])
   })
 }

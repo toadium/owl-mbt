@@ -86,13 +86,13 @@ pub fn col_names(df : DataFrame) -> Array[String] {
 
 ///|
 /// Get a column by name.
-pub fn get_column(df : DataFrame, name : String) -> Column {
+pub fn get_column(df : DataFrame, name : String) -> Column raise {
   for col in df.columns {
     if col.name == name {
       return col
     }
   }
-  abort("get_column: column not found")
+  raise @types.OwlError::InvalidArgument("get_column: column not found")
 }
 
 ///|
@@ -115,7 +115,7 @@ pub fn get_string_data(col : Column) -> Array[String] {
 
 ///|
 /// Compute the mean of a float column.
-pub fn col_mean(df : DataFrame, name : String) -> Double {
+pub fn col_mean(df : DataFrame, name : String) -> Double raise {
   let col = get_column(df, name)
   let data = col.float_data
   if data.length() == 0 {
@@ -131,7 +131,7 @@ pub fn col_mean(df : DataFrame, name : String) -> Double {
 
 ///|
 /// Compute the sum of a float column.
-pub fn col_sum(df : DataFrame, name : String) -> Double {
+pub fn col_sum(df : DataFrame, name : String) -> Double raise {
   let col = get_column(df, name)
   let mut sum = 0.0
   for v in col.float_data {
@@ -142,7 +142,7 @@ pub fn col_sum(df : DataFrame, name : String) -> Double {
 
 ///|
 /// Compute the min of a float column.
-pub fn col_min(df : DataFrame, name : String) -> Double {
+pub fn col_min(df : DataFrame, name : String) -> Double raise {
   let col = get_column(df, name)
   if col.float_data.length() == 0 {
     0.0
@@ -159,7 +159,7 @@ pub fn col_min(df : DataFrame, name : String) -> Double {
 
 ///|
 /// Compute the max of a float column.
-pub fn col_max(df : DataFrame, name : String) -> Double {
+pub fn col_max(df : DataFrame, name : String) -> Double raise {
   let col = get_column(df, name)
   if col.float_data.length() == 0 {
     0.0

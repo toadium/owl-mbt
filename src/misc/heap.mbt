@@ -61,9 +61,9 @@ pub fn[T] Heap::push(h : Heap[T], x : T) -> Unit {
 
 ///|
 /// Pop the minimum element from the heap.
-pub fn[T] Heap::pop(h : Heap[T]) -> T {
+pub fn[T] Heap::pop(h : Heap[T]) -> T raise {
   if h.used.val == 0 {
-    abort("Heap::pop: heap is empty")
+    raise @types.OwlError::InvalidArgument("Heap::pop: heap is empty")
   }
   let x = h.data.val[0]
   h.used.val = h.used.val - 1
@@ -95,9 +95,9 @@ pub fn[T] Heap::pop(h : Heap[T]) -> T {
 
 ///|
 /// Peek at the minimum element without removing it.
-pub fn[T] Heap::peek(h : Heap[T]) -> T {
+pub fn[T] Heap::peek(h : Heap[T]) -> T raise {
   if h.used.val == 0 {
-    abort("Heap::peek: heap is empty")
+    raise @types.OwlError::InvalidArgument("Heap::peek: heap is empty")
   }
   h.data.val[0]
 }

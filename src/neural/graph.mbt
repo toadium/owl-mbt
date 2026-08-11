@@ -98,12 +98,12 @@ pub fn get_network(n : Node) -> Network {
 }
 
 ///|
-pub fn collect_output(nodes : Array[Node]) -> Array[@algodiff.T] {
+pub fn collect_output(nodes : Array[Node]) -> Array[@algodiff.T] raise {
   let result = Array::make(nodes.length(), @algodiff.pack_flt(0.0))
   for i in 0..<nodes.length() {
     match nodes[i].output.val {
       Some(o) => result[i] = o
-      None => abort("collect_output: node has no output")
+      None => raise @types.OwlError::InvalidArgument("collect_output: node has no output")
     }
   }
   result
@@ -219,7 +219,7 @@ pub fn run(x : @algodiff.T, nn : Network) -> @algodiff.T raise {
   let sink = nn.topo.val[nn.topo.val.length() - 1]
   match sink.output.val {
     Some(o) => o
-    None => abort("run: sink node has no output")
+    None => raise @types.OwlError::InvalidArgument("run: sink node has no output")
   }
 }
 
