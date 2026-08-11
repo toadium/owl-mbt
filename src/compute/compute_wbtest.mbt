@@ -760,3 +760,92 @@ test "wb _broadcast_shapes different lengths" {
     None => @test.assert_eq(true, false)
   }
 }
+
+///|
+/// Value-verification tests for key eval_node ops (replacing empty assertions).
+test "wb eval_node values: Zeros and Ones" {
+  let z = eval_node(Op::Zeros([3]), [])
+  @test.assert_eq(3, z.data.length())
+  @test.assert_eq(0.0, z.data[0])
+  @test.assert_eq(0.0, z.data[2])
+  let o = eval_node(Op::Ones([2, 2]), [])
+  @test.assert_eq(4, o.data.length())
+  @test.assert_eq(1.0, o.data[0])
+  @test.assert_eq(1.0, o.data[3])
+}
+
+///|
+test "wb eval_node values: Abs Neg Sqr Sqrt" {
+  let x = _arr([-2.0, 3.0])
+  let r_abs = eval_node(Op::Abs, [x])
+  @test.assert_eq(2.0, r_abs.data[0])
+  @test.assert_eq(3.0, r_abs.data[1])
+  let r_neg = eval_node(Op::Neg, [x])
+  @test.assert_eq(2.0, r_neg.data[0])
+  @test.assert_eq(-3.0, r_neg.data[1])
+  let y = _arr([3.0, 4.0])
+  let r_sqr = eval_node(Op::Sqr, [y])
+  @test.assert_eq(9.0, r_sqr.data[0])
+  @test.assert_eq(16.0, r_sqr.data[1])
+  let r_sqrt = eval_node(Op::Sqrt, [y])
+  @test.assert_eq(true, (r_sqrt.data[0] - 1.7320508).abs() < 1.0e-6)
+  @test.assert_eq(2.0, r_sqrt.data[1])
+}
+
+///|
+test "wb eval_node values: Add Mul Sub Div" {
+  let x = _arr([1.0, 2.0, 3.0])
+  let y = _arr([4.0, 5.0, 6.0])
+  let r_add = eval_node(Op::Add, [x, y])
+  @test.assert_eq(5.0, r_add.data[0])
+  @test.assert_eq(7.0, r_add.data[1])
+  @test.assert_eq(9.0, r_add.data[2])
+  let r_mul = eval_node(Op::Mul, [x, y])
+  @test.assert_eq(4.0, r_mul.data[0])
+  @test.assert_eq(10.0, r_mul.data[1])
+  @test.assert_eq(18.0, r_mul.data[2])
+  let r_sub = eval_node(Op::Sub, [x, y])
+  @test.assert_eq(-3.0, r_sub.data[0])
+  @test.assert_eq(-3.0, r_sub.data[1])
+  let r_div = eval_node(Op::Div, [x, y])
+  @test.assert_eq(0.25, r_div.data[0])
+  @test.assert_eq(0.4, r_div.data[1])
+}
+
+///|
+test "wb eval_node values: Exp Sin Cos" {
+  let x = _arr([0.0, 1.0])
+  let r_exp = eval_node(Op::Exp, [x])
+  @test.assert_eq(1.0, r_exp.data[0])
+  @test.assert_eq(true, (r_exp.data[1] - 2.7182818).abs() < 1.0e-6)
+  let r_sin = eval_node(Op::Sin, [x])
+  @test.assert_eq(0.0, r_sin.data[0])
+  @test.assert_eq(true, (r_sin.data[1] - 0.8414709).abs() < 1.0e-6)
+  let r_cos = eval_node(Op::Cos, [x])
+  @test.assert_eq(1.0, r_cos.data[0])
+  @test.assert_eq(true, (r_cos.data[1] - 0.5403023).abs() < 1.0e-6)
+}
+
+///|
+test "wb eval_node values: Sum Min Max" {
+  let x = _arr([1.0, 2.0, 3.0])
+  let r_sum = eval_node(Op::Sum(true, 0), [x])
+  @test.assert_eq(6.0, r_sum.data[0])
+  let r_min = eval_node(Op::Min(true, 0), [x])
+  @test.assert_eq(1.0, r_min.data[0])
+  let r_max = eval_node(Op::Max(true, 0), [x])
+  @test.assert_eq(3.0, r_max.data[0])
+}
+
+///|
+test "wb eval_node values: Sigmoid Relu" {
+  let x = _arr([0.0, -1.0, 2.0])
+  let r_sig = eval_node(Op::Sigmoid, [x])
+  @test.assert_eq(0.5, r_sig.data[0])
+  @test.assert_eq(true, (r_sig.data[1] - 0.2689414).abs() < 1.0e-6)
+  @test.assert_eq(true, (r_sig.data[2] - 0.8807970).abs() < 1.0e-6)
+  let r_relu = eval_node(Op::Relu, [x])
+  @test.assert_eq(0.0, r_relu.data[0])
+  @test.assert_eq(0.0, r_relu.data[1])
+  @test.assert_eq(2.0, r_relu.data[2])
+}

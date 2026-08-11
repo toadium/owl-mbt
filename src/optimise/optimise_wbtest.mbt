@@ -26,8 +26,9 @@ test "wb run_gradient: CG" {
   let p_prev = @algodiff.pack_flt(-1.0)
   let g_new = @algodiff.pack_flt(2.0)
   let r = run_gradient(GradientMethod::CG, f, w, g_prev, p_prev, g_new)
-  let _ = @algodiff.unpack_flt(r)
-  @test.assert_eq(true, true)
+  // y = g_new - g_prev = 1; b = sum(g_new*y)/(sum(p_prev*y)) = 2/(-1) = -2
+  // result = -g_new + b*p_prev = -2 + (-2)*(-1) = 0
+  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r), 0.0))
 }
 
 ///|
@@ -38,8 +39,9 @@ test "wb run_gradient: CD" {
   let p_prev = @algodiff.pack_flt(-1.0)
   let g_new = @algodiff.pack_flt(2.0)
   let r = run_gradient(GradientMethod::CD, f, w, g_prev, p_prev, g_new)
-  let _ = @algodiff.unpack_flt(r)
-  @test.assert_eq(true, true)
+  // b = sum(g_new^2)/sum(-p_prev*g_prev) = 4/1 = 4
+  // result = -g_new + b*p_prev = -2 + 4*(-1) = -6
+  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r), -6.0))
 }
 
 ///|
@@ -50,8 +52,9 @@ test "wb run_gradient: NonlinearCG" {
   let p_prev = @algodiff.pack_flt(-1.0)
   let g_new = @algodiff.pack_flt(2.0)
   let r = run_gradient(GradientMethod::NonlinearCG, f, w, g_prev, p_prev, g_new)
-  let _ = @algodiff.unpack_flt(r)
-  @test.assert_eq(true, true)
+  // b = sum(g_new^2)/sum(g_prev^2) = 4/1 = 4
+  // result = -g_new + b*p_prev = -2 + 4*(-1) = -6
+  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r), -6.0))
 }
 
 ///|
@@ -62,8 +65,9 @@ test "wb run_gradient: DaiYuanCG" {
   let p_prev = @algodiff.pack_flt(-1.0)
   let g_new = @algodiff.pack_flt(2.0)
   let r = run_gradient(GradientMethod::DaiYuanCG, f, w, g_prev, p_prev, g_new)
-  let _ = @algodiff.unpack_flt(r)
-  @test.assert_eq(true, true)
+  // y = 1; b = sum(g_new^2)/sum(p_prev*y) = 4/(-1) = -4
+  // result = -g_new + b*p_prev = -2 + (-4)*(-1) = 2
+  @test.assert_eq(true, approx_eq_val(@algodiff.unpack_flt(r), 2.0))
 }
 
 ///|
