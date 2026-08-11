@@ -188,7 +188,7 @@ fn run_regularisation(
 }
 
 ///|
-/// Execute clipping.
+/// Execute clipping. Note: all clipping types are currently no-op (not implemented).
 #warnings("-unused_error_type")
 fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
   match typ {
@@ -199,7 +199,7 @@ fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
 }
 
 ///|
-/// Execute stopping criterion.
+/// Execute stopping criterion. Note: Early stopping is not implemented (returns false).
 fn run_stopping(typ : Stopping, loss : Double) -> Bool {
   match typ {
     Const(threshold) => loss < threshold
