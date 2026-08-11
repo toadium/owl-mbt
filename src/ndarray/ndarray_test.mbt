@@ -1433,3 +1433,110 @@ test "invariance: flatten then reshape" {
     @test.assert_eq(r.data[i], x.data[i])
   }
 }
+
+///|
+/// Coverage: copy_col_to
+test "extra: copy_col_to" {
+  let mat = of_array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], [2, 3])
+  let vec = of_array([1.0, 2.0], [2])
+  copy_col_to(vec, mat, 1)
+  @test.assert_eq(mat.data[1], 1.0)
+  @test.assert_eq(mat.data[4], 2.0)
+  @test.assert_eq(mat.data[0], 0.0)
+  @test.assert_eq(mat.data[2], 0.0)
+}
+
+///|
+/// Coverage: pad with single-element padding (symmetric)
+test "extra: pad single-element padding" {
+  let x = of_array([1.0, 2.0, 3.0], [3])
+  let p = pad(x, [[1]], v=0.0)
+  @test.assert_eq(5, p.shape[0])
+  @test.assert_eq(0.0, p.data[0])
+  @test.assert_eq(1.0, p.data[1])
+  @test.assert_eq(3.0, p.data[3])
+  @test.assert_eq(0.0, p.data[4])
+}
+
+///|
+/// Coverage: pad with empty padding (no padding on that dim)
+test "extra: pad empty padding" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let p = pad(x, [[], [1, 1]], v=9.0)
+  @test.assert_eq(2, p.shape[0])
+  @test.assert_eq(4, p.shape[1])
+  @test.assert_eq(9.0, p.data[0])
+  @test.assert_eq(1.0, p.data[1])
+  @test.assert_eq(2.0, p.data[2])
+  @test.assert_eq(9.0, p.data[3])
+}
+
+///|
+/// Coverage: draw
+test "extra: draw" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  let (drawn, indices) = draw(x, 2, axis=0)
+  @test.assert_eq(2, indices.length())
+  @test.assert_eq(3, drawn.shape[1])
+}
+
+///|
+/// Coverage: sum_reduce
+test "extra: sum_reduce" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  let r_all = sum_reduce(x)
+  @test.assert_eq(1, r_all.shape[0])
+  @test.assert_eq(1, r_all.shape[1])
+  @test.assert_eq(21.0, r_all.data[0])
+  let r0 = sum_reduce(x, axis=[0])
+  @test.assert_eq(1, r0.shape[0])
+  @test.assert_eq(3, r0.shape[1])
+  @test.assert_eq(5.0, r0.data[0])
+  @test.assert_eq(7.0, r0.data[1])
+  @test.assert_eq(9.0, r0.data[2])
+}
+
+///|
+/// Coverage: to_string 1D
+test "extra: to_string 1D" {
+  let x = of_array([1.0, 2.0, 3.0], [3])
+  let s = to_string(x)
+  @test.assert_eq("[1.; 2.; 3.]", s)
+}
+
+///|
+/// Coverage: to_string 2D
+test "extra: to_string 2D" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let s = to_string(x)
+  @test.assert_eq("[[1.; 2.]; [3.; 4.]]", s)
+}
+
+///|
+/// Coverage: to_string with max_row/max_col truncation
+test "extra: to_string truncation" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let s = to_string(x, max_row=1, max_col=1)
+  @test.assert_eq("[[1.; ... ]; ... ]", s)
+}
+
+///|
+/// Coverage: to_string with special values
+test "extra: to_string special values" {
+  let x = of_array([0.0, @double.not_a_number, @double.infinity, @double.not_a_number], [4])
+  let s = to_string(x)
+  @test.assert_eq(true, s.contains("nan"))
+  @test.assert_eq(true, s.contains("inf"))
+}
+
+///|
+/// Coverage: split along axis 0
+test "extra: split axis 0" {
+  let x = of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  let parts = split(x, [1, 1], axis=0)
+  @test.assert_eq(2, parts.length())
+  @test.assert_eq(1, parts[0].shape[0])
+  @test.assert_eq(3, parts[0].shape[1])
+  @test.assert_eq(1.0, parts[0].data[0])
+  @test.assert_eq(4.0, parts[1].data[0])
+}

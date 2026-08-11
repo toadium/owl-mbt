@@ -3,6 +3,7 @@ import {
   "owl_mbt/maths",
   "owl_mbt/stats",
   "owl_mbt/types",
+  "moonbitlang/core/double",
   "moonbitlang/core/math",
   "moonbitlang/core/random",
 }
