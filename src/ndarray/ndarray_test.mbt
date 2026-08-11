@@ -1523,7 +1523,10 @@ test "extra: to_string truncation" {
 ///|
 /// Coverage: to_string with special values
 test "extra: to_string special values" {
-  let x = of_array([0.0, @double.not_a_number, @double.infinity, @double.not_a_number], [4])
+  let x = of_array(
+    [0.0, @double.not_a_number, @double.infinity, @double.not_a_number],
+    [4],
+  )
   let s = to_string(x)
   @test.assert_eq(true, s.contains("nan"))
   @test.assert_eq(true, s.contains("inf"))

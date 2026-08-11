@@ -144,7 +144,7 @@ test "neuron_wb: run_activation leaky_relu" {
   let x = @algodiff.pack_flt(-1.0)
   let y = run_activation(x, act_leaky_relu(0.1))
   match y {
-    F(v) => @test.assert_eq(true, (v - (-0.1)).abs() < 0.001)
+    F(v) => @test.assert_eq(true, (v - -0.1).abs() < 0.001)
     _ => @test.assert_eq(true, false)
   }
 }
@@ -283,7 +283,9 @@ test "neuron_wb: connect input" {
 /// Coverage: update_neuron with LinearNoBias
 test "neuron_wb: update_neuron linear_nobias" {
   let neuron = LinearNoBias(linear_nobias_create(2, init_standard()))
-  let new_w = @algodiff.pack_arr(@ndarray.from_data([2, 2], [1.0, 2.0, 3.0, 4.0]))
+  let new_w = @algodiff.pack_arr(
+    @ndarray.from_data([2, 2], [1.0, 2.0, 3.0, 4.0]),
+  )
   update_neuron(neuron, [new_w])
   @test.assert_eq(true, true)
 }

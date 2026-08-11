@@ -1126,10 +1126,7 @@ test "dr pow array^scalar: broadcast squeeze" {
 /// add([2,3] array, [1,3] array) triggers squeeze along axis 0
 test "dr add 2D broadcast row: squeeze" {
   let t = tag()
-  let a = @ndarray.of_array(
-    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
-    [2, 3],
-  )
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
   let b = @ndarray.of_array([10.0, 20.0, 30.0], [1, 3])
   let x = make_reverse(pack_arr(a), t)
   let y = make_reverse(pack_arr(b), t)
@@ -1146,10 +1143,7 @@ test "dr add 2D broadcast row: squeeze" {
 /// add([2,3] array, [2,1] array) triggers squeeze along axis 1
 test "dr add 2D broadcast col: squeeze" {
   let t = tag()
-  let a = @ndarray.of_array(
-    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
-    [2, 3],
-  )
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
   let b = @ndarray.of_array([10.0, 20.0], [2, 1])
   let x = make_reverse(pack_arr(a), t)
   let y = make_reverse(pack_arr(b), t)
@@ -1165,10 +1159,7 @@ test "dr add 2D broadcast col: squeeze" {
 /// Coverage: squeeze_broadcast with 2D broadcast for mul
 test "dr mul 2D broadcast: squeeze" {
   let t = tag()
-  let a = @ndarray.of_array(
-    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
-    [2, 3],
-  )
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
   let b = @ndarray.of_array([10.0, 20.0, 30.0], [1, 3])
   let x = make_reverse(pack_arr(a), t)
   let y = make_reverse(pack_arr(b), t)
