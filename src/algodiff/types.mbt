@@ -22,7 +22,9 @@ struct Op {
 }
 
 ///|
-/// Global tag counter for AD nodes.
+/// Global tag counter for AD nodes. Each call to `tag()` increments this
+/// counter. Use `reset_tag()` to reset to 0 between independent AD computations
+/// to avoid unbounded growth. Not thread-safe.
 let _global_tag : Ref[Int] = Ref(0)
 
 ///|
@@ -136,8 +138,11 @@ pub fn is_float(x : T) -> Bool {
 
 ///|
 /// Check if an AD node is an array.
-/// Note: OCaml source has is_arr with swapped logic (F->true, Arr->false).
-/// Faithfully ported as-is.
+/// Warning: despite the name, this function returns `true` for scalar nodes (F)
+/// and `false` for array nodes (Arr). The logic is swapped relative to the name.
+/// This is faithfully ported from the OCaml Owl source which has the same quirk.
+/// Prefer `is_float` (which has the same behaviour but a less misleading name)
+/// or `!is_arr(x)` to test for array-ness.
 pub fn is_arr(x : T) -> Bool {
   match x {
     Arr(_) => false

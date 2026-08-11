@@ -13,7 +13,7 @@ pub fn neg(a : T) -> T raise {
 }
 
 ///|
-/// Absolute value: |x|
+/// Absolute value: |x|. At x=0, the derivative is defined as 0 (via signum(0)=0).
 pub fn abs(a : T) -> T raise {
   siso_op(
     abs,
@@ -183,7 +183,7 @@ pub fn sigmoid(a : T) -> T raise {
 }
 
 ///|
-/// ReLU: max(0, x)
+/// ReLU: max(0, x). At x=0, the derivative is defined as 0 (subgradient choice).
 pub fn relu(a : T) -> T raise {
   siso_op(
     relu,

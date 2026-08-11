@@ -41,6 +41,10 @@ fn run_learning_rate(
         @algodiff.sqrt(@algodiff.add(c[0], @algodiff.pack_flt(1.0e-32))),
       )
     Adam(a, b1, b2) => {
+      // Note: the denominator includes an extra (g + 1e-32) factor compared to
+      // the standard Adam formula (lr = a * sqrt(1-b2^t)/(1-b1^t) * m / (sqrt(v)+eps)).
+      // This is faithfully ported from the OCaml Owl source. The extra factor causes
+      // the effective learning rate to scale inversely with the gradient magnitude.
       let bias_corr1 = 1.0 - @math.pow(b1, i.to_double())
       let bias_corr2 = 1.0 - @math.pow(b2, i.to_double())
       @algodiff.div(

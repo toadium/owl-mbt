@@ -85,6 +85,10 @@ pub fn jacobianTv(f : (T) -> T raise, x : T, v : T) -> T raise {
 ///|
 /// Jacobian of f (row vector -> row vector) at x.
 /// Returns (primal, jacobian).
+///
+/// Assumes input and output are 2D row vectors of shape `[1, n]` and `[1, m]`.
+/// For 1D inputs, `m` or `n` defaults to 1. For 3D+ inputs, only the second
+/// dimension is used and higher dimensions are ignored.
 pub fn jacobian_prime(f : (T) -> T raise, x : T) -> (T, T) raise {
   let y = f(x)
   let y_shape = shape(y)
@@ -124,6 +128,11 @@ pub fn jacobian(f : (T) -> T raise, x : T) -> T raise {
 
 ///|
 /// Hessian of f (vector -> scalar) at x.
+///
+/// Warning: implemented via nested reverse-mode AD (`jacobian(grad(f), x)`).
+/// The inner `grad` mutates global tag state and node adjoint refs, which can
+/// interfere with the outer `jacobian`'s AD graph. Results may be unreliable
+/// for complex functions. Consider this experimental.
 pub fn hessian(f : (T) -> T raise, x : T) -> T raise {
   let g = fn(x : T) -> T raise { grad(f, x) }
   jacobian(g, x)

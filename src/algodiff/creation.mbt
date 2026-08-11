@@ -18,6 +18,10 @@ pub fn gaussian_arr(mu : Double, sigma : Double, shape : Array[Int]) -> T {
 
 ///|
 /// Copy the primal value of a T, returning a new T with no derivative info.
+/// For F and Arr, a deep copy is returned. For nested AD nodes (DF/DR), the
+/// `_` branch returns `primal(x)` which only peels one layer — the inner
+/// primal reference is shared, not deep-copied. This is faithfully ported
+/// from the OCaml source.
 pub fn copy_primal_(x : T) -> T {
   match primal(x) {
     F(v) => F(v)
