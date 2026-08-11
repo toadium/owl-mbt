@@ -60,6 +60,8 @@ pub fn squeeze(x : Ndarray, axis? : Array[Int] = []) -> Ndarray {
 ///|
 /// Expand dims by adding a dimension of size 1.
 /// If hi=true, append at end; otherwise prepend at beginning.
+/// Note: _d parameter is currently ignored; dimension is always added
+/// at head (hi=false) or tail (hi=true).
 pub fn expand(x : Ndarray, _d : Int, hi? : Bool = false) -> Ndarray {
   let new_shape = if hi {
     let s = x.shape.copy()

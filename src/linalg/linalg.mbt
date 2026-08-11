@@ -403,13 +403,9 @@ pub fn linsolve_lu(
   }
   let x_data = FixedArray::make(n * m, 0.0)
   for col in 0..<m {
-    let b_col = Array::make(n, 0.0)
-    for i in 0..<n {
-      b_col[i] = b.data[i * m + col]
-    }
     let x_col = Array::make(n, 0.0)
     for i in 0..<n {
-      x_col[i] = b_col[i]
+      x_col[i] = b.data[i * m + col]
     }
     let mut ii = -1
     for i in 0..<n {
@@ -552,13 +548,7 @@ pub fn qr(
       }
     }
   }
-  let q_result = FixedArray::make(m * m, 0.0)
-  for i in 0..<m {
-    for j in 0..<m {
-      q_result[i * m + j] = q_data[i * m + j]
-    }
-  }
-  (@ndarray.from_data([m, m], q_result), @ndarray.from_data([m, n], r_data))
+  (@ndarray.from_data([m, m], q_data), @ndarray.from_data([m, n], r_data))
 }
 
 ///|

@@ -177,21 +177,21 @@ pub fn col_max(df : DataFrame, name : String) -> Double raise {
 ///|
 /// Convert the DataFrame to a string representation.
 pub fn dataframe_to_string(df : DataFrame) -> String {
-  let mut result = ""
+  let parts : Array[String] = []
   let names = col_names(df)
   for name in names {
-    result = "\{result}\{name}\t"
+    parts.push("\{name}\t")
   }
-  result = "\{result}\n"
+  parts.push("\n")
   for i in 0..<df.n_rows {
     for col in df.columns {
       match col.typ {
-        FloatCol => result = "\{result}\{col.float_data[i]}\t"
-        IntCol => result = "\{result}\{col.int_data[i]}\t"
-        StringCol => result = "\{result}\{col.string_data[i]}\t"
+        FloatCol => parts.push("\{col.float_data[i]}\t")
+        IntCol => parts.push("\{col.int_data[i]}\t")
+        StringCol => parts.push("\{col.string_data[i]}\t")
       }
     }
-    result = "\{result}\n"
+    parts.push("\n")
   }
-  result
+  parts.join("")
 }

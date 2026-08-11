@@ -2,7 +2,7 @@
 /// 排序、秩、极值。移植自 owl_base_stats.ml 第 180-276 行。
 
 ///|
-pub fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
+fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
   let n = x0.length()
   let mut c = 0
   for i in 0..<(n - 1) {
@@ -16,7 +16,7 @@ pub fn concordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
 }
 
 ///|
-pub fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
+fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
   let n = x0.length()
   let mut c = 0
   for i in 0..<(n - 1) {

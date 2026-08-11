@@ -103,6 +103,9 @@ pub fn softmax(x : Ndarray, axis? : Int = -1) -> Ndarray raise {
   // Fast path: 1D softmax (most common in ML)
   if x.shape.length() == 1 {
     let n = x.data.length()
+    if n == 0 {
+      return { shape: x.shape.copy(), data: FixedArray::make(0, 0.0) }
+    }
     let data = FixedArray::make(n, 0.0)
     let xd = x.data
     // Find max for numerical stability

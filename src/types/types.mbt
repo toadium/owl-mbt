@@ -24,6 +24,7 @@ pub(all) enum Padding {
 
 ///|
 /// 计算设备类型（移植自 owl_types_common.ml:device_type）
+/// Note: OpenCl and Cuda are not supported in pure MoonBit backend.
 pub(all) enum DeviceType {
   Cpu
   OpenCl

@@ -36,11 +36,7 @@ pub fn pad_center() -> PaddingSide {
 
 ///|
 fn _repeat_str(s : String, n : Int) -> String {
-  let mut result = ""
-  for _ in 0..<n {
-    result = "\{result}\{s}"
-  }
-  result
+  Array::make(n, s).join("")
 }
 
 ///|

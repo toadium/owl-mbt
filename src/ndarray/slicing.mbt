@@ -17,6 +17,9 @@ fn _enumerate_slice_def(dim : Int, spec : Array[Int]) -> Array[Int] {
   } else {
     -1
   }
+  if step == 0 {
+    abort("_enumerate_slice_def: step cannot be zero")
+  }
   let step_abs = if step < 0 { -step } else { step }
   let diff = if stop - start < 0 { start - stop } else { stop - start }
   let len = (diff + step_abs) / step_abs
