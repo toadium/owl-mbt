@@ -62,7 +62,10 @@ pub fn std_exponential_rvs() -> Double {
 
 ///|
 /// 指数分布。移植自 owl_base_stats_dist_exponential.ml
-pub fn exponential_rvs(lambda : Double) -> Double {
+pub fn exponential_rvs(lambda : Double) -> Double raise {
+  if lambda <= 0.0 {
+    raise @types.OwlError::InvalidArgument("exponential_rvs: lambda must be positive")
+  }
   let u = _rand.val.double()
   let s = -1.0 / lambda
   s * @math.ln_1p(-u)
@@ -146,14 +149,26 @@ pub fn gamma_rvs(shape : Double, scale : Double) -> Double {
 
 ///|
 /// Gumbel Type-1 分布。移植自 owl_base_stats_dist_gumbel1.ml
-pub fn gumbel1_rvs(a : Double, b : Double) -> Double {
+pub fn gumbel1_rvs(a : Double, b : Double) -> Double raise {
+  if a == 0.0 {
+    raise @types.OwlError::InvalidArgument("gumbel1_rvs: a must be non-zero")
+  }
+  if b <= 0.0 {
+    raise @types.OwlError::InvalidArgument("gumbel1_rvs: b must be positive")
+  }
   let x = _rand.val.double()
   (@math.ln(b) - @math.ln(-@math.ln(x))) / a
 }
 
 ///|
 /// Gumbel Type-2 分布。移植自 owl_base_stats_dist_gumbel2.ml
-pub fn gumbel2_rvs(a : Double, b : Double) -> Double {
+pub fn gumbel2_rvs(a : Double, b : Double) -> Double raise {
+  if a == 0.0 {
+    raise @types.OwlError::InvalidArgument("gumbel2_rvs: a must be non-zero")
+  }
+  if b <= 0.0 {
+    raise @types.OwlError::InvalidArgument("gumbel2_rvs: b must be positive")
+  }
   let x = _rand.val.double()
   @math.pow(-b / @math.ln(x), 1.0 / a)
 }

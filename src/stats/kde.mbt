@@ -47,6 +47,11 @@ pub fn gaussian_kde(
   let iqr = interquartile(vs)
   let sd_val = std(None, vs)
   let s = if sd_val < iqr / 0.34 { sd_val } else { iqr / 0.34 }
+  if s <= 0.0 {
+    raise @types.OwlError::InvalidArgument(
+      "gaussian_kde: bandwidth is zero (constant data?)",
+    )
+  }
   let h = match bandwidth {
     Bandwidth::Silverman => 0.90 * s * @math.pow(n, -0.2)
     Bandwidth::Scott => 1.06 * s * @math.pow(n, -0.2)

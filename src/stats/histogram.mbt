@@ -368,16 +368,22 @@ pub fn histogram_sorted(
 
 ///|
 /// 归一化计数。移植自 owl_base_stats.ml normalise
-pub fn normalise(h : Histogram) -> Histogram {
+pub fn normalise(h : Histogram) -> Histogram raise {
   let nc = match h.weighted_counts {
     None => {
       let total = h.counts.fold(init=0, fn(acc, c) { acc + c }).to_double()
+      if total == 0.0 {
+        raise @types.OwlError::InvalidArgument("normalise: total count is zero")
+      }
       [
         for c in h.counts => c.to_double() / total
       ]
     }
     Some(wcounts) => {
       let total = wcounts.fold(init=0.0, fn(acc, wc) { acc + wc })
+      if total == 0.0 {
+        raise @types.OwlError::InvalidArgument("normalise: total weight is zero")
+      }
       [
         for wc in wcounts => wc / total
       ]
@@ -388,10 +394,15 @@ pub fn normalise(h : Histogram) -> Histogram {
 
 ///|
 /// 归一化密度。移植自 owl_base_stats.ml normalise_density
-pub fn normalise_density(h : Histogram) -> Histogram {
+pub fn normalise_density(h : Histogram) -> Histogram raise {
   let ds = match h.weighted_counts {
     None => {
       let total = h.counts.fold(init=0, fn(acc, c) { acc + c }).to_double()
+      if total == 0.0 {
+        raise @types.OwlError::InvalidArgument(
+          "normalise_density: total count is zero",
+        )
+      }
       [
         for i in 0..<h.counts.length() => {
           h.counts[i].to_double() / (h.bins[i + 1] - h.bins[i]) / total
@@ -400,6 +411,11 @@ pub fn normalise_density(h : Histogram) -> Histogram {
     }
     Some(wcounts) => {
       let total = wcounts.fold(init=0.0, fn(acc, wc) { acc + wc })
+      if total == 0.0 {
+        raise @types.OwlError::InvalidArgument(
+          "normalise_density: total weight is zero",
+        )
+      }
       [
         for i in 0..<wcounts.length() => {
           wcounts[i] / (h.bins[i + 1] - h.bins[i]) / total

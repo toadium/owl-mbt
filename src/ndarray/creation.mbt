@@ -39,6 +39,11 @@ pub fn slice_size(x : Ndarray) -> Array[Int] {
 /// Get element at multi-dimensional index.
 pub fn get(x : Ndarray, index : Array[Int]) -> Double raise {
   let nd = x.shape.length()
+  if index.length() != nd {
+    raise @types.OwlError::InvalidArgument(
+      "get: index rank \{index.length()} != array rank \{nd}",
+    )
+  }
   // Fast paths for 1D and 2D (avoid calc_strides allocation)
   let idx = match nd {
     1 => index[0]
@@ -58,6 +63,11 @@ pub fn get(x : Ndarray, index : Array[Int]) -> Double raise {
 /// Set element at multi-dimensional index.
 pub fn set(x : Ndarray, index : Array[Int], value : Double) -> Unit raise {
   let nd = x.shape.length()
+  if index.length() != nd {
+    raise @types.OwlError::InvalidArgument(
+      "set: index rank \{index.length()} != array rank \{nd}",
+    )
+  }
   // Fast paths for 1D and 2D (avoid calc_strides allocation)
   let idx = match nd {
     1 => index[0]

@@ -32,7 +32,12 @@ pub fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int {
 }
 
 ///|
-pub fn kendall_tau(x0 : Array[Double], x1 : Array[Double]) -> Double {
+pub fn kendall_tau(x0 : Array[Double], x1 : Array[Double]) -> Double raise {
+  if x0.length() < 2 {
+    raise @types.OwlError::InvalidArgument(
+      "kendall_tau: need at least 2 elements",
+    )
+  }
   let a = concordant(x0, x1).to_double()
   let b = discordant(x0, x1).to_double()
   let n = x0.length().to_double()

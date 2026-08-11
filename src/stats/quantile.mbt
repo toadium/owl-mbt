@@ -16,7 +16,7 @@ pub fn quantile(x : Array[Double]) -> (Double) -> Double raise {
     let lhs = index.to_int()
     let delta = index - lhs.to_double()
     if n == 0 {
-      0.0
+      raise @types.OwlError::InvalidArgument("quantile: empty array")
     } else if lhs == n - 1 {
       y[lhs]
     } else {
