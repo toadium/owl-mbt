@@ -155,7 +155,7 @@ test "neural_run_activation_sigmoid" {
   let x = @algodiff.pack_flt(-1.0)
   let y = run_activation(x, act_sigmoid())
   match y {
-    F(v) => @test.assert_eq(true, (v - 1.0).abs() < 0.01)
+    F(v) => @test.assert_eq(true, (v - 0.2689).abs() < 0.01)
     _ => @test.assert_eq(true, false)
   }
 }

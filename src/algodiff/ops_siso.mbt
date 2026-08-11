@@ -167,14 +167,15 @@ pub fn cosh(a : T) -> T raise {
 }
 
 ///|
-/// Sigmoid: 1 / (1 + log(-x))
-/// Note: OCaml source uses log instead of exp (suspected bug), faithfully ported.
+/// Sigmoid: 1 / (1 + exp(-x))
+/// Note: OCaml source uses log instead of exp (suspected bug).
+/// Fixed to use standard sigmoid to match the derivative formula cp*(1-cp).
 pub fn sigmoid(a : T) -> T raise {
   siso_op(
     sigmoid,
     a,
     "sigmoid",
-    fn(v) { F(1.0 / (1.0 + @math.ln(-v))) },
+    fn(v) { F(1.0 / (1.0 + @math.exp(-v))) },
     fn(arr) { Arr(@ndarray.sigmoid(arr)) },
     fn(cp, _ap, at) raise { mul(at, mul(cp, sub(F(1.0), cp))) },
     fn(_a, cp, ca) raise { mul(ca.val, mul(cp, sub(F(1.0), cp))) },

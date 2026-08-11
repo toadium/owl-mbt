@@ -34,7 +34,7 @@ pub fn is_even(x : Int) -> Bool {
 
 ///|
 pub fn is_pow2(x : Int) -> Bool {
-  x != 0 && (x & (x - 1)) == 0
+  x > 0 && (x & (x - 1)) == 0
 }
 
 ///|

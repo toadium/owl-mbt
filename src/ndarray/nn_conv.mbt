@@ -124,7 +124,7 @@ pub fn conv2d(
   )
   let in_stride = input_cols * input_rows * in_channel
   let col_in_stride = input_rows * in_channel
-  let k_col_stride = kernel_rows * in_channel
+  let k_col_stride = kernel_rows * in_channel * out_channel
   for b in 0..<batches {
     for i in 0..<output_cols {
       for j in 0..<output_rows {
@@ -141,7 +141,7 @@ pub fn conv2d(
                 let in_base = b * in_stride +
                   in_col * col_in_stride +
                   in_row * in_channel
-                let k_base = di * k_col_stride + dj * in_channel + k * 1
+                let k_base = di * k_col_stride + dj * (in_channel * out_channel) + k
                 for q in 0..<in_channel {
                   sum += input.data[in_base + q] *
                     kernel.data[k_base + q * out_channel]
@@ -312,9 +312,10 @@ pub fn conv3d(
                         in_row * (input_dpts * in_channel) +
                         in_dpt * in_channel +
                         q
-                      let k_idx = di * (kernel_rows * kernel_dpts * in_channel) +
-                        dj * (kernel_dpts * in_channel) +
-                        d_dpt * in_channel +
+                      let k_idx = di *
+                        (kernel_rows * kernel_dpts * in_channel * out_channel) +
+                        dj * (kernel_dpts * in_channel * out_channel) +
+                        d_dpt * (in_channel * out_channel) +
                         q * out_channel +
                         k
                       sum += input.data[in_idx] * kernel.data[k_idx]

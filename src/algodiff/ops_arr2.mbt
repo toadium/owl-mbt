@@ -56,11 +56,13 @@ pub fn concatenate(arrs : Array[T], axis? : Int = 0) -> T raise {
     DF(_, _, _) => {
       let primal_arrs = []
       let tangent_arrs = []
+      let mut captured_ai = 0
       for a in arrs {
         match a {
-          DF(ap, at, _) => {
+          DF(ap, at, ai) => {
             primal_arrs.push(ap)
             tangent_arrs.push(at)
+            captured_ai = ai
           }
           _ =>
             raise @types.OwlError::InvalidArgument("concatenate: mixed types")
@@ -70,7 +72,7 @@ pub fn concatenate(arrs : Array[T], axis? : Int = 0) -> T raise {
       let ct = concatenate(tangent_arrs, axis~)
       match cp {
         DF(_, _, ai) => DF(cp, ct, ai)
-        _ => DF(cp, ct, 0)
+        _ => DF(cp, ct, captured_ai)
       }
     }
     DR(_, _, _, _, ai, _) => {
@@ -82,15 +84,31 @@ pub fn concatenate(arrs : Array[T], axis? : Int = 0) -> T raise {
       let captured_arrs = arrs
       let captured_axis = axis
       let op : Op = {
-        adjoint: fn(_cp : T, ca : Ref[T], t : Array[(T, T)]) -> Array[(T, T)] {
-          let _ = captured_arrs
-          let _ = captured_axis
-          _prepend((ca.val, captured_arrs[0]), t)
+        adjoint: fn(_cp : T, ca : Ref[T], t : Array[(T, T)]) -> Array[(T, T)] raise {
+          let ca_arr = match primal_(ca.val) {
+            Arr(a) => a
+            _ =>
+              raise @types.OwlError::InvalidArgument(
+                "concatenate: adjoint expects array",
+              )
+          }
+          let parts = Array::makei(captured_arrs.length(), fn(k) {
+            match primal_(captured_arrs[k]) {
+              Arr(a) => a.shape[captured_axis]
+              _ => 0
+            }
+          })
+          let segments = @ndarray.split(ca_arr, parts, axis=captured_axis)
+          let result = t
+          for k in 0..<captured_arrs.length() {
+            result.insert(0, (Arr(segments[k]), captured_arrs[k]))
+          }
+          result
         },
         register: fn(t : Array[T]) -> Array[T] {
-          let result = t
+          let mut result = t
           for a in captured_arrs {
-            result.push(a)
+            result = _prepend(a, result)
           }
           result
         },
