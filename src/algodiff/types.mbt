@@ -13,7 +13,8 @@ pub enum T {
 
 ///|
 /// Operation descriptor for reverse mode AD.
-pub struct Op {
+#warnings("-unused_field")
+struct Op {
   adjoint : (T, Ref[T], Array[(T, T)]) -> Array[(T, T)] raise
   register : (Array[T]) -> Array[T]
   label_name : String
