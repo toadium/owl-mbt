@@ -88,7 +88,11 @@ pub fn sum(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray {
 
 ///|
 /// Min along an axis.
-pub fn min(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray raise {
+pub fn min(
+  x : Ndarray,
+  axis? : Int = -1,
+  keep_dims? : Bool = true,
+) -> Ndarray raise {
   let ax = axis
   if ax < 0 {
     create([1], min_(x))
@@ -114,7 +118,11 @@ pub fn min(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray r
 
 ///|
 /// Max along an axis.
-pub fn max(x : Ndarray, axis? : Int = -1, keep_dims? : Bool = true) -> Ndarray raise {
+pub fn max(
+  x : Ndarray,
+  axis? : Int = -1,
+  keep_dims? : Bool = true,
+) -> Ndarray raise {
   let ax = axis
   if ax < 0 {
     create([1], max_(x))

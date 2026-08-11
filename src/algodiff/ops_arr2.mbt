@@ -84,7 +84,11 @@ pub fn concatenate(arrs : Array[T], axis? : Int = 0) -> T raise {
       let captured_arrs = arrs
       let captured_axis = axis
       let op : Op = {
-        adjoint: fn(_cp : T, ca : Ref[T], t : Array[(T, T)]) -> Array[(T, T)] raise {
+        adjoint: fn(
+          _cp : T,
+          ca : Ref[T],
+          t : Array[(T, T)],
+        ) -> Array[(T, T)] raise {
           let ca_arr = match primal_(ca.val) {
             Arr(a) => a
             _ =>

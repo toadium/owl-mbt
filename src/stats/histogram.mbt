@@ -190,7 +190,10 @@ pub fn hist_weighted_nonuniform(
 
 ///|
 /// 从排序数组生成均匀分箱边界。
-fn make_uniform_bins_from_sorted(n : Int, x : Array[Double]) -> Array[Double] raise {
+fn make_uniform_bins_from_sorted(
+  n : Int,
+  x : Array[Double],
+) -> Array[Double] raise {
   let (bmin, bmax) = minmax(x)
   let db = (bmax - bmin) / n.to_double()
   let nbins = n + 1
@@ -382,7 +385,9 @@ pub fn normalise(h : Histogram) -> Histogram raise {
     Some(wcounts) => {
       let total = wcounts.fold(init=0.0, fn(acc, wc) { acc + wc })
       if total == 0.0 {
-        raise @types.OwlError::InvalidArgument("normalise: total weight is zero")
+        raise @types.OwlError::InvalidArgument(
+          "normalise: total weight is zero",
+        )
       }
       [
         for wc in wcounts => wc / total

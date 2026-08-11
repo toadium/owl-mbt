@@ -141,7 +141,9 @@ pub fn conv2d(
                 let in_base = b * in_stride +
                   in_col * col_in_stride +
                   in_row * in_channel
-                let k_base = di * k_col_stride + dj * (in_channel * out_channel) + k
+                let k_base = di * k_col_stride +
+                  dj * (in_channel * out_channel) +
+                  k
                 for q in 0..<in_channel {
                   sum += input.data[in_base + q] *
                     kernel.data[k_base + q * out_channel]

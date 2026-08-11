@@ -53,7 +53,9 @@ pub fn std_exponential_rvs() -> Double {
 /// 指数分布。移植自 owl_base_stats_dist_exponential.ml
 pub fn exponential_rvs(lambda : Double) -> Double raise {
   if lambda <= 0.0 {
-    raise @types.OwlError::InvalidArgument("exponential_rvs: lambda must be positive")
+    raise @types.OwlError::InvalidArgument(
+      "exponential_rvs: lambda must be positive",
+    )
   }
   let u = _rand.val.double()
   let s = -1.0 / lambda

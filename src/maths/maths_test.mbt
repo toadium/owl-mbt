@@ -1,9 +1,14 @@
 ///|
 /// 基础算术与数学函数测试。golden values 来自 OCaml owl-base 参考行为。
-fn approx_eq(actual : Double, expected : Double, eps? : Double = 1.0e-12) -> Unit raise {
+fn approx_eq(
+  actual : Double,
+  expected : Double,
+  eps? : Double = 1.0e-12,
+) -> Unit raise {
   @test.assert_eq(true, (actual - expected).abs() < eps)
 }
 
+///|
 test "basic arithmetic" {
   @test.assert_eq(@maths.add(1.0, 2.0), 3.0)
   @test.assert_eq(@maths.sub(5.0, 3.0), 2.0)

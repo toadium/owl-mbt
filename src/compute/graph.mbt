@@ -129,7 +129,10 @@ pub fn set_node_value(node : Node, v : @ndarray.Ndarray) -> Unit {
 pub fn get_node_value(node : Node) -> @ndarray.Ndarray raise {
   match node.value.val {
     Some(v) => v
-    None => raise @types.OwlError::InvalidArgument("get_node_value: node has no value")
+    None =>
+      raise @types.OwlError::InvalidArgument(
+        "get_node_value: node has no value",
+      )
   }
 }
 

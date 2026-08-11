@@ -287,12 +287,7 @@ pub fn conv3d_backward_input(
                           out_dpt * out_channel +
                           k
                         let k_idx = di *
-                          (
-                            kernel_rows *
-                            kernel_dpts *
-                            in_channel *
-                            out_channel
-                          ) +
+                          (kernel_rows * kernel_dpts * in_channel * out_channel) +
                           dj * (kernel_dpts * in_channel * out_channel) +
                           d_dpt * (in_channel * out_channel) +
                           q * out_channel +

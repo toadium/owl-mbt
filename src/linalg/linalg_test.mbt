@@ -278,10 +278,18 @@ test "boundary: is_diag single-pass" {
   let nd = @ndarray.of_arrays([[1.0, 2.0], [3.0, 4.0]])
   @test.assert_eq(false, is_diag(nd))
   // 3x3 diagonal
-  let d3 = @ndarray.of_arrays([[1.0, 0.0, 0.0], [0.0, 2.0, 0.0], [0.0, 0.0, 3.0]])
+  let d3 = @ndarray.of_arrays([
+    [1.0, 0.0, 0.0],
+    [0.0, 2.0, 0.0],
+    [0.0, 0.0, 3.0],
+  ])
   @test.assert_eq(true, is_diag(d3))
   // 3x3 non-diagonal (off-diagonal in lower triangle)
-  let nd3 = @ndarray.of_arrays([[1.0, 0.0, 0.0], [0.5, 2.0, 0.0], [0.0, 0.0, 3.0]])
+  let nd3 = @ndarray.of_arrays([
+    [1.0, 0.0, 0.0],
+    [0.5, 2.0, 0.0],
+    [0.0, 0.0, 3.0],
+  ])
   @test.assert_eq(false, is_diag(nd3))
 }
 

@@ -25,7 +25,9 @@ fn _hash31(x : Int, a : Int, b : Int) -> Int {
 /// Initialize a Count-Min sketch with given depth (l) and width (w).
 pub fn cms_init_lw(l : Int, w : Int) -> CountMinSketch raise {
   if l <= 0 || w <= 0 {
-    raise @types.OwlError::InvalidArgument("cms_init_lw: l and w must be positive")
+    raise @types.OwlError::InvalidArgument(
+      "cms_init_lw: l and w must be positive",
+    )
   }
   let tbl = Array::makei(l, fn(_i) { Array::make(w, 0) })
   let hash_fns = Array::makei(l, fn(i) {

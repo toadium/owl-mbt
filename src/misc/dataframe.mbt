@@ -60,7 +60,9 @@ pub fn make_dataframe(columns : Array[Column]) -> DataFrame raise {
       StringCol => col.string_data.length()
     }
     if len != n_rows {
-      raise @types.OwlError::InvalidArgument("make_dataframe: column length mismatch")
+      raise @types.OwlError::InvalidArgument(
+        "make_dataframe: column length mismatch",
+      )
     }
   }
   { columns, n_rows }

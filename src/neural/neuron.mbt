@@ -105,7 +105,8 @@ fn _min_scalar(x : @algodiff.T, s : Double) -> @algodiff.T raise {
         @ndarray.map_elem(arr, fn(v) { if v < s { v } else { s } }),
       )
     // min(x, s) = x - relu(x - s), differentiable through AD
-    _ => @algodiff.sub(x, @algodiff.relu(@algodiff.sub(x, @algodiff.pack_flt(s))))
+    _ =>
+      @algodiff.sub(x, @algodiff.relu(@algodiff.sub(x, @algodiff.pack_flt(s))))
   }
 }
 

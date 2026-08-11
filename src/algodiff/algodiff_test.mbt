@@ -807,7 +807,10 @@ test "df softplus: forward mode" {
   let r = softplus(x)
   let sp = @math.ln(1.0 + @math.exp(1.0))
   @test.assert_eq(true, approx_eq_val(unpack_flt(primal(r)), sp))
-  @test.assert_eq(true, approx_eq_val(unpack_flt(tangent(r)), 1.0 / (1.0 + @math.exp(-1.0))))
+  @test.assert_eq(
+    true,
+    approx_eq_val(unpack_flt(tangent(r)), 1.0 / (1.0 + @math.exp(-1.0))),
+  )
 }
 
 ///|
@@ -816,7 +819,10 @@ test "dr softplus: reverse mode" {
   let r = softplus(x)
   reverse_reset(r)
   reverse_push(pack_flt(1.0), r)
-  @test.assert_eq(true, approx_eq_val(unpack_flt(adjval(x)), 1.0 / (1.0 + @math.exp(-1.0))))
+  @test.assert_eq(
+    true,
+    approx_eq_val(unpack_flt(adjval(x)), 1.0 / (1.0 + @math.exp(-1.0))),
+  )
 }
 
 ///|

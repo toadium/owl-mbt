@@ -623,7 +623,9 @@ pub fn tridiag_solve(
     raise @types.OwlError::InvalidArgument("tridiag_solve: empty system")
   }
   if a.length() < n || c.length() < n || r.length() < n {
-    raise @types.OwlError::InvalidArgument("tridiag_solve: array length mismatch")
+    raise @types.OwlError::InvalidArgument(
+      "tridiag_solve: array length mismatch",
+    )
   }
   let x = Array::make(n, 0.0)
   let gam = Array::make(n, 0.0)
