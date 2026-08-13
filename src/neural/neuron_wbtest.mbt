@@ -345,7 +345,7 @@ test "neuron_wb: shapes all types" {
   @test.assert_eq(0, get_in_shape(concat).length())
   @test.assert_eq(0, get_out_shape(concat).length())
 
-  let lam = Lambda(lambda_create(fn(v) raise { v }))
+  let lam = Lambda(lambda_create(fn(v) { v }))
   @test.assert_eq(0, get_in_shape(lam).length())
   @test.assert_eq(0, get_out_shape(lam).length())
 }
