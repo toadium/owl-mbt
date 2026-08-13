@@ -1,0 +1,6 @@
+import {
+  "owl_mbt/ndarray",
+  "moonbitlang/core/math",
+}
+
+pkgtype(kind: "executable")

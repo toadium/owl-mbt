@@ -1,0 +1,5 @@
+import {
+  "owl_mbt/stats",
+}
+
+pkgtype(kind: "executable")

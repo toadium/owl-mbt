@@ -1,0 +1,7 @@
+import {
+  "owl_mbt/neural",
+  "owl_mbt/algodiff",
+  "owl_mbt/ndarray",
+}
+
+pkgtype(kind: "executable")
