@@ -1,8 +1,8 @@
 import {
-  "owl_mbt/const",
-  "owl_mbt/maths",
-  "owl_mbt/stats",
-  "owl_mbt/types",
+  "walkzzz/owl_mbt/const",
+  "walkzzz/owl_mbt/maths",
+  "walkzzz/owl_mbt/stats",
+  "walkzzz/owl_mbt/types",
   "moonbitlang/core/double",
   "moonbitlang/core/math",
   "moonbitlang/core/random",

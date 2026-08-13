@@ -1,6 +1,6 @@
 import {
-  "owl_mbt/stats",
-  "owl_mbt/types",
+  "walkzzz/owl_mbt/stats",
+  "walkzzz/owl_mbt/types",
   "moonbitlang/core/math",
 }
 

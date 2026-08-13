@@ -1,4 +1,4 @@
-name = "owl_mbt"
+name = "walkzzz/owl_mbt"
 
 version = "0.1.0"
 

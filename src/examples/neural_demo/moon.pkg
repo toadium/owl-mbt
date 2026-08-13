@@ -1,7 +1,7 @@
 import {
-  "owl_mbt/neural",
-  "owl_mbt/algodiff",
-  "owl_mbt/ndarray",
+  "walkzzz/owl_mbt/neural",
+  "walkzzz/owl_mbt/algodiff",
+  "walkzzz/owl_mbt/ndarray",
 }
 
 pkgtype(kind: "executable")

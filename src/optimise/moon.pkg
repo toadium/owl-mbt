@@ -1,14 +1,14 @@
 import {
-  "owl_mbt/algodiff",
+  "walkzzz/owl_mbt/algodiff",
   "moonbitlang/core/math",
 }
 
 import {
-  "owl_mbt/ndarray",
+  "walkzzz/owl_mbt/ndarray",
   "moonbitlang/core/test",
 } for "test"
 
 import {
-  "owl_mbt/ndarray",
+  "walkzzz/owl_mbt/ndarray",
   "moonbitlang/core/test",
 } for "wbtest"

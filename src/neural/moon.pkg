@@ -1,7 +1,7 @@
 import {
-  "owl_mbt/algodiff",
-  "owl_mbt/ndarray",
-  "owl_mbt/types",
+  "walkzzz/owl_mbt/algodiff",
+  "walkzzz/owl_mbt/ndarray",
+  "walkzzz/owl_mbt/types",
   "moonbitlang/core/math",
 }
 
