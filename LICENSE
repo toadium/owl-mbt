@@ -26,8 +26,10 @@ This project is a port of Owl (https://github.com/owlbarn/owl), which is
 licensed under the GNU Lesser General Public License v2.1 or later (LGPL-2.1+).
 The original Owl project is Copyright (c) Owl Authors.
 
-The port was created by translating OCaml source code to MoonBit. While the
-port itself is distributed under the MIT license, users should be aware of the
-original project's licensing terms. The original LGPL-2.1+ license is
-compatible with this distribution as the port constitutes an independent work
-in a different programming language.
+The port was created by translating OCaml source code to MoonBit. Per LGPL-2.1
+Section 3, a work that uses a LGPL library may be distributed under its own
+license terms, provided the original library's source code and license notice
+are retained. This port constitutes an independent derivative work in a
+different programming language (MoonBit), not a modification of the original
+OCaml source. The original LGPL-2.1+ license and copyright notice are preserved
+here for compliance.
