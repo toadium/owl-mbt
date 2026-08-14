@@ -29,7 +29,7 @@ Owl 是 OCaml 生态中最重要的科学计算库之一，提供 N 维数组、
 | compute | 计算图 DAG | ✅ |
 | misc | 辅助工具（DataFrame/Heap/Stack 等） | ✅ |
 
-- **代码规模**：14,768 行 MoonBit 代码，75 个源文件
+- **代码规模**：14,801 行 MoonBit 代码，79 个源文件
 - **测试**：497 个，全部通过
 - **编译**：0 error，0 warning
 - **代码审查**：6 轮审查，141 个问题已全部修复
@@ -50,7 +50,7 @@ Owl 是 OCaml 生态中最重要的科学计算库之一，提供 N 维数组、
 - [x] 0 编译错误，0 warning
 - [x] 3 个可运行示例
 - [x] CI 持续集成配置
-- [ ] 发布至 mooncakes.io
+- [x] 发布至 mooncakes.io
 
 ## 原项目信息
 

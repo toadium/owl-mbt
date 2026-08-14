@@ -8,7 +8,7 @@ Owl 科学计算库的纯 MoonBit 移植，无 C FFI，多后端兼容（Native/
 - **原项目许可证**：LGPL-2.1+
 - **移植范围**：`owl-base` 包（纯 OCaml，34,326 行），不含 `owl` 包的 C 绑定层（OpenBLAS/LAPACK/Cephes）
 - **本项目许可证**：MIT（详见 [LICENSE](LICENSE)）
-- **代码规模**：14,768 行 MoonBit 代码，75 个源文件
+- **代码规模**：14,801 行 MoonBit 代码，79 个源文件
 - **测试**：497 个，全部通过
 - **编译状态**：0 error，0 warning
 
