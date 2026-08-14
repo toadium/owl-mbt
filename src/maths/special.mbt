@@ -40,7 +40,8 @@ pub fn xlogy(x : Double, y : Double) -> Double {
 
 ///|
 /// x * log(1 + y), with the convention that 0 * log(1+y) = 0.
-pub fn xlog1py(x : Double, y : Double) -> Double {
+#warnings("-unused_value")
+fn xlog1py(x : Double, y : Double) -> Double {
   if x == 0.0 && !y.is_nan() {
     0.0
   } else {

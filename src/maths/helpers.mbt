@@ -13,7 +13,7 @@ pub fn is_inf(x : Double) -> Bool {
 
 ///|
 /// subnormal：非零且绝对值小于最小 normal 数
-pub fn is_subnormal(x : Double) -> Bool {
+fn is_subnormal(x : Double) -> Bool {
   x != 0.0 && x.abs() < @const.min_normal64
 }
 
