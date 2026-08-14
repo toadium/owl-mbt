@@ -261,9 +261,3 @@ pub fn to_string(
     s + "]"
   }
 }
-
-///|
-/// Print an ndarray to stdout.
-pub fn print(x : Ndarray, max_row? : Int = -1, max_col? : Int = -1) -> Unit {
-  println(to_string(x, max_row~, max_col~))
-}

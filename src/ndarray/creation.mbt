@@ -5,26 +5,14 @@ pub fn shape(x : Ndarray) -> Array[Int] {
 }
 
 ///|
-/// Return the number of dimensions.
-pub fn num_dims(x : Ndarray) -> Int {
-  x.shape.length()
-}
-
-///|
 /// Return the total number of elements.
 pub fn numel(x : Ndarray) -> Int {
   _numel_shape(x.shape)
 }
 
 ///|
-/// Return the strides (row-major).
-pub fn strides(x : Ndarray) -> Array[Int] {
-  calc_strides(x.shape)
-}
-
-///|
 /// Return the slice sizes (cumulative product from right).
-pub fn slice_size(x : Ndarray) -> Array[Int] {
+fn slice_size(x : Ndarray) -> Array[Int] {
   let n = x.shape.length()
   let result = Array::make(n, 1)
   let mut i = n - 2
@@ -84,13 +72,6 @@ pub fn set(x : Ndarray, index : Array[Int], value : Double) -> Unit raise {
 }
 
 ///|
-/// Create an empty ndarray with given shape.
-pub fn empty(shape : Array[Int]) -> Ndarray {
-  let n = _numel_shape(shape)
-  { shape: shape.copy(), data: FixedArray::make(n, 0.0) }
-}
-
-///|
 /// Create an ndarray from existing FixedArray data and shape.
 /// The data length must match the product of shape dimensions.
 pub fn from_data(shape : Array[Int], data : FixedArray[Double]) -> Ndarray {
@@ -118,31 +99,18 @@ pub fn ones(shape : Array[Int]) -> Ndarray {
 
 ///|
 /// Create an ndarray using a 1D flat-index init function.
-/// `f(i)` receives the flat index [0, numel). Prefer this over `init_nd`
-/// when the n-dimensional index is not needed (faster: avoids index decomposition).
-pub fn from_fn(shape : Array[Int], f : (Int) -> Double) -> Ndarray {
+fn from_fn(shape : Array[Int], f : (Int) -> Double) -> Ndarray {
   let n = _numel_shape(shape)
   let data = FixedArray::makei(n, f)
   { shape: shape.copy(), data }
 }
 
 ///|
-/// Create an ndarray using an n-dimensional index-based init function.
-/// `f(idx)` receives the multi-dimensional index array. Slower than `from_fn`
-/// due to index decomposition. Use when the n-d index is needed.
-pub fn init_nd(shape : Array[Int], f : (Array[Int]) -> Double) -> Ndarray {
-  let n = _numel_shape(shape)
-  let st = calc_strides(shape)
-  let data = FixedArray::makei(n, fn(i) {
-    let nd_idx = Array::make(shape.length(), 0)
-    let mut rem = i
-    for j in 0..<shape.length() {
-      nd_idx[j] = rem / st[j]
-      rem = rem % st[j]
-    }
-    f(nd_idx)
-  })
-  { shape: shape.copy(), data }
+/// Reset all elements to zero.
+pub fn reset(x : Ndarray) -> Unit {
+  for i in 0..<x.data.length() {
+    x.data[i] = 0.0
+  }
 }
 
 ///|
@@ -200,20 +168,4 @@ pub fn copy(x : Ndarray) -> Ndarray {
     data[i] = x.data[i]
   }
   { shape: x.shape.copy(), data }
-}
-
-///|
-/// Reset all elements to zero.
-pub fn reset(x : Ndarray) -> Unit {
-  for i in 0..<x.data.length() {
-    x.data[i] = 0.0
-  }
-}
-
-///|
-/// Fill all elements with a constant value.
-pub fn fill(x : Ndarray, value : Double) -> Unit {
-  for i in 0..<x.data.length() {
-    x.data[i] = value
-  }
 }
