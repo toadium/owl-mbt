@@ -18,10 +18,8 @@ fn calc_fans(s : Array[Int]) -> (Double, Double) {
     (s[0].to_double(), s[1].to_double())
   } else if l > 2 && l < 6 {
     let mut receptive = 1
-    let mut i = 0
-    while i < l - 2 {
+    for i in 0..<(l - 2) {
       receptive = receptive * s[i]
-      i = i + 1
     }
     let fan_in = (s[l - 2] * receptive).to_double()
     let fan_out = (s[l - 1] * receptive).to_double()

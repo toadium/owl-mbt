@@ -102,14 +102,13 @@ fn _possible_prime(
   if p == 1 || p == n - 1 {
     true
   } else {
-    let mut i = 0
     let mut found = false
-    while i < s && !found {
+    for _ in 0..<s {
       p = mulmod(p, p, n)
       if p == n - 1 {
         found = true
+        break
       }
-      i += 1
     }
     found
   }

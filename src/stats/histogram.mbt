@@ -218,15 +218,13 @@ pub fn hist_sorted(
   } else {
     (0, 1 + bsearch(bins[0], x))
   }
-  let mut bin_i = i0
   let mut x_j = j0
   let c = Array::make(n, 0)
-  while bin_i <= n - 1 {
+  for bin_i in i0..<n {
     while x_j < m && fcmp(x[x_j], bins[bin_i + 1]) < 0 {
       c[bin_i] += 1
       x_j += 1
     }
-    bin_i += 1
   }
   while x_j < m && fcmp(x[x_j], bins[n]) == 0 {
     c[n - 1] += 1
@@ -257,17 +255,15 @@ pub fn hist_weighted_sorted(
   } else {
     (0, 1 + bsearch(bins[0], x))
   }
-  let mut bin_i = i0
   let mut x_j = j0
   let c = Array::make(n, 0)
   let wc = Array::make(n, 0.0)
-  while bin_i <= n - 1 {
+  for bin_i in i0..<n {
     while x_j < m && fcmp(x[x_j], bins[bin_i + 1]) < 0 {
       c[bin_i] += 1
       wc[bin_i] += w[x_j]
       x_j += 1
     }
-    bin_i += 1
   }
   while x_j < m && fcmp(x[x_j], bins[n]) == 0 {
     c[n - 1] += 1
