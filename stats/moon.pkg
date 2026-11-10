@@ -1,0 +1,10 @@
+import {
+  "walkzzz/owl_mbt/core",
+  "walkzzz/owl_mbt/maths",
+  "moonbitlang/core/math",
+  "moonbitlang/core/random",
+}
+
+import {
+  "moonbitlang/core/test",
+} for "test"

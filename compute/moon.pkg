@@ -1,0 +1,13 @@
+import {
+  "walkzzz/owl_mbt/core",
+  "walkzzz/owl_mbt/ndarray",
+  "moonbitlang/core/math",
+}
+
+import {
+  "moonbitlang/core/test",
+} for "test"
+
+import {
+  "moonbitlang/core/test",
+} for "wbtest"

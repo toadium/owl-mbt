@@ -12,6 +12,4 @@ keywords = [ "scientific-computing", "ndarray", "math", "ocaml" ]
 
 description = "Owl - OCaml Scientific Computing, pure MoonBit port (no C FFI)"
 
-source = "src"
-
 preferred_target = "native"

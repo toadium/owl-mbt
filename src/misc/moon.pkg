@@ -1,9 +1,0 @@
-import {
-  "walkzzz/owl_mbt/stats",
-  "walkzzz/owl_mbt/types",
-  "moonbitlang/core/math",
-}
-
-import {
-  "moonbitlang/core/test",
-} for "test"

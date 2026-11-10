@@ -1,0 +1,9 @@
+import {
+  "walkzzz/owl_mbt/core",
+  "walkzzz/owl_mbt/stats",
+  "moonbitlang/core/math",
+}
+
+import {
+  "moonbitlang/core/test",
+} for "test"

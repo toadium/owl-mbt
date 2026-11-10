@@ -1,4 +1,6 @@
-# Owl → MoonBit 迁移规划
+# Owl → MoonBit 迁移规划（历史文档）
+
+> **注意**：本文档记录了初始迁移规划过程，包结构等部分已过时（项目已重构为扁平多根包布局）。当前架构请参考 [README.md](../README.md)。
 
 > 源：`D:\CodeWorkspace\forOcaml\owl` 的 `owl-base` 包（纯 OCaml，34,326 行）
 > 目标：`owl-mbt` — Owl 的纯 MoonBit 移植，无 C FFI，多后端兼容（Native/Wasm/JS）
