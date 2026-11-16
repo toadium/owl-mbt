@@ -1,23 +1,12 @@
 # Changelog
 
-## [0.3.0] - 2026-11-16
+## [0.2.0] - 2026-11-16
 
 ### Added
 
 - 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
 - `ndarray.fft` / `ndarray.ifft`：一维 radix-2 Cooley-Tukey 快速傅里叶变换（2 的幂长度）
 - `linalg.svd`：单边 Jacobi（Hestenes）thin SVD（原项目 NOT_IMPLEMENTED 占位，本版自行实现）
-
-### Changed
-
-- CI 门禁升级：`moon check --deny-warn` + native/wasm/js 三后端测试矩阵
-
-### Fixed
-
-- ndarray 边界校验补齐：concatenate/stack 形状一致性、tile/repeat reps 长度、reduce axis 越界、transpose 轴排列、draw axis、split parts 总和
-- `misc`：`col_min`/`col_max` 空列改 raise（原静默返回 0.0）；`slicing` step==0 改 raise（原 abort）
-
-## [0.2.0] - 2026-11-16
 
 ### Changed
 
@@ -30,6 +19,7 @@
 - 迁移旧式 `derive(...)` 为 `#derive(...)` 新语法（core/types、stats 各类型）
 - 删除 12 处未使用的包导入（根包、ndarray 的 double 改为测试专用导入、neural 的 math）
 - `ndarray.reshape` 改用 `Iterator::count()` 替代弃用的 `length()`
+- CI 门禁升级：`moon check --deny-warn` + native/wasm/js 三后端测试矩阵
 
 ### Fixed
 
@@ -37,6 +27,8 @@
 - 治理全部编译警告至零（2311 → 0，`moon check --deny-warn` 通过）：
   - 2274 处黑盒测试符号显式添加 `@pkg.` 前缀（根治 `test_unqualified_package`）
   - 15 处 `implicit_impl_as_method` 以包级 `warnings = "-79"` 抑制（derive 固有行为，项目内无点语法调用）
+- ndarray 边界校验补齐：concatenate/stack 形状一致性、tile/repeat reps 长度、reduce axis 越界、transpose 轴排列、draw axis、split parts 总和
+- `misc`：`col_min`/`col_max` 空列改 raise（原静默返回 0.0）；`slicing` step==0 改 raise（原 abort）
 
 ### Removed
 
