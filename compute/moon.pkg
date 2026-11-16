@@ -1,6 +1,7 @@
 import {
   "walkzzz/owl_mbt/core",
   "walkzzz/owl_mbt/ndarray",
+  "walkzzz/owl_mbt/linalg",
   "moonbitlang/core/math",
 }
 
