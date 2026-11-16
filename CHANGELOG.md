@@ -7,9 +7,11 @@
 - 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
 - `ndarray.fft` / `ndarray.ifft`：一维 radix-2 Cooley-Tukey 快速傅里叶变换（2 的幂长度）
 - `linalg.svd`：单边 Jacobi（Hestenes）thin SVD（原项目 NOT_IMPLEMENTED 占位，本版自行实现）
+- `compute`：`eval_node` 全部可计算 op 实现，40+ passthrough 清零——形状类 Tile/Repeat/Concatenate/Stack/Split/UpSampling2d、标量算术与比较 18 个（标量取自 [1] 形状输入节点）、ClipByValue/ClipByL2norm、Get/Set/RowNum/ColNum/Row/Rows、Inv/Trace（经 linalg，无环依赖）、Conv1d/2d/3d 与 TransposeConv 全系列、全部 Max/AvgPool、OneHot、Draw、带轴 Min/Max/Sum/LogSumExp；语义不可无状态实现的 op（AD Prime 变体、FusedAdagrad、CopyRowTo/CopyColTo、ToRows/OfRows）由静默返回错误结果改为显式 raise `NotImplemented`
 - `neural`：Dropout 层训练模式 inverted dropout 实现——bernoulli 掩码（keep 概率 `1-rate`）逐元素置零并按 `1/(1-rate)` 缩放，推理模式直通；`run_neuron` 新增可选 `train~` 参数，graph 层透传 `Node.train` 标志
 - `optimise`：`run_clipping` 梯度裁剪实现——`L2norm` 在 primal 范数超过 `c` 时按 `c/norm` 重缩放（保留 AD 值图）；`Value` 经 `@ndarray.clip_by_value` 逐元素裁剪到 `[min,max]`（Owl 原版 `M.clamp` 语义，作用于梯度方向故裁剪 primal 值不破坏更新正确性）
 - `optimise`：`run_stopping` Early 停止实现——`current_batch >= min_batches` 且当前批次损失相对 `patience` 批次前无下降（primal 值比较）时停止；签名从 `(Stopping, Double)` 改为 `(Stopping, State)`（包私有函数），调用点改为在停止判定前记录当前批次 loss
+- `misc`：Logger 彩色输出实现——`format_msg` 按 `colorful` 开关对等级词做 ANSI 着色（Debug 青/Info 绿/Warn 黄/Error 红/Fatal 品红）
 
 ### Changed
 
@@ -23,6 +25,7 @@
 - 删除 12 处未使用的包导入（根包、ndarray 的 double 改为测试专用导入、neural 的 math）
 - `ndarray.reshape` 改用 `Iterator::count()` 替代弃用的 `length()`
 - CI 门禁升级：`moon check --deny-warn` + native/wasm/js 三后端测试矩阵
+- `linalg`：提取 `_lu_decompose` 核心供 `lu`/`det`/`logdet`/`linsolve_lu` 共用（行为逐一保持，含 tiny 替换与各自错误消息语义，净减约 170 行重复代码）
 
 ### Fixed
 
@@ -32,6 +35,11 @@
   - 15 处 `implicit_impl_as_method` 以包级 `warnings = "-79"` 抑制（derive 固有行为，项目内无点语法调用）
 - ndarray 边界校验补齐：concatenate/stack 形状一致性、tile/repeat reps 长度、reduce axis 越界、transpose 轴排列、draw axis、split parts 总和
 - `misc`：`col_min`/`col_max` 空列改 raise（原静默返回 0.0）；`slicing` step==0 改 raise（原 abort）
+
+### Known Limitations
+
+- `ndarray.draw` 在 `count > 1` 时索引展开实现有缺陷（输出形状随随机值漂移）；`compute.Draw` 已通过逐次抽取拼接绕过，ndarray 层待后续修复
+- `compute` 的 `infer_shape` 与 `eval_node` 实现存在部分形状推断不一致（Split/带轴归约等），源码已注明
 
 ### Removed
 

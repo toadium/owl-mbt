@@ -4,11 +4,11 @@
 
 **Owl 科学计算库的纯 MoonBit 移植**
 
-无 C FFI · 多后端兼容 (Native/Wasm/JS) · 527 测试全通过
+无 C FFI · 多后端兼容 (Native/Wasm/JS) · 561 测试全通过
 
 [![MoonBit](https://img.shields.io/badge/MoonBit-pure%20implementation-blue)](https://www.moonbitlang.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-527%20passed-brightgreen)]()
+[![Tests](https://img.shields.io/badge/Tests-561%20passed-brightgreen)]()
 [![No C FFI](https://img.shields.io/badge/No%20C%20FFI-pure%20MoonBit-orange)]()
 [![mooncakes](https://img.shields.io/badge/mooncakes-walkzzz%2Fowl__mbt-purple)](https://mooncakes.io/docs/walkzzz/owl_mbt)
 
@@ -31,7 +31,7 @@ owl-mbt 是 OCaml 生态最重要的科学计算库 [Owl](https://github.com/owl
 | 移植范围 | `owl-base` 包（纯 OCaml，34,326 行），不含 C 绑定层 |
 | 本项目许可证 | MIT（详见 [LICENSE](LICENSE)） |
 | 代码规模 | 14,801 行 MoonBit 代码，79 个源文件 |
-| 测试 | 527 个，全部通过 |
+| 测试 | 561 个，全部通过（四后端） |
 | mooncakes | `walkzzz/owl_mbt` |
 
 ## 包结构
@@ -60,10 +60,9 @@ owl-mbt/
 ```
 core（零依赖）
   ↑
-maths → stats → ndarray → ┬→ linalg
+maths → stats → ndarray → ┬→ linalg ──→ compute
                            ├→ algodiff → ┬→ optimise
                            │             └→ neural
-                           ├→ compute
                            └→ misc
 ```
 
@@ -75,12 +74,12 @@ maths → stats → ndarray → ┬→ linalg
 | `@maths` | 数学函数 | 基础运算 + erf/erfc + sigmoid + signum + 数论（素数/模运算） |
 | `@stats` | 统计分布 | PRNG + 5 种分布采样 + 描述性统计 + 直方图 + KDE |
 | `@ndarray` | N 维数组 | strided Ndarray + 创建/切片/运算/广播/规约 + 卷积/池化 |
-| `@linalg` | 线性代数 | LU/Cholesky/QR 分解 + inv/det/rank/trace + 三对角求解 |
+| `@linalg` | 线性代数 | LU/Cholesky/QR/SVD 分解 + inv/det/logdet/rank/trace + 三对角求解 |
 | `@algodiff` | 自动微分 | 前向+反向模式 + diff/grad/jacobian/hessian API |
-| `@optimise` | 优化算法 | 梯度下降 + 动量法 + 正则化 + 学习率调度 |
-| `@neural` | 神经网络 | 10 种层类型 + forward/backward + Neuron 图 |
-| `@compute` | 计算图 | 120+ Op 变体 + DAG + 拓扑排序 + 形状推断 |
-| `@misc` | 辅助工具 | Logger + Stack[T] + Heap[T] + CountMinSketch + DataFrame |
+| `@optimise` | 优化算法 | 梯度下降 + 动量法 + 正则化 + 学习率调度 + 梯度裁剪 + 早停 |
+| `@neural` | 神经网络 | 10 种层类型（含 inverted Dropout）+ forward/backward + Neuron 图 |
+| `@compute` | 计算图 | 120+ Op 全求值（卷积/池化/标量/裁剪/索引）+ DAG + 拓扑排序 + 形状推断 |
+| `@misc` | 辅助工具 | 彩色 Logger + Stack[T] + Heap[T] + CountMinSketch + DataFrame |
 
 ## 快速开始
 
@@ -113,7 +112,7 @@ moon run examples/stats_demo     # 统计与分布采样
 
 ```sh
 moon check   # 类型检查
-moon test    # 运行测试（527 个）
+moon test    # 运行测试（561 个）
 moon fmt     # 格式化
 moon info    # 生成接口
 ```
@@ -139,7 +138,7 @@ moon info    # 生成接口
 
 ## 代码审查
 
-经过 6 轮代码审查（141 个问题）：P0-P1 严重项全部修复；P2-P4 共 78 项中 18 项已修复，其余项以文档标注行为或记录为已知限制（详见 `reviews/` 目录）。2026-11 迭代补齐了 ndarray 边界校验（concatenate/stack/tile/repeat/axis/transpose/draw/split）、`col_min`/`col_max` 空列、`slicing` step==0 等静默错误风险项。
+经过 6 轮代码审查（141 个问题）：P0-P1 严重项全部修复；P2-P4 共 78 项中 28 项已修复，其余项以文档标注行为或记录为已知限制（详见 `reviews/` 目录）。2026-11 迭代补齐了 ndarray 边界校验、`col_min`/`col_max` 空列、`slicing` step==0 等静默错误风险项，并完成 compute 计算图全 op 求值、Dropout/梯度裁剪/早停实现、LU 分解去重与测试盲区补齐。
 
 ## 许可证
 
