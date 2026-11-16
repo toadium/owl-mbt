@@ -8,6 +8,7 @@ import {
 
 import {
   "moonbitlang/core/double",
+  "walkzzz/owl_mbt/core",
 } for "test"
 
 import {
