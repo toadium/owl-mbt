@@ -27,13 +27,14 @@ pub fn minimise_fun(
   while !state.stop {
     let xi = x_ref.val
     let (loss_new, g_new) = @algodiff.grad_prime(optz_fun, xi)
-    let loss_flt = @algodiff.unpack_flt(loss_new)
-    state.stop = run_stopping(params.stopping, loss_flt)
-    if state.stop {
-      break
-    }
+    // Record the current batch loss before evaluating the stopping criterion
+    // so that Early(min_batches, patience) can compare against history.
     if state.current_batch < state.loss.length() {
       state.loss[state.current_batch] = loss_new
+    }
+    state.stop = run_stopping(params.stopping, state)
+    if state.stop {
+      break
     }
     let g_clipped = run_clipping(params.clipping, g_new)
     let p_new = run_gradient(

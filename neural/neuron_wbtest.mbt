@@ -349,3 +349,38 @@ test "neuron_wb: shapes all types" {
   @test.assert_eq(0, get_in_shape(lam).length())
   @test.assert_eq(0, get_out_shape(lam).length())
 }
+
+///|
+/// Coverage: run_neuron with Dropout in inference mode (passthrough)
+test "neuron_wb: run_neuron dropout inference passthrough" {
+  let expected = @ndarray.from_data([1, 4], [1.0, 2.0, 3.0, 4.0])
+  let x = @algodiff.pack_arr(expected)
+  let y = run_neuron([x], Dropout(dropout_create(0.5)), train=false)
+  @test.assert_eq(
+    true,
+    @ndarray.approx_equal(@algodiff.unpack_arr(y), expected),
+  )
+}
+
+///|
+/// Coverage: run_neuron with Dropout in training mode (gradient masking).
+/// Inverted dropout multiplies by a constant bernoulli mask scaled by
+/// 1/(1-rate), so d(sum(dropout(x)))/dx has entries in {0, 1/(1-rate)}.
+test "neuron_wb: run_neuron dropout training gradient" {
+  let x = @algodiff.pack_arr(@ndarray.from_data([1, 4], [1.0, 2.0, 3.0, 4.0]))
+  let g = @algodiff.grad(
+    fn(v : @algodiff.T) -> @algodiff.T raise {
+      @algodiff.sum_(run_neuron([v], Dropout(dropout_create(0.5)), train=true))
+    },
+    x,
+  )
+  let ga = @algodiff.unpack_arr(g)
+  // ga keeps the batch dimension, e.g. shape [1, 4]; build a full index.
+  let dims = @ndarray.shape(ga)
+  for i in 0..<4 {
+    let idx = Array::make(dims.length(), 0)
+    idx[dims.length() - 1] = i
+    let v = @ndarray.get(ga, idx)
+    @test.assert_eq(true, v.abs() < 1.0e-9 || (v - 2.0).abs() < 1.0e-9)
+  }
+}

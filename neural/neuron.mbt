@@ -324,7 +324,16 @@ pub fn update_neuron(n : Neuron, u : Array[@algodiff.T]) -> Unit {
 }
 
 ///|
-pub fn run_neuron(input : Array[@algodiff.T], n : Neuron) -> @algodiff.T raise {
+/// Run a single neuron forward.
+/// `train` selects the training-mode behaviour of stochastic layers: Dropout
+/// runs inverted dropout (bernoulli mask with keep-probability `1 - rate`,
+/// output scaled by `1/(1 - rate)` so activations keep the same expectation),
+/// while in inference mode (`train=false`) it passes the input through.
+pub fn run_neuron(
+  input : Array[@algodiff.T],
+  n : Neuron,
+  train~ : Bool = false,
+) -> @algodiff.T raise {
   match n {
     Input(_) => input[0]
     Linear(l) => @algodiff.add(@algodiff.matmul(input[0], l.w.val), l.b.val)
@@ -332,7 +341,22 @@ pub fn run_neuron(input : Array[@algodiff.T], n : Neuron) -> @algodiff.T raise {
     Activation(l) => run_activation(input[0], l.activation)
     Flatten(_) => @algodiff.flatten(input[0])
     Reshape(l) => @algodiff.reshape(input[0], l.out_shape.val)
-    Dropout(_) => input[0] // Not implemented: training-mode dropout is a no-op
+    Dropout(l) =>
+      if train {
+        let shape = @algodiff.arr_shape(input[0])
+        if shape.length() > 0 {
+          let keep = 1.0 - l.rate
+          let mask = @ndarray.bernoulli(shape, p=keep)
+          @algodiff.div_scalar(
+            @algodiff.mul(input[0], @algodiff.pack_arr(mask)),
+            keep,
+          )
+        } else {
+          input[0]
+        }
+      } else {
+        input[0]
+      }
     Add(_) => {
       let mut acc = input[0]
       for i in 1..<input.length() {

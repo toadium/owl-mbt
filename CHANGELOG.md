@@ -7,6 +7,9 @@
 - 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
 - `ndarray.fft` / `ndarray.ifft`：一维 radix-2 Cooley-Tukey 快速傅里叶变换（2 的幂长度）
 - `linalg.svd`：单边 Jacobi（Hestenes）thin SVD（原项目 NOT_IMPLEMENTED 占位，本版自行实现）
+- `neural`：Dropout 层训练模式 inverted dropout 实现——bernoulli 掩码（keep 概率 `1-rate`）逐元素置零并按 `1/(1-rate)` 缩放，推理模式直通；`run_neuron` 新增可选 `train~` 参数，graph 层透传 `Node.train` 标志
+- `optimise`：`run_clipping` 梯度裁剪实现——`L2norm` 在 primal 范数超过 `c` 时按 `c/norm` 重缩放（保留 AD 值图）；`Value` 经 `@ndarray.clip_by_value` 逐元素裁剪到 `[min,max]`（Owl 原版 `M.clamp` 语义，作用于梯度方向故裁剪 primal 值不破坏更新正确性）
+- `optimise`：`run_stopping` Early 停止实现——`current_batch >= min_batches` 且当前批次损失相对 `patience` 批次前无下降（primal 值比较）时停止；签名从 `(Stopping, Double)` 改为 `(Stopping, State)`（包私有函数），调用点改为在停止判定前记录当前批次 loss
 
 ### Changed
 

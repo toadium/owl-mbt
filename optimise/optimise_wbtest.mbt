@@ -263,9 +263,89 @@ test "wb clipping: all types" {
 }
 
 ///|
+test "wb clipping: L2norm array rescales when norm exceeds c" {
+  // x = [3, 4]: L2 norm = 5 > 1 -> rescale by 1/5 -> [0.6, 0.8]
+  let x = @algodiff.pack_arr(@ndarray.of_array([3.0, 4.0], [2]))
+  let r = run_clipping(clip_l2norm(1.0), x)
+  let a = @algodiff.unpack_arr(r)
+  @test.assert_eq(true, approx_eq_val(@ndarray.get(a, [0]), 0.6))
+  @test.assert_eq(true, approx_eq_val(@ndarray.get(a, [1]), 0.8))
+}
+
+///|
+test "wb clipping: L2norm array passthrough below threshold" {
+  // x = [3, 4]: L2 norm = 5 <= 10 -> unchanged
+  let x = @algodiff.pack_arr(@ndarray.of_array([3.0, 4.0], [2]))
+  let r = run_clipping(clip_l2norm(10.0), x)
+  @test.assert_eq(
+    true,
+    @ndarray.approx_equal(
+      @algodiff.unpack_arr(r),
+      @ndarray.of_array([3.0, 4.0], [2]),
+    ),
+  )
+}
+
+///|
+test "wb clipping: Value array clamps elementwise" {
+  let x = @algodiff.pack_arr(@ndarray.of_array([0.5, -2.0, 3.0], [3]))
+  let r = run_clipping(clip_value(-1.0, 1.0), x)
+  let a = @algodiff.unpack_arr(r)
+  @test.assert_eq(true, approx_eq_val(@ndarray.get(a, [0]), 0.5))
+  @test.assert_eq(true, approx_eq_val(@ndarray.get(a, [1]), -1.0))
+  @test.assert_eq(true, approx_eq_val(@ndarray.get(a, [2]), 1.0))
+}
+
+///|
 test "wb stopping: all types" {
-  @test.assert_eq(true, run_stopping(stop_const(0.01), 0.001))
-  @test.assert_eq(false, run_stopping(stop_const(0.01), 0.1))
-  @test.assert_eq(false, run_stopping(stop_early(10, 5), 0.001))
-  @test.assert_eq(false, run_stopping(stop_none(), 0.001))
+  let st = init_state(1, 10.0)
+  st.loss[0] = @algodiff.pack_flt(0.001)
+  @test.assert_eq(true, run_stopping(stop_const(0.01), st))
+  st.loss[0] = @algodiff.pack_flt(0.1)
+  @test.assert_eq(false, run_stopping(stop_const(0.01), st))
+  @test.assert_eq(false, run_stopping(stop_none(), st))
+}
+
+///|
+test "wb stopping: Early below min_batches keeps going" {
+  let st = init_state(1, 10.0)
+  for i in 0..<=5 {
+    st.loss[i] = @algodiff.pack_flt(1.0)
+  }
+  st.current_batch = 2
+  @test.assert_eq(false, run_stopping(stop_early(5, 3), st))
+}
+
+///|
+test "wb stopping: Early improving loss keeps going" {
+  let st = init_state(1, 10.0)
+  for i in 0..<=5 {
+    st.loss[i] = @algodiff.pack_flt(1.0)
+  }
+  st.current_batch = 5
+  st.loss[5] = @algodiff.pack_flt(0.5)
+  // loss[5] = 0.5 < loss[2] = 1.0: still improving
+  @test.assert_eq(false, run_stopping(stop_early(5, 3), st))
+}
+
+///|
+test "wb stopping: Early stalled loss stops" {
+  let st = init_state(1, 10.0)
+  for i in 0..<=5 {
+    st.loss[i] = @algodiff.pack_flt(1.0)
+  }
+  st.current_batch = 5
+  // loss[5] = 1.0 >= loss[2] = 1.0: no improvement over patience window
+  @test.assert_eq(true, run_stopping(stop_early(5, 3), st))
+}
+
+///|
+test "wb stopping: Early insufficient patience history" {
+  let st = init_state(1, 10.0)
+  for i in 0..<=3 {
+    st.loss[i] = @algodiff.pack_flt(1.0)
+  }
+  st.current_batch = 2
+  // current_batch=2 >= min_batches=2 but 2 - 3 < 0: not enough history
+  @test.assert_eq(false, run_stopping(stop_early(2, 3), st))
 }

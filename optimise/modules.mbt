@@ -192,22 +192,76 @@ fn run_regularisation(
 }
 
 ///|
-/// Execute clipping. Note: all clipping types are currently no-op (not implemented).
-#warnings("-unused_error_type")
+/// Execute clipping.
+/// * `L2norm(c)`: computes the L2 norm of `x` on primal values; when it
+///   exceeds `c`, rescales `x` by `c / norm` (as an AD scalar multiplication,
+///   so the value graph is preserved); otherwise returns `x` unchanged.
+/// * `Value(min, max)`: clamps `x` element-wise into `[min, max]` on primal
+///   values via `@ndarray.clip_by_value`, faithfully matching the OCaml Owl
+///   `M.clamp` semantics. This cuts the gradient tape, which is acceptable
+///   because clipping only shapes the search direction and the downstream
+///   update reads primal values only.
 fn run_clipping(typ : Clipping, x : @algodiff.T) -> @algodiff.T raise {
   match typ {
-    L2norm(_) => x
-    Value(_, _) => x
+    L2norm(c) => {
+      let norm = @algodiff.unpack_flt(
+        @algodiff.primal_(@algodiff.sum_(@algodiff.sqr(x))),
+      ).sqrt()
+      if norm > c {
+        @algodiff.mul_scalar(x, c / norm)
+      } else {
+        x
+      }
+    }
+    Value(min, max) =>
+      if @algodiff.is_float(x) {
+        let v = @algodiff.unpack_flt(x)
+        @algodiff.pack_flt(
+          if v < min {
+            min
+          } else if v > max {
+            max
+          } else {
+            v
+          },
+        )
+      } else {
+        @algodiff.pack_arr(
+          @ndarray.clip_by_value(@algodiff.unpack_arr(x), amin=min, amax=max),
+        )
+      }
     None => x
   }
 }
 
 ///|
-/// Execute stopping criterion. Note: Early stopping is not implemented (returns false).
-fn run_stopping(typ : Stopping, loss : Double) -> Bool {
+/// Execute stopping criterion.
+/// * `Const(threshold)`: stop when the current batch loss (recorded in
+///   `state.loss[state.current_batch]`) drops below `threshold`.
+/// * `Early(min_batches, patience)`: stop when `current_batch >= min_batches`
+///   and the current batch loss shows no improvement over the loss recorded
+///   `patience` batches ago (`loss[i] >= loss[i - patience]`, compared on
+///   primal values). Returns false while fewer than `patience` batches of
+///   history exist or before `min_batches` batches have been run.
+/// Callers must record the current batch loss in `state.loss[state.current_batch]`
+/// before calling this function.
+fn run_stopping(typ : Stopping, state : State) -> Bool raise {
   match typ {
-    Const(threshold) => loss < threshold
-    Early(_, _) => false
+    Const(threshold) =>
+      @algodiff.unpack_flt(@algodiff.primal_(state.loss[state.current_batch])) <
+      threshold
+    Early(min_batches, patience) => {
+      let i = state.current_batch
+      if i >= min_batches && i - patience >= 0 {
+        let cur = @algodiff.unpack_flt(@algodiff.primal_(state.loss[i]))
+        let prev = @algodiff.unpack_flt(
+          @algodiff.primal_(state.loss[i - patience]),
+        )
+        cur >= prev
+      } else {
+        false
+      }
+    }
     None => false
   }
 }

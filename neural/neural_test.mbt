@@ -303,3 +303,39 @@ test "scenario: lambda custom layer" {
   let shape = @algodiff.arr_shape(y)
   @test.assert_eq([3], shape)
 }
+
+///|
+test "scenario: dropout rate zero passes through" {
+  // rate=0.0: bernoulli(p=1.0) mask is all ones, output equals input exactly.
+  let x = @neural.input([4])
+  let d = @neural.dropout(x, 0.0)
+  let nn = @neural.get_network(d)
+  let expected = @ndarray.from_data([1, 4], [1.0, 2.0, 3.0, 4.0])
+  let (y, _) = @neural.forward(nn, @algodiff.pack_arr(expected))
+  @test.assert_eq(
+    true,
+    @ndarray.approx_equal(@algodiff.unpack_arr(y), expected),
+  )
+}
+
+///|
+test "scenario: dropout training mode scaling" {
+  // rate=0.5 inverted dropout: each element is either dropped (0) or kept
+  // and scaled by 1/(1-rate) = 2, regardless of the random mask.
+  let x = @neural.input([4])
+  let d = @neural.dropout(x, 0.5)
+  let nn = @neural.get_network(d)
+  let inp_arr = @ndarray.from_data([1, 4], [1.0, 2.0, 3.0, 4.0])
+  let (y, _) = @neural.forward(nn, @algodiff.pack_arr(inp_arr))
+  @test.assert_eq([4], @algodiff.arr_shape(y))
+  let ya = @algodiff.unpack_arr(y)
+  // ya keeps the batch dimension, e.g. shape [1, 4]; build a full index.
+  let dims = @ndarray.shape(ya)
+  for i in 0..<4 {
+    let idx = Array::make(dims.length(), 0)
+    idx[dims.length() - 1] = i
+    let v = @ndarray.get(ya, idx)
+    let src = @ndarray.get(inp_arr, [0, i])
+    @test.assert_eq(true, v.abs() < 1.0e-9 || (v - src * 2.0).abs() < 1.0e-9)
+  }
+}

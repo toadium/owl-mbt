@@ -216,7 +216,7 @@ pub fn run(x : @algodiff.T, nn : Network) -> @algodiff.T raise {
       Input(_) => [x]
       _ => collect_output(n.prev.val)
     }
-    let output = run_neuron(input, n.neuron.val)
+    let output = run_neuron(input, n.neuron.val, train=n.train.val)
     n.output.val = Some(output)
   }
   let sink = nn.topo.val[nn.topo.val.length() - 1]
