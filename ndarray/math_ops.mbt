@@ -177,7 +177,7 @@ pub fn relu(x : Ndarray) -> Ndarray {
 }
 
 ///|
-pub fn dawsn(x : Ndarray) -> Ndarray raise {
+pub fn dawsn(x : Ndarray) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
   let xd = x.data

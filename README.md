@@ -132,7 +132,7 @@ moon info    # 生成接口
 ## 尚未移植的功能
 
 - SVD 分解（原项目也为 `NOT_IMPLEMENTED`）
-- 高级特殊函数（gamma/beta/bessel，在 Cephes C 层）
+- Y0/Y1 第二类贝塞尔函数（原项目在 Cephes C 层；gamma/beta/J0/J1/dawsn 已以纯 MoonBit 实现，见 `maths/gamma.mbt`、`maths/bessel.mbt`）
 - 完整 BLAS/LAPACK 接口
 - 稀疏矩阵
 - FFT

@@ -23,9 +23,43 @@ pub fn sigmoid(x : Double) -> Double {
 }
 
 ///|
-/// Dawson 积分，owl-base 未实现。
-pub fn dawsn(_x : Double) -> Double raise @core.OwlError {
-  raise @core.OwlError::NotImplemented("dawsn")
+/// Dawson 积分 D(x) = exp(-x^2) * ∫ exp(t^2) dt。
+/// |x| <= 3 使用幂级数 D(x) = Σ (-1)^k 2^k x^(2k+1) / (2k+1)!!；
+/// |x| > 3 使用渐近级数 D(x) ~ Σ (2k-1)!! / (2^(k+1) x^(2k+1))，在最小项处截断。
+pub fn dawsn(x : Double) -> Double {
+  if x.is_nan() {
+    return x
+  }
+  let ax = x.abs()
+  let sign = if x < 0.0 { -1.0 } else { 1.0 }
+  if ax <= 3.0 {
+    // 幂级数，递推项 term_k = (-2x^2)^k x / (2k+1)!!，即乘 (-2x^2)/(2k+3)
+    let mut term = ax
+    let mut sum = ax
+    for k in 1..<60 {
+      term = term * (-2.0 * ax * ax) / (2.0 * k.to_double() + 1.0)
+      sum += term
+      if term.abs() < 1.0e-18 * sum.abs() {
+        break
+      }
+    }
+    sign * sum
+  } else {
+    // 渐近级数：D(x) ~ 1/(2x) + 1/(4x^3) + 3/(8x^5) + ...，项比 (2k-1)/(2x^2)，
+    // 项先减后增，在项开始增大处（最小项）截断。
+    let mut term = 1.0 / (2.0 * ax)
+    let mut sum = term
+    let mut prev = term.abs()
+    for k in 1..<400 {
+      term = term * (2.0 * k.to_double() - 1.0) / (2.0 * ax * ax)
+      if term.abs() > prev || term == 0.0 {
+        break
+      }
+      sum += term
+      prev = term.abs()
+    }
+    sign * sum
+  }
 }
 
 ///|
