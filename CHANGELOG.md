@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] - 2026-11-10
+## [0.2.0] - 2026-11-16
 
 ### Changed
 
@@ -10,6 +10,16 @@
 - 创建根包入口 `owl_mbt.mbt` + `moon.pkg`
 - 移除 `moon.mod` 中的 `source = "src"` 配置
 - 更新申报书为 `hackathon2026_owl_mbt_proposal.md`
+- 迁移旧式 `derive(...)` 为 `#derive(...)` 新语法（core/types、stats 各类型）
+- 删除 12 处未使用的包导入（根包、ndarray 的 double 改为测试专用导入、neural 的 math）
+- `ndarray.reshape` 改用 `Iterator::count()` 替代弃用的 `length()`
+
+### Fixed
+
+- 修复 `algodiff/moon.pkg` 的坏损配置（MoonLang 语法解析失败导致整个模块无法构建）
+- 治理全部编译警告至零（2311 → 0，`moon check --deny-warn` 通过）：
+  - 2274 处黑盒测试符号显式添加 `@pkg.` 前缀（根治 `test_unqualified_package`）
+  - 15 处 `implicit_impl_as_method` 以包级 `warnings = "-79"` 抑制（derive 固有行为，项目内无点语法调用）
 
 ### Removed
 
