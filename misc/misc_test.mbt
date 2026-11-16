@@ -241,7 +241,7 @@ test "log_set_level" {
 test "log_format_msg" {
   let logger = @misc.make_logger()
   let msg = @misc.format_msg(logger, @misc.level_info(), "hello world")
-  @test.assert_eq("INFO : hello world", msg)
+  @test.assert_eq("\u{1b}[32mINFO\u{1b}[0m : hello world", msg)
   let msg2 = @misc.format_msg(logger, @misc.level_debug(), "debug msg")
   @test.assert_eq("", msg2)
 }
@@ -298,5 +298,74 @@ test "col_min/col_max reject empty column" {
     _ => fail("expected InvalidArgument for col_max")
   } noraise {
     _ => fail("expected raise for col_max")
+  }
+}
+
+///|
+test "log_format_msg_plain" {
+  let logger = @misc.make_logger()
+  @misc.set_colorful(logger, false)
+  @test.assert_eq(
+    "INFO : hello world",
+    @misc.format_msg(logger, @misc.level_info(), "hello world"),
+  )
+  @test.assert_eq(
+    "FATAL : boom",
+    @misc.format_msg(logger, @misc.level_fatal(), "boom"),
+  )
+  @misc.set_colorful(logger, true)
+  @test.assert_eq(
+    "\u{1b}[31mERROR\u{1b}[0m : bad",
+    @misc.format_msg(logger, @misc.level_error(), "bad"),
+  )
+}
+
+///|
+test "heap_pop/peek raise on empty" {
+  let h = @misc.Heap::new(fn(a : Int32, b : Int32) -> Int32 { a - b })
+  try @misc.Heap::pop(h) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("pop raised on empty heap", content="pop raised on empty heap")
+    _ => fail("expected InvalidArgument for Heap::pop")
+  } noraise {
+    _ => fail("expected raise for Heap::pop on empty heap")
+  }
+  try @misc.Heap::peek(h) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("peek raised on empty heap", content="peek raised on empty heap")
+    _ => fail("expected InvalidArgument for Heap::peek")
+  } noraise {
+    _ => fail("expected raise for Heap::peek on empty heap")
+  }
+}
+
+///|
+test "countmin never underestimates" {
+  let cms = @misc.cms_init_lw(3, 64)
+  for _ in 0..<5 {
+    @misc.cms_incr(cms, 7)
+  }
+  // Count-Min guarantees estimate >= true frequency (overestimate only)
+  @test.assert_eq(true, @misc.cms_count(cms, 7) >= 5)
+  // Other keys colliding into the same buckets must not lower the estimate
+  @misc.cms_incr(cms, 100)
+  @misc.cms_incr(cms, 200)
+  @misc.cms_incr(cms, 300)
+  @test.assert_eq(true, @misc.cms_count(cms, 7) >= 5)
+}
+
+///|
+test "make_dataframe rejects mismatched column lengths" {
+  let c1 = @misc.float_column("x", [1.0, 2.0, 3.0])
+  let c2 = @misc.int_column("n", [1, 2])
+  try @misc.make_dataframe([c1, c2]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "make_dataframe rejected mismatched columns",
+        content="make_dataframe rejected mismatched columns",
+      )
+    _ => fail("expected InvalidArgument for make_dataframe")
+  } noraise {
+    _ => fail("expected raise for mismatched column lengths")
   }
 }

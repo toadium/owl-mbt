@@ -85,25 +85,24 @@ pub fn trace(x : @ndarray.Ndarray) -> Double {
 }
 
 ///|
-/// LU decomposition with partial pivoting.
-/// Returns (L, U, piv) where L*U = A[piv,:].
-/// L is lower triangular with unit diagonal, U is upper triangular.
-///
-/// Note: for singular matrices, a zero pivot is replaced with `1e-40` and
-/// the decomposition continues, producing large numerical values. This
-/// matches the OCaml source behaviour. Use `det` (returns 0.0) or `inv`
-/// (raises) for reliable singularity detection.
-pub fn lu(
-  a : @ndarray.Ndarray,
-) -> (@ndarray.Ndarray, @ndarray.Ndarray, Array[Int32]) raise {
-  let n = a.shape[0]
-  if a.shape[1] != n {
-    raise @core.OwlError::InvalidArgument("lu: matrix must be square")
-  }
+/// Shared partial-pivoting LU core used by `lu`, `det`, `logdet` and
+/// `linsolve_lu`. Copies the m*n row-major data of `a` into a fresh buffer
+/// and decomposes it in place with scaled partial pivoting.
+/// Returns `(lu_data, indx, nswaps)`: the packed LU data, `indx[k]` = the row
+/// swapped into pivot position k, and the number of row swaps performed.
+/// Behaviour preserved from the original inline loops: a zero pivot is
+/// replaced with `tiny = 1.0e-40`; a full zero row raises
+/// `InvalidArgument("lu: singular matrix")` (callers re-wrap this error or
+/// handle it, e.g. `det` turns it into a result of 0.0).
+fn _lu_decompose(
+  a : FixedArray[Double],
+  m : Int32,
+  n : Int32,
+) -> (FixedArray[Double], Array[Int32], Int32) raise {
   let lu_data = FixedArray::make(n * n, 0.0)
-  for i in 0..<n {
+  for i in 0..<m {
     for j in 0..<n {
-      lu_data[i * n + j] = a.data[i * n + j]
+      lu_data[i * n + j] = a[i * n + j]
     }
   }
   let indx = Array::make(n, 0)
@@ -122,6 +121,7 @@ pub fn lu(
     }
     vv[i] = 1.0 / big
   }
+  let mut nswaps = 0
   for k in 0..<n {
     let mut big = 0.0
     let mut imax = k
@@ -139,6 +139,7 @@ pub fn lu(
         lu_data[k * n + j] = temp
       }
       vv[imax] = vv[k]
+      nswaps += 1
     }
     indx[k] = imax
     if lu_data[k * n + k] == 0.0 {
@@ -152,6 +153,26 @@ pub fn lu(
       }
     }
   }
+  (lu_data, indx, nswaps)
+}
+
+///|
+/// LU decomposition with partial pivoting.
+/// Returns (L, U, piv) where L*U = A[piv,:].
+/// L is lower triangular with unit diagonal, U is upper triangular.
+///
+/// Note: for singular matrices, a zero pivot is replaced with `1e-40` and
+/// the decomposition continues, producing large numerical values. This
+/// matches the OCaml source behaviour. Use `det` (returns 0.0) or `inv`
+/// (raises) for reliable singularity detection.
+pub fn lu(
+  a : @ndarray.Ndarray,
+) -> (@ndarray.Ndarray, @ndarray.Ndarray, Array[Int32]) raise {
+  let n = a.shape[0]
+  if a.shape[1] != n {
+    raise @core.OwlError::InvalidArgument("lu: matrix must be square")
+  }
+  let (lu_data, indx, _) = _lu_decompose(a.data, n, n)
   let l_data = FixedArray::make(n * n, 0.0)
   for i in 0..<n {
     l_data[i * n + i] = 1.0
@@ -174,58 +195,10 @@ pub fn det(a : @ndarray.Ndarray) -> Double raise {
   if a.shape[1] != n {
     raise @core.OwlError::InvalidArgument("det: matrix must be square")
   }
-  let lu_data = FixedArray::make(n * n, 0.0)
-  for i in 0..<n {
-    for j in 0..<n {
-      lu_data[i * n + j] = a.data[i * n + j]
-    }
+  let (lu_data, _, nswaps) = _lu_decompose(a.data, n, n) catch {
+    _ => return 0.0
   }
-  let tiny = 1.0e-40
-  let vv = Array::make(n, 0.0)
-  for i in 0..<n {
-    let mut big = 0.0
-    for j in 0..<n {
-      let temp = lu_data[i * n + j].abs()
-      if temp > big {
-        big = temp
-      }
-    }
-    if big == 0.0 {
-      return 0.0
-    }
-    vv[i] = 1.0 / big
-  }
-  let mut sign = 1.0
-  for k in 0..<n {
-    let mut big = 0.0
-    let mut imax = k
-    for i in k..<n {
-      let temp = vv[i] * lu_data[i * n + k].abs()
-      if temp > big {
-        big = temp
-        imax = i
-      }
-    }
-    if k != imax {
-      for j in 0..<n {
-        let temp = lu_data[imax * n + j]
-        lu_data[imax * n + j] = lu_data[k * n + j]
-        lu_data[k * n + j] = temp
-      }
-      vv[imax] = vv[k]
-      sign = -sign
-    }
-    if lu_data[k * n + k] == 0.0 {
-      lu_data[k * n + k] = tiny
-    }
-    for i in (k + 1)..<n {
-      lu_data[i * n + k] /= lu_data[k * n + k]
-      let factor = lu_data[i * n + k]
-      for j in (k + 1)..<n {
-        lu_data[i * n + j] -= factor * lu_data[k * n + j]
-      }
-    }
-  }
+  let sign = if nswaps % 2 == 0 { 1.0 } else { -1.0 }
   let mut result = sign
   for i in 0..<n {
     result *= lu_data[i * n + i]
@@ -244,55 +217,8 @@ pub fn logdet(a : @ndarray.Ndarray) -> Double raise {
   if a.shape[1] != n {
     raise @core.OwlError::InvalidArgument("logdet: matrix must be square")
   }
-  let lu_data = FixedArray::make(n * n, 0.0)
-  for i in 0..<n {
-    for j in 0..<n {
-      lu_data[i * n + j] = a.data[i * n + j]
-    }
-  }
-  let tiny = 1.0e-40
-  let vv = Array::make(n, 0.0)
-  for i in 0..<n {
-    let mut big = 0.0
-    for j in 0..<n {
-      let temp = lu_data[i * n + j].abs()
-      if temp > big {
-        big = temp
-      }
-    }
-    if big == 0.0 {
-      raise @core.OwlError::InvalidArgument("logdet: singular matrix")
-    }
-    vv[i] = 1.0 / big
-  }
-  for k in 0..<n {
-    let mut big = 0.0
-    let mut imax = k
-    for i in k..<n {
-      let temp = vv[i] * lu_data[i * n + k].abs()
-      if temp > big {
-        big = temp
-        imax = i
-      }
-    }
-    if k != imax {
-      for j in 0..<n {
-        let temp = lu_data[imax * n + j]
-        lu_data[imax * n + j] = lu_data[k * n + j]
-        lu_data[k * n + j] = temp
-      }
-      vv[imax] = vv[k]
-    }
-    if lu_data[k * n + k] == 0.0 {
-      lu_data[k * n + k] = tiny
-    }
-    for i in (k + 1)..<n {
-      lu_data[i * n + k] /= lu_data[k * n + k]
-      let factor = lu_data[i * n + k]
-      for j in (k + 1)..<n {
-        lu_data[i * n + j] -= factor * lu_data[k * n + j]
-      }
-    }
+  let (lu_data, _, _) = _lu_decompose(a.data, n, n) catch {
+    _ => raise @core.OwlError::InvalidArgument("logdet: singular matrix")
   }
   let mut result = 0.0
   for i in 0..<n {
@@ -374,57 +300,8 @@ pub fn linsolve_lu(
     raise @core.OwlError::InvalidArgument("linsolve_lu: dimension mismatch")
   }
   let m = b.shape[1]
-  let lu_data = FixedArray::make(n * n, 0.0)
-  for i in 0..<n {
-    for j in 0..<n {
-      lu_data[i * n + j] = a.data[i * n + j]
-    }
-  }
-  let indx = Array::make(n, 0)
-  let tiny = 1.0e-40
-  let vv = Array::make(n, 0.0)
-  for i in 0..<n {
-    let mut big = 0.0
-    for j in 0..<n {
-      let temp = lu_data[i * n + j].abs()
-      if temp > big {
-        big = temp
-      }
-    }
-    if big == 0.0 {
-      raise @core.OwlError::InvalidArgument("linsolve_lu: singular matrix")
-    }
-    vv[i] = 1.0 / big
-  }
-  for k in 0..<n {
-    let mut big = 0.0
-    let mut imax = k
-    for i in k..<n {
-      let temp = vv[i] * lu_data[i * n + k].abs()
-      if temp > big {
-        big = temp
-        imax = i
-      }
-    }
-    if k != imax {
-      for j in 0..<n {
-        let temp = lu_data[imax * n + j]
-        lu_data[imax * n + j] = lu_data[k * n + j]
-        lu_data[k * n + j] = temp
-      }
-      vv[imax] = vv[k]
-    }
-    indx[k] = imax
-    if lu_data[k * n + k] == 0.0 {
-      lu_data[k * n + k] = tiny
-    }
-    for i in (k + 1)..<n {
-      lu_data[i * n + k] /= lu_data[k * n + k]
-      let factor = lu_data[i * n + k]
-      for j in (k + 1)..<n {
-        lu_data[i * n + j] -= factor * lu_data[k * n + j]
-      }
-    }
+  let (lu_data, indx, _) = _lu_decompose(a.data, n, n) catch {
+    _ => raise @core.OwlError::InvalidArgument("linsolve_lu: singular matrix")
   }
   let x_data = FixedArray::make(n * m, 0.0)
   for col in 0..<m {

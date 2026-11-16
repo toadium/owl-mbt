@@ -384,3 +384,73 @@ test "boundary: rank non-square and zero matrix" {
   let r_zero = @linalg.rank(zero)
   @test.assert_eq(0, r_zero)
 }
+
+///|
+test "boundary: lu with row pivoting" {
+  // [[0,1],[1,0]] has a zero leading pivot and requires a row swap
+  let a = @ndarray.of_arrays([[0.0, 1.0], [1.0, 0.0]])
+  let (l, u, piv) = @linalg.lu(a)
+  // piv must record the swap: row 1 was moved into pivot position 0
+  @test.assert_eq(1, piv[0])
+  // L*U reconstructs the row-permuted A[piv,:] (the identity here)
+  let prod = @ndarray.dot(l, u)
+  @test.assert_eq(true, (prod.data[0] - 1.0).abs() < 1.0e-10)
+  @test.assert_eq(true, prod.data[1].abs() < 1.0e-10)
+  @test.assert_eq(true, prod.data[2].abs() < 1.0e-10)
+  @test.assert_eq(true, (prod.data[3] - 1.0).abs() < 1.0e-10)
+  // det([[0,1],[1,0]]) = -1: one swap flips the sign
+  @test.assert_eq(true, (@linalg.det(a) + 1.0).abs() < 1.0e-10)
+  // [[0,2],[3,4]] also needs a swap: det = -(3*2) = -6
+  let b = @ndarray.of_arrays([[0.0, 2.0], [3.0, 4.0]])
+  @test.assert_eq(true, (@linalg.det(b) + 6.0).abs() < 1.0e-10)
+  // linsolve_lu on a pivoting-required system: [[0,1],[1,0]]x=[3,4] => x=[4,3]
+  let rhs = @ndarray.of_arrays([[3.0], [4.0]])
+  let x = @linalg.linsolve_lu(a, rhs)
+  @test.assert_eq(true, (x.data[0] - 4.0).abs() < 1.0e-10)
+  @test.assert_eq(true, (x.data[1] - 3.0).abs() < 1.0e-10)
+}
+
+///|
+test "boundary: logdet of matrix with negative determinant" {
+  // det([[-2,0],[0,3]]) = -6; logdet sums ln|diag| = ln 2 + ln 3 = ln 6
+  let a = @ndarray.of_arrays([[-2.0, 0.0], [0.0, 3.0]])
+  @test.assert_eq(true, (@linalg.logdet(a) - @math.ln(6.0)).abs() < 1.0e-10)
+  // Symmetric negative definite [[-4,0],[0,-3]]: det = 12, logdet = ln 12
+  let b = @ndarray.of_arrays([[-4.0, 0.0], [0.0, -3.0]])
+  @test.assert_eq(true, (@linalg.logdet(b) - @math.ln(12.0)).abs() < 1.0e-10)
+}
+
+///|
+test "boundary: tridiag_solve length mismatch raises" {
+  let diag = [2.0, 2.0, 2.0]
+  // subdiagonal too short
+  let r1 = try {
+    let _ = @linalg.tridiag_solve([1.0, 1.0], diag, [1.0, 1.0, 0.0], [
+      4.0, 8.0, 8.0,
+    ])
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r1)
+  // superdiagonal too short
+  let r2 = try {
+    let _ = @linalg.tridiag_solve([0.0, 1.0, 1.0], diag, [1.0, 1.0], [
+      4.0, 8.0, 8.0,
+    ])
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r2)
+  // rhs too short
+  let r3 = try {
+    let _ = @linalg.tridiag_solve([0.0, 1.0, 1.0], diag, [1.0, 1.0, 0.0], [
+      4.0, 8.0,
+    ])
+    false
+  } catch {
+    _ => true
+  }
+  @test.assert_eq(true, r3)
+}

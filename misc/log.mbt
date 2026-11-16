@@ -59,7 +59,8 @@ pub fn level_fatal() -> LogLevel {
 }
 
 ///|
-/// Logger state. Note: colorful field is not yet implemented in output.
+/// Logger state. When `colorful` is enabled, `format_msg` wraps the level
+/// word in ANSI color codes (the message body stays uncolored).
 pub struct Logger {
   level : Ref[LogLevel]
   colorful : Ref[Bool]
@@ -90,10 +91,27 @@ pub fn should_print(logger : Logger, l : LogLevel) -> Bool {
 }
 
 ///|
-/// Format a log message.
+/// ANSI color code for each log level (used for colorful output).
+fn _level_color(l : LogLevel) -> String {
+  match l {
+    Debug => "\u{1b}[36m"
+    Info => "\u{1b}[32m"
+    Warn => "\u{1b}[33m"
+    Error => "\u{1b}[31m"
+    Fatal => "\u{1b}[35m"
+  }
+}
+
+///|
+/// Format a log message. When `colorful` is enabled, the level word is
+/// wrapped in ANSI color codes; the message body is left uncolored.
 pub fn format_msg(logger : Logger, l : LogLevel, msg : String) -> String {
   if should_print(logger, l) {
-    "\{level_to_str(l)} : \{msg}"
+    if logger.colorful.val {
+      "\{_level_color(l)}\{level_to_str(l)}\u{1b}[0m : \{msg}"
+    } else {
+      "\{level_to_str(l)} : \{msg}"
+    }
   } else {
     ""
   }
