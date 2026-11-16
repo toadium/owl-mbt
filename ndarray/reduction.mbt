@@ -75,7 +75,7 @@ pub fn sum(
   x : Ndarray,
   axis~ : Int32 = -1,
   keep_dims~ : Bool = true,
-) -> Ndarray {
+) -> Ndarray raise {
   let ax = axis
   if ax < 0 {
     create([1], sum_(x))

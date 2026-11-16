@@ -75,7 +75,7 @@ pub fn expand(x : Ndarray, _d : Int32, hi~ : Bool = false) -> Ndarray {
 
 ///|
 /// Transpose (reverse all axes). For 2D this is matrix transpose.
-pub fn transpose(x : Ndarray, axis~ : Array[Int32] = []) -> Ndarray {
+pub fn transpose(x : Ndarray, axis~ : Array[Int32] = []) -> Ndarray raise {
   let n = x.shape.length()
   // Fast path: 2D transpose (most common case)
   if n == 2 && axis.length() == 0 {
@@ -89,6 +89,27 @@ pub fn transpose(x : Ndarray, axis~ : Array[Int32] = []) -> Ndarray {
       }
     }
     return { shape: [c, r], data, }
+  }
+  if axis.length() > 0 {
+    if axis.length() != n {
+      raise @core.OwlError::InvalidArgument(
+        "transpose: axis length must match array rank",
+      )
+    }
+    let seen = Array::make(n, false)
+    for p in axis {
+      if p < 0 || p >= n {
+        raise @core.OwlError::InvalidArgument(
+          "transpose: axis index out of bounds",
+        )
+      }
+      if seen[p] {
+        raise @core.OwlError::InvalidArgument(
+          "transpose: axis permutation must not repeat indices",
+        )
+      }
+      seen[p] = true
+    }
   }
   let perm = if axis.length() == 0 {
     Array::makei(n, fn(i) { n - 1 - i })
@@ -126,6 +147,23 @@ pub fn concatenate(arrs : Array[Ndarray], axis~ : Int32 = 0) -> Ndarray raise {
     raise @core.OwlError::InvalidArgument("cannot concatenate empty array")
   }
   let n_dims = arrs[0].shape.length()
+  if ax < 0 || ax >= n_dims {
+    raise @core.OwlError::InvalidArgument("concatenate: axis out of bounds")
+  }
+  for arr in arrs {
+    if arr.shape.length() != n_dims {
+      raise @core.OwlError::InvalidArgument(
+        "concatenate: all arrays must have the same number of dimensions",
+      )
+    }
+    for i in 0..<n_dims {
+      if i != ax && arr.shape[i] != arrs[0].shape[i] {
+        raise @core.OwlError::InvalidArgument(
+          "concatenate: shapes must match except along the concatenation axis",
+        )
+      }
+    }
+  }
   let new_shape = arrs[0].shape.copy()
   let mut total_along_axis = 0
   for arr in arrs {
@@ -167,8 +205,25 @@ pub fn stack(arrs : Array[Ndarray], axis~ : Int32 = 0) -> Ndarray raise {
     raise @core.OwlError::InvalidArgument("cannot stack empty array")
   }
   let n_dims = arrs[0].shape.length()
-  let new_shape = Array::make(n_dims + 1, 1)
   let insert_pos = if ax < 0 { n_dims + 1 + ax } else { ax }
+  if insert_pos < 0 || insert_pos > n_dims {
+    raise @core.OwlError::InvalidArgument("stack: axis out of bounds")
+  }
+  for arr in arrs {
+    if arr.shape.length() != n_dims {
+      raise @core.OwlError::InvalidArgument(
+        "stack: all arrays must have the same shape",
+      )
+    }
+    for i in 0..<n_dims {
+      if arr.shape[i] != arrs[0].shape[i] {
+        raise @core.OwlError::InvalidArgument(
+          "stack: all arrays must have the same shape",
+        )
+      }
+    }
+  }
+  let new_shape = Array::make(n_dims + 1, 1)
   new_shape[insert_pos] = arrs.length()
   for i in 0..<n_dims {
     let target = if i < insert_pos { i } else { i + 1 }
@@ -203,8 +258,13 @@ pub fn stack(arrs : Array[Ndarray], axis~ : Int32 = 0) -> Ndarray raise {
 
 ///|
 /// Tile an ndarray by repeating along each dimension.
-pub fn tile(x : Ndarray, reps : Array[Int32]) -> Ndarray {
+pub fn tile(x : Ndarray, reps : Array[Int32]) -> Ndarray raise {
   let n = x.shape.length()
+  if reps.length() != n {
+    raise @core.OwlError::InvalidArgument(
+      "tile: reps length must match array rank",
+    )
+  }
   let new_shape = Array::make(n, 0)
   for i in 0..<n {
     new_shape[i] = x.shape[i] * reps[i]
@@ -233,8 +293,13 @@ pub fn tile(x : Ndarray, reps : Array[Int32]) -> Ndarray {
 
 ///|
 /// Repeat elements along each dimension.
-pub fn repeat(x : Ndarray, reps : Array[Int32]) -> Ndarray {
+pub fn repeat(x : Ndarray, reps : Array[Int32]) -> Ndarray raise {
   let n = x.shape.length()
+  if reps.length() != n {
+    raise @core.OwlError::InvalidArgument(
+      "repeat: reps length must match array rank",
+    )
+  }
   let new_shape = Array::make(n, 0)
   for i in 0..<n {
     new_shape[i] = x.shape[i] * reps[i]

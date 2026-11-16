@@ -54,7 +54,7 @@ pub fn foldi(
   init : Double,
   x : Ndarray,
   axis~ : Int32 = -1,
-) -> Ndarray {
+) -> Ndarray raise {
   let ax = axis
   if ax < 0 {
     let mut acc = init
@@ -96,7 +96,7 @@ pub fn fold(
   init : Double,
   x : Ndarray,
   axis~ : Int32 = -1,
-) -> Ndarray {
+) -> Ndarray raise {
   foldi(fn(_i, a, b) { f(a, b) }, init, x, axis~)
 }
 

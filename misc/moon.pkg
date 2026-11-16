@@ -6,4 +6,5 @@ import {
 
 import {
   "moonbitlang/core/test",
+  "walkzzz/owl_mbt/core",
 } for "test"

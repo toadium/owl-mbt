@@ -275,3 +275,28 @@ test "approx_equal_rel: large and small values" {
   @test.assert_eq(true, @misc.approx_equal_rel(1.0, 1.0 + 1.0e-10, 1.0e-8))
   @test.assert_eq(false, @misc.approx_equal_rel(1.0, 1.5, 1.0e-8))
 }
+
+///|
+test "col_min/col_max reject empty column" {
+  let df = @misc.make_dataframe([@misc.float_column("x", [])])
+  try @misc.col_min(df, "x") catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "col_min rejected empty column",
+        content="col_min rejected empty column",
+      )
+    _ => fail("expected InvalidArgument for col_min")
+  } noraise {
+    _ => fail("expected raise for col_min")
+  }
+  try @misc.col_max(df, "x") catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "col_max rejected empty column",
+        content="col_max rejected empty column",
+      )
+    _ => fail("expected InvalidArgument for col_max")
+  } noraise {
+    _ => fail("expected raise for col_max")
+  }
+}

@@ -101,14 +101,34 @@ pub fn conv2d(
   padding~ : @core.Padding = @core.Padding::Same,
 ) -> Ndarray raise {
   let input_shp = input.shape
+  if input_shp.length() != 4 {
+    raise @core.OwlError::InvalidArgument(
+      "conv2d: input must have rank 4 [batch, cols, rows, channels]",
+    )
+  }
+  let kernel_shp = kernel.shape
+  if kernel_shp.length() != 4 {
+    raise @core.OwlError::InvalidArgument(
+      "conv2d: kernel must have rank 4 [k_cols, k_rows, in_channels, out_channels]",
+    )
+  }
+  if stride.length() != 2 || stride[0] <= 0 || stride[1] <= 0 {
+    raise @core.OwlError::InvalidArgument(
+      "conv2d: stride must contain two positive values",
+    )
+  }
   let batches = input_shp[0]
   let input_cols = input_shp[1]
   let input_rows = input_shp[2]
   let in_channel = input_shp[3]
-  let kernel_shp = kernel.shape
   let kernel_cols = kernel_shp[0]
   let kernel_rows = kernel_shp[1]
   let out_channel = kernel_shp[3]
+  if kernel_shp[2] != in_channel {
+    raise @core.OwlError::InvalidArgument(
+      "conv2d: kernel in_channels must match input channels",
+    )
+  }
   let col_stride = stride[0]
   let row_stride = stride[1]
   let (output_cols, output_rows) = _calc_conv2d_output_shape(
@@ -266,16 +286,36 @@ pub fn conv3d(
   padding~ : @core.Padding = @core.Padding::Same,
 ) -> Ndarray raise {
   let input_shp = input.shape
+  if input_shp.length() != 5 {
+    raise @core.OwlError::InvalidArgument(
+      "conv3d: input must have rank 5 [batch, cols, rows, depths, channels]",
+    )
+  }
+  let kernel_shp = kernel.shape
+  if kernel_shp.length() != 5 {
+    raise @core.OwlError::InvalidArgument(
+      "conv3d: kernel must have rank 5 [k_cols, k_rows, k_depths, in_channels, out_channels]",
+    )
+  }
+  if stride.length() != 3 || stride[0] <= 0 || stride[1] <= 0 || stride[2] <= 0 {
+    raise @core.OwlError::InvalidArgument(
+      "conv3d: stride must contain three positive values",
+    )
+  }
   let batches = input_shp[0]
   let input_cols = input_shp[1]
   let input_rows = input_shp[2]
   let input_dpts = input_shp[3]
   let in_channel = input_shp[4]
-  let kernel_shp = kernel.shape
   let kernel_cols = kernel_shp[0]
   let kernel_rows = kernel_shp[1]
   let kernel_dpts = kernel_shp[2]
   let out_channel = kernel_shp[4]
+  if kernel_shp[3] != in_channel {
+    raise @core.OwlError::InvalidArgument(
+      "conv3d: kernel in_channels must match input channels",
+    )
+  }
   let col_stride = stride[0]
   let row_stride = stride[1]
   let dpt_stride = stride[2]

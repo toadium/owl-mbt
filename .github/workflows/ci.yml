@@ -9,6 +9,9 @@ on:
 jobs:
   check-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [native, wasm, js]
     steps:
       - uses: actions/checkout@v4
 
@@ -20,13 +23,14 @@ jobs:
       - name: Moon version
         run: moon version
 
-      - name: Moon check
-        run: moon check
+      - name: Moon check (deny-warn)
+        run: moon check --deny-warn --target ${{ matrix.target }}
 
       - name: Moon test
-        run: moon test
+        run: moon test --target ${{ matrix.target }}
 
       - name: Moon fmt check
+        if: matrix.target == 'native'
         run: |
           moon fmt
           git diff --exit-code || (echo "Code formatting check failed. Run 'moon fmt' and commit the changes." && exit 1)

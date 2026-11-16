@@ -294,6 +294,6 @@ pub fn avg_pool3d(
 /// input: [batch, in_col, in_row, in_channel]
 /// size:  [col_scale, row_scale]
 /// output: [batch, in_col*col_scale, in_row*row_scale, in_channel]
-pub fn upsampling2d(input : Ndarray, size : Array[Int32]) -> Ndarray {
+pub fn upsampling2d(input : Ndarray, size : Array[Int32]) -> Ndarray raise {
   repeat(input, [1, size[0], size[1], 1])
 }

@@ -1,7 +1,7 @@
 ///|
 /// Expand a slice definition into explicit indices.
 /// spec: [] = all, [start] = single, [start; stop] = range, [start; stop; step] = strided range
-fn _enumerate_slice_def(dim : Int32, spec : Array[Int32]) -> Array[Int32] {
+fn _enumerate_slice_def(dim : Int32, spec : Array[Int32]) -> Array[Int32] raise {
   if spec.length() == 0 {
     return Array::makei(dim, fn(i) { i })
   }
@@ -18,7 +18,7 @@ fn _enumerate_slice_def(dim : Int32, spec : Array[Int32]) -> Array[Int32] {
     -1
   }
   if step == 0 {
-    abort("_enumerate_slice_def: step cannot be zero")
+    raise @core.OwlError::InvalidArgument("slice: step cannot be zero")
   }
   let step_abs = if step < 0 { -step } else { step }
   let diff = if stop - start < 0 { start - stop } else { stop - start }
@@ -31,10 +31,10 @@ fn _enumerate_slice_def(dim : Int32, spec : Array[Int32]) -> Array[Int32] {
 fn _expand_slice_indices(
   index_list : Array[Array[Int32]],
   dims : Array[Int32],
-) -> Array[Array[Int32]] {
+) -> Array[Array[Int32]] raise {
   let rank = dims.length()
   let sdef_len = index_list.length()
-  let specified = Array::makei(sdef_len, fn(i) {
+  let specified = Array::makei(sdef_len, i => {
     _enumerate_slice_def(dims[i], index_list[i])
   })
   let rest = Array::makei(rank - sdef_len, fn(p) {
@@ -47,7 +47,10 @@ fn _expand_slice_indices(
 /// Get a slice of the ndarray.
 /// index_list: each sub-array specifies indices for that dimension:
 ///   [] = all, [start] = single, [start; stop] = range, [start; stop; step] = strided range
-pub fn get_slice(index_list : Array[Array[Int32]], x : Ndarray) -> Ndarray {
+pub fn get_slice(
+  index_list : Array[Array[Int32]],
+  x : Ndarray,
+) -> Ndarray raise {
   let dims = x.shape
   let rank = dims.length()
   let index_array = _expand_slice_indices(index_list, dims)

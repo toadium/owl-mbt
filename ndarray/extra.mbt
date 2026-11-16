@@ -88,11 +88,26 @@ pub fn split(
   x : Ndarray,
   parts : Array[Int32],
   axis~ : Int32 = 0,
-) -> Array[Ndarray] {
+) -> Array[Ndarray] raise {
   let dims = x.shape
   let rank = dims.length()
+  if axis < 0 || axis >= rank {
+    raise @core.OwlError::InvalidArgument("split: axis out of bounds")
+  }
+  if parts.length() == 0 {
+    raise @core.OwlError::InvalidArgument("split: parts must not be empty")
+  }
+  let mut total = 0
+  for p in parts {
+    total += p
+  }
+  if total != dims[axis] {
+    raise @core.OwlError::InvalidArgument(
+      "split: sum of parts must match the size along the split axis",
+    )
+  }
   let mut pos = 0
-  Array::makei(parts.length(), fn(k) {
+  Array::makei(parts.length(), k => {
     let start = pos
     pos += parts[k]
     let stop = pos - 1
@@ -114,9 +129,12 @@ pub fn draw(
   x : Ndarray,
   count : Int32,
   axis~ : Int32 = 0,
-) -> (Ndarray, Array[Int32]) {
+) -> (Ndarray, Array[Int32]) raise {
   let dims = x.shape
   let rank = dims.length()
+  if axis < 0 || axis >= rank {
+    raise @core.OwlError::InvalidArgument("draw: axis out of bounds")
+  }
   let dim_axis = dims[axis]
   let rng = @random.Rand::chacha8()
   let indices = Array::make(count, 0)
@@ -150,7 +168,7 @@ pub fn one_hot(depth : Int32, x : Ndarray) -> Ndarray {
 
 ///|
 /// Sum reduce along multiple axes.
-pub fn sum_reduce(x : Ndarray, axis~ : Array[Int32] = []) -> Ndarray {
+pub fn sum_reduce(x : Ndarray, axis~ : Array[Int32] = []) -> Ndarray raise {
   if axis.length() == 0 {
     return create(Array::make(x.shape.length(), 1), sum_(x))
   }

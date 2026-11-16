@@ -147,16 +147,15 @@ pub fn col_sum(df : DataFrame, name : String) -> Double raise {
 pub fn col_min(df : DataFrame, name : String) -> Double raise {
   let col = get_column(df, name)
   if col.float_data.length() == 0 {
-    0.0
-  } else {
-    let mut m = col.float_data[0]
-    for v in col.float_data {
-      if v < m {
-        m = v
-      }
-    }
-    m
+    raise @core.OwlError::InvalidArgument("col_min: empty column")
   }
+  let mut m = col.float_data[0]
+  for v in col.float_data {
+    if v < m {
+      m = v
+    }
+  }
+  m
 }
 
 ///|
@@ -164,16 +163,15 @@ pub fn col_min(df : DataFrame, name : String) -> Double raise {
 pub fn col_max(df : DataFrame, name : String) -> Double raise {
   let col = get_column(df, name)
   if col.float_data.length() == 0 {
-    0.0
-  } else {
-    let mut m = col.float_data[0]
-    for v in col.float_data {
-      if v > m {
-        m = v
-      }
-    }
-    m
+    raise @core.OwlError::InvalidArgument("col_max: empty column")
   }
+  let mut m = col.float_data[0]
+  for v in col.float_data {
+    if v > m {
+      m = v
+    }
+  }
+  m
 }
 
 ///|

@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.3.0] - 2026-11-16
+
+### Added
+
+- 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
+- `ndarray.fft` / `ndarray.ifft`：一维 radix-2 Cooley-Tukey 快速傅里叶变换（2 的幂长度）
+- `linalg.svd`：单边 Jacobi（Hestenes）thin SVD（原项目 NOT_IMPLEMENTED 占位，本版自行实现）
+
+### Changed
+
+- CI 门禁升级：`moon check --deny-warn` + native/wasm/js 三后端测试矩阵
+
+### Fixed
+
+- ndarray 边界校验补齐：concatenate/stack 形状一致性、tile/repeat reps 长度、reduce axis 越界、transpose 轴排列、draw axis、split parts 总和
+- `misc`：`col_min`/`col_max` 空列改 raise（原静默返回 0.0）；`slicing` step==0 改 raise（原 abort）
+
 ## [0.2.0] - 2026-11-16
 
 ### Changed

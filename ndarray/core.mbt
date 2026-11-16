@@ -115,7 +115,10 @@ fn get_broadcasted_dims(
 fn reduce_params(
   axis : Int32,
   shape : Array[Int32],
-) -> (Int32, Int32, Int32, Array[Int32]) {
+) -> (Int32, Int32, Int32, Array[Int32]) raise {
+  if axis < 0 || axis >= shape.length() {
+    raise @core.OwlError::InvalidArgument("reduce: axis out of bounds")
+  }
   let strides = calc_strides(shape)
   let n = shape.length()
   let mut slice_size = 1

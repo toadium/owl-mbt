@@ -1621,3 +1621,305 @@ test "extra: split axis 0" {
   @test.assert_eq(1.0, parts[0].data[0])
   @test.assert_eq(4.0, parts[1].data[0])
 }
+
+///|
+/// Negative tests: concatenate/stack shape consistency validation.
+test "boundary: concatenate/stack reject inconsistent shapes" {
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  let v = @ndarray.of_array([5.0, 6.0, 7.0], [3])
+  try @ndarray.concatenate([a, v]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "concat rejected rank mismatch",
+        content="concat rejected rank mismatch",
+      )
+    _ => fail("expected InvalidArgument for rank mismatch")
+  } noraise {
+    _ => fail("expected raise for rank mismatch")
+  }
+  let c = @ndarray.of_array([1.0, 2.0, 3.0], [1, 3])
+  try @ndarray.concatenate([a, c], axis=0) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "concat rejected shape mismatch",
+        content="concat rejected shape mismatch",
+      )
+    _ => fail("expected InvalidArgument for shape mismatch")
+  } noraise {
+    _ => fail("expected raise for shape mismatch")
+  }
+  try @ndarray.concatenate([a, a], axis=5) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "concat rejected axis bounds",
+        content="concat rejected axis bounds",
+      )
+    _ => fail("expected InvalidArgument for axis out of bounds")
+  } noraise {
+    _ => fail("expected raise for axis out of bounds")
+  }
+  try @ndarray.stack([a, v]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "stack rejected shape mismatch",
+        content="stack rejected shape mismatch",
+      )
+    _ => fail("expected InvalidArgument for stack shape mismatch")
+  } noraise {
+    _ => fail("expected raise for stack shape mismatch")
+  }
+  try @ndarray.stack([a, a], axis=3) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "stack rejected axis bounds",
+        content="stack rejected axis bounds",
+      )
+    _ => fail("expected InvalidArgument for stack axis out of bounds")
+  } noraise {
+    _ => fail("expected raise for stack axis out of bounds")
+  }
+}
+
+///|
+/// Negative tests: tile/repeat reps length validation.
+test "boundary: tile/repeat reject reps length mismatch" {
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  try @ndarray.tile(a, [3]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("tile rejected reps length", content="tile rejected reps length")
+    _ => fail("expected InvalidArgument for tile reps length")
+  } noraise {
+    _ => fail("expected raise for tile reps length")
+  }
+  try @ndarray.repeat(a, [1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "repeat rejected reps length",
+        content="repeat rejected reps length",
+      )
+    _ => fail("expected InvalidArgument for repeat reps length")
+  } noraise {
+    _ => fail("expected raise for repeat reps length")
+  }
+}
+
+///|
+/// Negative tests: reduce axis bounds validation.
+test "boundary: sum/min/max/fold reject axis out of bounds" {
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  try @ndarray.sum(a, axis=2) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("sum rejected axis", content="sum rejected axis")
+    _ => fail("expected InvalidArgument for sum axis")
+  } noraise {
+    _ => fail("expected raise for sum axis")
+  }
+  try @ndarray.min(a, axis=2) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("min rejected axis", content="min rejected axis")
+    _ => fail("expected InvalidArgument for min axis")
+  } noraise {
+    _ => fail("expected raise for min axis")
+  }
+  try @ndarray.max(a, axis=2) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("max rejected axis", content="max rejected axis")
+    _ => fail("expected InvalidArgument for max axis")
+  } noraise {
+    _ => fail("expected raise for max axis")
+  }
+  try @ndarray.fold(fn(p, v) { p + v }, 0.0, a, axis=5) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("fold rejected axis", content="fold rejected axis")
+    _ => fail("expected InvalidArgument for fold axis")
+  } noraise {
+    _ => fail("expected raise for fold axis")
+  }
+}
+
+///|
+/// Negative tests: transpose permutation validation.
+test "boundary: transpose rejects invalid permutation" {
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+  try @ndarray.transpose(a, axis=[0, 1, 2]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "transpose rejected perm length",
+        content="transpose rejected perm length",
+      )
+    _ => fail("expected InvalidArgument for perm length")
+  } noraise {
+    _ => fail("expected raise for perm length")
+  }
+  try @ndarray.transpose(a, axis=[0, 5]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "transpose rejected perm bounds",
+        content="transpose rejected perm bounds",
+      )
+    _ => fail("expected InvalidArgument for perm bounds")
+  } noraise {
+    _ => fail("expected raise for perm bounds")
+  }
+  try @ndarray.transpose(a, axis=[1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "transpose rejected duplicate perm",
+        content="transpose rejected duplicate perm",
+      )
+    _ => fail("expected InvalidArgument for duplicate perm")
+  } noraise {
+    _ => fail("expected raise for duplicate perm")
+  }
+}
+
+///|
+/// Negative tests: draw axis bounds and split parts validation.
+test "boundary: draw/split reject invalid axis and parts" {
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  try @ndarray.draw(a, 2, axis=2) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("draw rejected axis", content="draw rejected axis")
+    _ => fail("expected InvalidArgument for draw axis")
+  } noraise {
+    _ => fail("expected raise for draw axis")
+  }
+  try @ndarray.draw(a, 2, axis=-1) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "draw rejected negative axis",
+        content="draw rejected negative axis",
+      )
+    _ => fail("expected InvalidArgument for draw negative axis")
+  } noraise {
+    _ => fail("expected raise for draw negative axis")
+  }
+  try @ndarray.split(a, [], axis=0) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "split rejected empty parts",
+        content="split rejected empty parts",
+      )
+    _ => fail("expected InvalidArgument for empty parts")
+  } noraise {
+    _ => fail("expected raise for empty parts")
+  }
+  try @ndarray.split(a, [2, 1], axis=0) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("split rejected parts sum", content="split rejected parts sum")
+    _ => fail("expected InvalidArgument for parts sum mismatch")
+  } noraise {
+    _ => fail("expected raise for parts sum mismatch")
+  }
+  try @ndarray.split(a, [1, 1], axis=3) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("split rejected axis", content="split rejected axis")
+    _ => fail("expected InvalidArgument for split axis")
+  } noraise {
+    _ => fail("expected raise for split axis")
+  }
+}
+
+///|
+/// Negative tests: slicing zero step validation.
+test "boundary: get_slice rejects zero step" {
+  let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0], [5])
+  try @ndarray.get_slice([[0, 4, 0]], a) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect("slice rejected zero step", content="slice rejected zero step")
+    _ => fail("expected InvalidArgument for zero step")
+  } noraise {
+    _ => fail("expected raise for zero step")
+  }
+}
+
+///|
+/// Negative tests: conv2d/conv3d rank, channel and stride validation.
+test "boundary: conv2d/conv3d reject invalid ranks and channels" {
+  let input4d = @ndarray.of_array(
+    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0],
+    [1, 3, 3, 1],
+  )
+  let kernel4d = @ndarray.of_array([1.0, 0.0, 0.0, 1.0], [2, 2, 1, 1])
+  let input2d = @ndarray.of_array([1.0, 2.0, 3.0, 4.0], [2, 2])
+  try @ndarray.conv2d(input2d, kernel4d, [1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv2d rejected input rank",
+        content="conv2d rejected input rank",
+      )
+    _ => fail("expected InvalidArgument for conv2d input rank")
+  } noraise {
+    _ => fail("expected raise for conv2d input rank")
+  }
+  let kernel3d = @ndarray.of_array([1.0, 0.0, 0.0, 1.0], [2, 2, 1])
+  try @ndarray.conv2d(input4d, kernel3d, [1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv2d rejected kernel rank",
+        content="conv2d rejected kernel rank",
+      )
+    _ => fail("expected InvalidArgument for conv2d kernel rank")
+  } noraise {
+    _ => fail("expected raise for conv2d kernel rank")
+  }
+  let kernel_bad_ch = @ndarray.of_array(
+    [1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0],
+    [2, 2, 2, 1],
+  )
+  try @ndarray.conv2d(input4d, kernel_bad_ch, [1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv2d rejected channel mismatch",
+        content="conv2d rejected channel mismatch",
+      )
+    _ => fail("expected InvalidArgument for conv2d channel mismatch")
+  } noraise {
+    _ => fail("expected raise for conv2d channel mismatch")
+  }
+  try @ndarray.conv2d(input4d, kernel4d, [1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv2d rejected stride length",
+        content="conv2d rejected stride length",
+      )
+    _ => fail("expected InvalidArgument for conv2d stride length")
+  } noraise {
+    _ => fail("expected raise for conv2d stride length")
+  }
+  let input5d = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], [
+    1, 2, 2, 2, 1,
+  ])
+  let kernel5d = @ndarray.of_array([2.0], [1, 1, 1, 1, 1])
+  try @ndarray.conv3d(input4d, kernel5d, [1, 1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv3d rejected input rank",
+        content="conv3d rejected input rank",
+      )
+    _ => fail("expected InvalidArgument for conv3d input rank")
+  } noraise {
+    _ => fail("expected raise for conv3d input rank")
+  }
+  let kernel5d_bad_ch = @ndarray.of_array([1.0, 1.0], [1, 1, 1, 2, 1])
+  try @ndarray.conv3d(input5d, kernel5d_bad_ch, [1, 1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv3d rejected channel mismatch",
+        content="conv3d rejected channel mismatch",
+      )
+    _ => fail("expected InvalidArgument for conv3d channel mismatch")
+  } noraise {
+    _ => fail("expected raise for conv3d channel mismatch")
+  }
+  try @ndarray.conv3d(input5d, kernel5d, [1, 1]) catch {
+    @core.OwlError::InvalidArgument(_) =>
+      inspect(
+        "conv3d rejected stride length",
+        content="conv3d rejected stride length",
+      )
+    _ => fail("expected InvalidArgument for conv3d stride length")
+  } noraise {
+    _ => fail("expected raise for conv3d stride length")
+  }
+}
