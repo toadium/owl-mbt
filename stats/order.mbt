@@ -85,11 +85,12 @@ pub fn argsort(inc~ : Bool = true, x : Array[Double]) -> Array[Int32] {
 
 ///|
 /// 秩策略（处理 ties）。移植自 owl_base_stats.ml polymorphic variant `Average/`Min/`Max
+#derive(Debug, Eq)
 pub(all) enum TiesStrategy {
   Average
   Min
   Max
-} derive(Debug, Eq)
+}
 
 ///|
 fn _resolve_ties(next : Int32, d : Int32, strategy : TiesStrategy) -> Double {

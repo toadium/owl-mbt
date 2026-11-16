@@ -3,10 +3,11 @@
 
 ///|
 /// 带宽选择策略。移植自 OCaml polymorphic variant `Silverman | `Scott
+#derive(Debug, Eq)
 pub(all) enum Bandwidth {
   Silverman
   Scott
-} derive(Debug, Eq)
+}
 
 ///|
 /// 高斯核函数。移植自 owl_base_stats.ml build_kernel `Gaussian

@@ -2,20 +2,22 @@
 /// 直方图。移植自 owl_base_stats.ml 第 289-521 行。
 
 ///|
+#derive(Debug)
 pub(all) struct Histogram {
   bins : Array[Double]
   counts : Array[Int32]
   weighted_counts : Array[Double]?
   normalised_counts : Array[Double]?
   density : Array[Double]?
-} derive(Debug)
+}
 
 ///|
 /// 分箱规格。移植自 OCaml polymorphic variant `N of int | `Bins of float array
+#derive(Debug)
 pub(all) enum BinSpec {
   N(Int32)
   Bins(Array[Double])
-} derive(Debug)
+}
 
 ///|
 fn fcmp(a : Double, b : Double) -> Int32 {

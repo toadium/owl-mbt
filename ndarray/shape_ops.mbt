@@ -1,7 +1,7 @@
 ///|
 /// Reshape an ndarray. Supports -1 for inferred dimension.
 pub fn reshape(x : Ndarray, new_shape : Array[Int32]) -> Ndarray raise {
-  let minus_one_count = new_shape.iter().filter(fn(v) { v == -1 }).length()
+  let minus_one_count = new_shape.iter().filter(fn(v) { v == -1 }).count()
   if minus_one_count > 1 {
     raise @core.OwlError::InvalidArgument(
       "can only specify one unknown dimension",

@@ -1,3 +1,8 @@
+// 79 = implicit_impl_as_method: #derive-generated Debug/Eq impl methods are
+// implicitly promoted; no dot-syntax callers in this project (only
+// debug_inspect/assert_eq use them via traits)
+warnings = "-79"
+
 import {
   "walkzzz/owl_mbt/core",
   "walkzzz/owl_mbt/maths",

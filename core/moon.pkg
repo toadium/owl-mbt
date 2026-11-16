@@ -1,1 +1,4 @@
-// core 包：零依赖核心类型与常量（合并 types + const）
+// 79 = implicit_impl_as_method: #derive-generated Debug/Eq impl methods are
+// implicitly promoted; no dot-syntax callers in this project (only
+// debug_inspect/assert_eq use them via traits)
+warnings = "-79"
