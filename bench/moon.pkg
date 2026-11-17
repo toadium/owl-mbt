@@ -1,0 +1,14 @@
+import {
+  "moonbitlang/core/async",
+  "walkzzz/owl_mbt/algodiff",
+  "walkzzz/owl_mbt/linalg",
+  "walkzzz/owl_mbt/maths",
+  "walkzzz/owl_mbt/ndarray",
+  "walkzzz/owl_mbt/stats",
+}
+
+options(
+  "allow-experimental-packages": [ "moonbitlang/core/async" ],
+)
+
+pkgtype(kind: "executable")

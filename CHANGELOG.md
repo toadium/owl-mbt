@@ -8,12 +8,15 @@
 
 - **包布局**：源码从 `src/` 前缀迁移到模块根目录（扁平多根包布局），全部包引用路径变化；`@types` + `@const` 合并为 `@core`（25 个声明等价迁移，签名零变化）
 - **Int → Int32**：约 150 处索引/形状/计数参数与返回值
-- **可选参数语法**：`x? : T = v` → `x~ : T = v`，调用点 `f(x=1)` → `f(x~1)`（约 30 个函数）
+- **可选参数声明语法**：签名声明 `x? : T = v` → `x~ : T = v`（约 30 个函数）；调用点 `f(x=1)` 写法不变，下游调用代码无需改动（实测验证）
 - **raise 变化**：ndarray 11 个函数新增 raise（边界校验显式抛错）；`maths::dawsn`/`ndarray::dawsn` 移除 raise（已实现真实算法）
 - **无 API 移除、无 API 改名**：0.1.1 的 665 个公开声明在 0.2.0 中全部可用（177 处签名变化均属上述 4 类）
 
 ### Added
 
+- **性能基准**：`bench/` 可执行包（`moon run bench --release`）+ `docs/benchmark.md`——13 组核心操作基准（ndarray 基础/FFT/SVD/LU/gamma/j0/AD/PRNG，wasm 与 native 双 release 口径，参数数组防常量折叠），覆盖率数据与基准结果共同构成质量量化证据
+- **契约校验**：各包 `pkg.generated.mbti` 接口快照入库，CI 新增 `moon info` 契约校验步骤（mbti diff 未记录于 CHANGELOG 则阻断合并）
+- **贡献指南**：`CONTRIBUTING.md`（环境搭建/开发流程/质量门禁/API 变更流程/测试要求）
 - 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
 - `ndarray.fft` / `ndarray.ifft`：一维 radix-2 Cooley-Tukey 快速傅里叶变换（2 的幂长度）
 - `linalg.svd`：单边 Jacobi（Hestenes）thin SVD（原项目 NOT_IMPLEMENTED 占位，本版自行实现）

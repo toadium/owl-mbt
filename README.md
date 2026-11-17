@@ -183,8 +183,10 @@ MoonBit 新语法为 `f(x~1)`（`~` 后直接跟值），旧写法 `f(x=1)` 已�
 ## 维护与反馈
 
 - **维护者**：walkzzz
-- **问题反馈**：[GitHub Issues](https://github.com/toadium/owl-mbt/issues)
-- **响应机制**：0.x 开发期，Bug 报告与 PR 均欢迎；发布前跑全量四后端测试（native/wasm/wasm-gc/js）与 `moon check --deny-warn` 门禁
+- **问题反馈**：[GitHub Issues](https://github.com/toadium/owl-mbt/issues)（附最小复现 + moon 版本 + 后端）
+- **响应时效承诺**：Bug 报告 48 小时内响应；安全漏洞 72 小时内评估并给出修复计划；高危问题在一个补丁版本内修复
+- **贡献**：欢迎 PR，流程与质量门禁见 [CONTRIBUTING.md](CONTRIBUTING.md)；公开契约变化通过 `pkg.generated.mbti` 接口快照在 CI 中自动校验（mbti diff 未记录于 CHANGELOG 则阻断合并）
+- **性能数据**：核心操作基准（wasm/native 两口径）见 [docs/benchmark.md](docs/benchmark.md)，基准工具为 `bench/` 可执行包（`moon run bench --release`）
 - **发布节奏**：功能以次版本发布，修复以补丁版本发布；版本随 mooncakes.io 发布并打 git tag
 
 ## 许可证

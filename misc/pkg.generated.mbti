@@ -1,0 +1,163 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/misc"
+
+import {
+  "moonbitlang/core/ref",
+}
+
+// Values
+pub fn approx_equal(Double, Double, Double) -> Bool
+
+pub fn approx_equal_rel(Double, Double, Double) -> Bool
+
+pub fn cms_count(CountMinSketch, Int32) -> Int32
+
+pub fn cms_incr(CountMinSketch, Int32) -> Unit
+
+pub fn cms_init(Double, Double) -> CountMinSketch raise
+
+pub fn cms_init_lw(Int32, Int32) -> CountMinSketch raise
+
+pub fn col_max(DataFrame, String) -> Double raise
+
+pub fn col_mean(DataFrame, String) -> Double raise
+
+pub fn col_min(DataFrame, String) -> Double raise
+
+pub fn col_names(DataFrame) -> Array[String]
+
+pub fn col_sum(DataFrame, String) -> Double raise
+
+pub fn dataframe_to_string(DataFrame) -> String
+
+pub fn float_column(String, Array[Double]) -> Column
+
+pub fn format_msg(Logger, LogLevel, String) -> String
+
+pub fn get_column(DataFrame, String) -> Column raise
+
+pub fn get_float_data(Column) -> Array[Double]
+
+pub fn get_int_data(Column) -> Array[Int32]
+
+pub fn get_string_data(Column) -> Array[String]
+
+pub fn int_column(String, Array[Int32]) -> Column
+
+pub fn level_debug() -> LogLevel
+
+pub fn level_error() -> LogLevel
+
+pub fn level_fatal() -> LogLevel
+
+pub fn level_info() -> LogLevel
+
+pub fn level_to_str(LogLevel) -> String
+
+pub fn level_warn() -> LogLevel
+
+pub fn longest_string(Array[String]) -> Int32
+
+pub fn make_dataframe(Array[Column]) -> DataFrame raise
+
+pub fn make_logger() -> Logger
+
+pub fn num_cols(DataFrame) -> Int32
+
+pub fn num_rows(DataFrame) -> Int32
+
+pub fn pad_center() -> PaddingSide
+
+pub fn pad_left() -> PaddingSide
+
+pub fn pad_right() -> PaddingSide
+
+pub fn pad_string(String, Int32, PaddingSide) -> String
+
+pub fn pad_strings(Array[String], Int32, PaddingSide) -> Array[String]
+
+pub fn repeat_string(String, Int32) -> String
+
+pub fn set_colorful(Logger, Bool) -> Unit
+
+pub fn set_level(Logger, LogLevel) -> Unit
+
+pub fn should_print(Logger, LogLevel) -> Bool
+
+pub fn string_column(String, Array[String]) -> Column
+
+// Errors
+
+// Types and methods
+pub struct Column {
+  name : String
+  typ : ColumnType
+  float_data : Array[Double]
+  int_data : Array[Int32]
+  string_data : Array[String]
+}
+
+pub enum ColumnType {
+  FloatCol
+  IntCol
+  StringCol
+}
+
+pub struct CountMinSketch {
+  tbl : @ref.Ref[Array[Array[Int32]]]
+  w : Int32
+  hash_fns : Array[(Int32, Int32, Int32)]
+}
+
+pub struct DataFrame {
+  columns : Array[Column]
+  n_rows : Int32
+}
+
+pub struct Heap[T] {
+  used : @ref.Ref[Int32]
+  data : @ref.Ref[Array[T]]
+  cmp : (T, T) -> Int32
+}
+pub fn[T] Heap::is_empty(Self[T]) -> Bool
+pub fn[T] Heap::new((T, T) -> Int32) -> Self[T]
+pub fn[T] Heap::peek(Self[T]) -> T raise
+pub fn[T] Heap::pop(Self[T]) -> T raise
+pub fn[T] Heap::push(Self[T], T) -> Unit
+pub fn[T] Heap::size(Self[T]) -> Int32
+pub fn[T] Heap::to_array(Self[T]) -> Array[T]
+
+pub enum LogLevel {
+  Debug
+  Info
+  Warn
+  Error
+  Fatal
+}
+
+pub struct Logger {
+  level : @ref.Ref[LogLevel]
+  colorful : @ref.Ref[Bool]
+}
+
+pub enum PaddingSide {
+  Left
+  Right
+  Center
+}
+
+pub struct Stack[T] {
+  used : @ref.Ref[Int32]
+  data : @ref.Ref[Array[T]]
+}
+pub fn[T] Stack::is_empty(Self[T]) -> Bool
+pub fn[T] Stack::length(Self[T]) -> Int32
+pub fn[T] Stack::new() -> Self[T]
+pub fn[T] Stack::peek(Self[T]) -> T?
+pub fn[T] Stack::pop(Self[T]) -> T?
+pub fn[T] Stack::push(Self[T], T) -> Unit
+pub fn[T] Stack::to_array(Self[T]) -> Array[T]
+
+// Type aliases
+
+// Traits

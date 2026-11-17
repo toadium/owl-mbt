@@ -1,0 +1,113 @@
+----
+import {
+  "moonbitlang/async",
+  "walkzzz/owl_mbt/algodiff",
+  "walkzzz/owl_mbt/linalg",
+  "walkzzz/owl_mbt/maths",
+  "walkzzz/owl_mbt/ndarray",
+  "walkzzz/owl_mbt/stats",
+}
+----
+
+///|
+/// 运行单组基准：热身 10% 迭代后计时，输出总耗时与单次微秒数。
+async fn bench(
+  name : String,
+  iters : Int,
+  f : () -> Unit raise,
+) -> Unit raise {
+  let warm = iters / 10 + 1
+  for _ in 0..<warm {
+    f()
+  }
+  let t0 = @async.now()
+  for _ in 0..<iters {
+    f()
+  }
+  let t1 = @async.now()
+  let ms = t1 - t0
+  let per_us = ms.to_double() * 1000.0 / iters.to_double()
+  println("\{name} | \{iters} | \{ms} | \{per_us}")
+}
+
+///|
+/// owl-mbt 核心操作基准。
+/// 输出列：operation | iterations | total_ms | us_per_iter
+async fn main raise {
+  println("owl-mbt benchmark | time-source=@async.now() | unit=us/iter")
+  println("operation | iterations | total_ms | us_per_iter")
+
+  // --- ndarray 基础 ---
+  bench(
+    "ndarray.zeros[100x100]",
+    2000,
+    () => { ignore(@ndarray.zeros([100, 100])) },
+  )
+  let a128 = @ndarray.reshape(
+    @ndarray.arange(0.0, 16384.0, 1.0),
+    [128, 128],
+  )
+  let b128 = @ndarray.reshape(
+    @ndarray.arange(16384.0, 32768.0, 1.0),
+    [128, 128],
+  )
+  bench(
+    "ndarray.add[128x128]",
+    1000,
+    () => { ignore(@ndarray.add(a128, b128)) },
+  )
+  let a64 = @ndarray.reshape(@ndarray.arange(0.0, 4096.0, 1.0), [64, 64])
+  let b64 = @ndarray.reshape(
+    @ndarray.arange(4096.0, 8192.0, 1.0),
+    [64, 64],
+  )
+  bench("ndarray.dot[64x64]", 200, () => { ignore(@ndarray.dot(a64, b64)) })
+
+  // --- FFT（radix-2，本库实现）---
+  let sig256 = @ndarray.gaussian([256], mu=0.0, sigma=1.0)
+  bench("ndarray.fft[256]", 500, () => { ignore(@ndarray.fft(sig256)) })
+  let sig1024 = @ndarray.gaussian([1024], mu=0.0, sigma=1.0)
+  bench("ndarray.fft[1024]", 100, () => { ignore(@ndarray.fft(sig1024)) })
+  bench(
+    "ndarray.ifft[256] round-trip",
+    250,
+    () => {
+      let (re, im) = @ndarray.fft(sig256)
+      ignore(@ndarray.ifft(re, im))
+    },
+  )
+
+  // --- 特殊函数（幂级数/渐近/Lanczos）---
+  bench("maths.gamma", 200000, () => { ignore(@maths.gamma(2.5)) })
+  bench("maths.j0", 100000, () => { ignore(@maths.j0(3.7)) })
+
+  // --- 线性代数 ---
+  let m32 = @ndarray.gaussian([32, 32], mu=0.0, sigma=1.0)
+  bench("linalg.inv[32x32]", 100, () => { ignore(@linalg.inv(m32)) })
+  let m16 = @ndarray.gaussian([16, 16], mu=0.0, sigma=1.0)
+  bench("linalg.svd[16x16]", 30, () => {
+    let (u, s, v) = @linalg.svd(m16)
+    ignore((u, s, v))
+  })
+
+  // --- 自动微分（反向模式）---
+  bench(
+    "algodiff.diff sin(exp(x))",
+    10000,
+    () => {
+      let f = fn(x : @algodiff.T) -> @algodiff.T raise {
+        @algodiff.sin(@algodiff.exp(x))
+      }
+      ignore(@algodiff.diff(f, @algodiff.pack_flt(0.5)))
+    },
+  )
+
+  // --- 统计 ---
+  @stats.prng_init(42)
+  bench(
+    "ndarray.gaussian[1000] (PRNG)",
+    500,
+    () => { ignore(@ndarray.gaussian([1000], mu=0.0, sigma=1.0)) },
+  )
+  bench("stats.prng_init+seed", 50000, () => { @stats.prng_init(42) })
+}

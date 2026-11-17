@@ -1,0 +1,140 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/optimise"
+
+import {
+  "walkzzz/owl_mbt/algodiff",
+}
+
+// Values
+pub fn clip_l2norm(Double) -> Clipping
+
+pub fn clip_none() -> Clipping
+
+pub fn clip_value(Double, Double) -> Clipping
+
+pub fn default_params() -> Params
+
+pub fn init_state(Int32, Double) -> State
+
+pub fn lr_adagrad(Double) -> LearningRate
+
+pub fn lr_adam(Double, Double, Double) -> LearningRate
+
+pub fn lr_const(Double) -> LearningRate
+
+pub fn lr_decay(Double, Double) -> LearningRate
+
+pub fn lr_exp_decay(Double, Double) -> LearningRate
+
+pub fn lr_rmsprop(Double, Double) -> LearningRate
+
+pub fn lr_schedule(Array[Double]) -> LearningRate
+
+pub fn minimise_fun(Params, (@algodiff.T) -> @algodiff.T raise, @algodiff.T) -> (State, @algodiff.T) raise
+
+pub fn mom_nesterov(Double) -> Momentum
+
+pub fn mom_none() -> Momentum
+
+pub fn mom_standard(Double) -> Momentum
+
+pub fn reg_elastic_net(Double, Double) -> Regularisation
+
+pub fn reg_l1norm(Double) -> Regularisation
+
+pub fn reg_l2norm(Double) -> Regularisation
+
+pub fn reg_none() -> Regularisation
+
+pub fn stop_const(Double) -> Stopping
+
+pub fn stop_early(Int32, Int32) -> Stopping
+
+pub fn stop_none() -> Stopping
+
+// Errors
+
+// Types and methods
+pub enum Batch {
+  Full
+  Mini(Int32)
+  Sample(Int32)
+  Stochastic
+}
+
+pub enum Clipping {
+  L2norm(Double)
+  Value(Double, Double)
+  None
+}
+
+pub enum GradientMethod {
+  GD
+  CG
+  CD
+  NonlinearCG
+  DaiYuanCG
+  NewtonCG
+  Newton
+}
+
+pub enum LearningRate {
+  Adagrad(Double)
+  Const(Double)
+  Decay(Double, Double)
+  ExpDecay(Double, Double)
+  RMSprop(Double, Double)
+  Adam(Double, Double, Double)
+  Schedule(Array[Double])
+}
+
+pub enum Momentum {
+  Standard(Double)
+  Nesterov(Double)
+  None
+}
+
+pub struct Params {
+  mut epochs : Double
+  batch : Batch
+  gradient : GradientMethod
+  mut learning_rate : LearningRate
+  regularisation : Regularisation
+  momentum : Momentum
+  clipping : Clipping
+  stopping : Stopping
+  verbosity : Bool
+}
+pub fn Params::set_epochs(Self, Double) -> Unit
+pub fn Params::set_learning_rate(Self, LearningRate) -> Unit
+
+pub enum Regularisation {
+  L1norm(Double)
+  L2norm(Double)
+  ElasticNet(Double, Double)
+  None
+}
+
+pub struct State {
+  mut current_batch : Int32
+  batches_per_epoch : Int32
+  epochs : Double
+  batches : Int32
+  loss : Array[@algodiff.T]
+  start_at : Double
+  mut stop : Bool
+  mut gs : Array[Array[@algodiff.T]]
+  mut ps : Array[Array[@algodiff.T]]
+  mut us : Array[Array[@algodiff.T]]
+  mut ch : Array[Array[Array[@algodiff.T]]]
+}
+
+pub enum Stopping {
+  Const(Double)
+  Early(Int32, Int32)
+  None
+}
+
+// Type aliases
+
+// Traits

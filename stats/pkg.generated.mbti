@@ -1,0 +1,156 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/stats"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn absdev(Double?, Array[Double]) -> Double
+
+pub fn argsort(inc? : Bool, Array[Double]) -> Array[Int32]
+
+pub fn bernoulli_rvs(Double) -> Double
+
+pub fn cauchy_rvs(Double, Double) -> Double
+
+pub fn central_moment(Int32, Array[Double]) -> Double
+
+pub fn[T] choose(Array[T], Int32) -> Array[T] raise
+
+pub fn cov(Double?, Double?, Array[Double], Array[Double]) -> Double raise
+
+pub fn exponential_rvs(Double) -> Double raise
+
+pub fn first_quartile(Array[Double]) -> Double raise
+
+pub fn gamma_rvs(Double, Double) -> Double
+
+pub fn gaussian_kde(bandwidth? : Bandwidth, n_points? : Int32, Array[Double]) -> (Array[Double], Array[Double]) raise
+
+pub fn gaussian_rvs(Double, Double) -> Double
+
+pub fn gumbel1_rvs(Double, Double) -> Double raise
+
+pub fn gumbel2_rvs(Double, Double) -> Double raise
+
+pub fn hist_nonuniform(Array[Double], Array[Double]) -> (Array[Double], Array[Int32]) raise
+
+pub fn hist_sorted(Array[Double], Array[Double]) -> (Array[Double], Array[Int32]) raise
+
+pub fn hist_uniform(Int32, Array[Double]) -> (Array[Double], Array[Int32]) raise
+
+pub fn hist_weighted_nonuniform(Array[Double], Array[Double], Array[Double]) -> ((Array[Double], Array[Int32]), Array[Double]) raise
+
+pub fn hist_weighted_sorted(Array[Double], Array[Double], Array[Double]) -> ((Array[Double], Array[Int32]), Array[Double]) raise
+
+pub fn hist_weighted_uniform(Int32, Array[Double], Array[Double]) -> ((Array[Double], Array[Int32]), Array[Double]) raise
+
+pub fn histogram(BinSpec, Array[Double]?, Array[Double]) -> Histogram raise
+
+pub fn histogram_sorted(BinSpec, Array[Double]?, Array[Double]) -> Histogram raise
+
+pub fn interquartile(Array[Double]) -> Double raise
+
+pub fn kendall_tau(Array[Double], Array[Double]) -> Double raise
+
+pub fn kurtosis(Double?, Double?, Array[Double]) -> Double
+
+pub fn max(Array[Double]) -> Double raise
+
+pub fn max_i(Array[Double]) -> Int32 raise
+
+pub fn mean(Array[Double]) -> Double
+
+pub fn median(Array[Double]) -> Double raise
+
+pub fn min(Array[Double]) -> Double raise
+
+pub fn min_i(Array[Double]) -> Int32 raise
+
+pub fn minmax(Array[Double]) -> (Double, Double) raise
+
+pub fn minmax_i(Array[Double]) -> (Int32, Int32) raise
+
+pub fn normalise(Histogram) -> Histogram raise
+
+pub fn normalise_density(Histogram) -> Histogram raise
+
+pub fn percentile(Array[Double], Double) -> Double raise
+
+pub fn prng_init(Int32) -> Unit
+
+pub fn prng_self_init() -> Unit
+
+pub fn quantile(Array[Double]) -> (Double) -> Double raise
+
+pub fn rank(ties_strategy? : TiesStrategy, Array[Double]) -> Array[Double]
+
+pub fn[T] sample(Array[T], Int32) -> Array[T]
+
+pub fn sem(Double?, Array[Double]) -> Double
+
+pub fn[T] shuffle(Array[T]) -> Array[T]
+
+pub fn skew(Double?, Double?, Array[Double]) -> Double
+
+pub fn sort(inc? : Bool, Array[Double]) -> Array[Double]
+
+pub fn std(Double?, Array[Double]) -> Double
+
+pub fn std_cauchy_rvs() -> Double
+
+pub fn std_exponential_rvs() -> Double
+
+pub fn std_gamma_rvs(Double) -> Double
+
+pub fn std_gaussian_rvs() -> Double
+
+pub fn std_uniform_rvs() -> Double
+
+pub fn sum(Array[Double]) -> Double
+
+pub fn third_quartile(Array[Double]) -> Double raise
+
+pub fn tukey_fences(k? : Double, Array[Double]) -> (Double, Double) raise
+
+pub fn uniform_int_rvs(Int32) -> Int32
+
+pub fn uniform_rvs(Double, Double) -> Double
+
+pub fn variance(Double?, Array[Double]) -> Double
+
+// Errors
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum Bandwidth {
+  Silverman
+  Scott
+}
+
+#derive(@debug.Debug)
+pub(all) enum BinSpec {
+  N(Int32)
+  Bins(Array[Double])
+}
+
+#derive(@debug.Debug)
+pub(all) struct Histogram {
+  bins : Array[Double]
+  counts : Array[Int32]
+  weighted_counts : Array[Double]?
+  normalised_counts : Array[Double]?
+  density : Array[Double]?
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum TiesStrategy {
+  Average
+  Min
+  Max
+}
+
+// Type aliases
+
+// Traits

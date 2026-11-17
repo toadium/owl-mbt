@@ -1,0 +1,175 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/maths"
+
+import {
+  "walkzzz/owl_mbt/core",
+}
+
+// Values
+pub fn abs(Double) -> Double
+
+pub fn acos(Double) -> Double
+
+pub fn acosh(Double) -> Double
+
+pub fn acot(Double) -> Double
+
+pub fn acoth(Double) -> Double
+
+pub fn acsc(Double) -> Double
+
+pub fn acsch(Double) -> Double
+
+pub fn add(Double, Double) -> Double
+
+pub fn asec(Double) -> Double
+
+pub fn asech(Double) -> Double
+
+pub fn asin(Double) -> Double
+
+pub fn asinh(Double) -> Double
+
+pub fn atan(Double) -> Double
+
+pub fn atan2(Double, Double) -> Double
+
+pub fn atanh(Double) -> Double
+
+pub fn beta(Double, Double) -> Double
+
+pub fn cbrt(Double) -> Double
+
+pub fn ceil(Double) -> Double
+
+pub fn cos(Double) -> Double
+
+pub fn cosh(Double) -> Double
+
+pub fn cot(Double) -> Double
+
+pub fn csc(Double) -> Double
+
+pub fn dawsn(Double) -> Double
+
+pub fn div(Double, Double) -> Double
+
+pub fn erf(Double) -> Double
+
+pub fn erfc(Double) -> Double
+
+pub fn exp(Double) -> Double
+
+pub fn exp10(Double) -> Double
+
+pub fn exp2(Double) -> Double
+
+pub fn expit(Double) -> Double
+
+pub fn expm1(Double) -> Double
+
+pub fn fermat_fact(Int32) -> (Int32, Int32) raise @core.OwlError
+
+pub fn fix(Double) -> Double
+
+pub fn floor(Double) -> Double
+
+pub fn fmod(Double, Double) -> Double
+
+pub fn gamma(Double) -> Double
+
+pub fn hypot(Double, Double) -> Double
+
+pub fn is_even(Int32) -> Bool
+
+pub fn is_inf(Double) -> Bool
+
+pub fn is_int(Double) -> Bool
+
+pub fn is_nan(Double) -> Bool
+
+pub fn is_normal(Double) -> Bool
+
+pub fn is_odd(Int32) -> Bool
+
+pub fn is_pow2(Int32) -> Bool
+
+pub fn is_prime(Int32) -> Bool raise @core.OwlError
+
+pub fn is_simplex(ArrayView[Double]) -> Bool
+
+pub fn is_sqr(Int32) -> Bool
+
+pub fn j0(Double) -> Double
+
+pub fn j1(Double) -> Double
+
+pub fn log(Double) -> Double
+
+pub fn log10(Double) -> Double
+
+pub fn log1mexp(Double) -> Double
+
+pub fn log1p(Double) -> Double
+
+pub fn log1pexp(Double) -> Double
+
+pub fn log2(Double) -> Double
+
+pub fn log_gamma(Double) -> Double
+
+pub fn logit(Double) -> Double
+
+pub fn mul(Double, Double) -> Double
+
+pub fn mulmod(Int32, Int32, Int32) -> Int32 raise @core.OwlError
+
+pub fn neg(Double) -> Double
+
+pub fn pow(Double, Double) -> Double
+
+pub fn powmod(Int32, Int32, Int32) -> Int32 raise @core.OwlError
+
+pub fn reci(Double) -> Double
+
+pub fn relu(Double) -> Double
+
+pub fn round(Double) -> Double
+
+pub fn same_sign(Double, Double) -> Bool
+
+pub fn sec(Double) -> Double
+
+pub fn sigmoid(Double) -> Double
+
+pub fn signum(Double) -> Double
+
+pub fn sin(Double) -> Double
+
+pub fn sinh(Double) -> Double
+
+pub fn softplus(Double) -> Double
+
+pub fn softsign(Double) -> Double
+
+pub fn sqr(Double) -> Double
+
+pub fn sqrt(Double) -> Double
+
+pub fn sub(Double, Double) -> Double
+
+pub fn tan(Double) -> Double
+
+pub fn tanh(Double) -> Double
+
+pub fn trunc(Double) -> Double
+
+pub fn xlogy(Double, Double) -> Double
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

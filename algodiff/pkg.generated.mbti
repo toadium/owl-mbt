@@ -1,0 +1,176 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/algodiff"
+
+import {
+  "moonbitlang/core/ref",
+  "walkzzz/owl_mbt/ndarray",
+}
+
+// Values
+pub fn abs(T) -> T raise
+
+pub fn add(T, T) -> T raise
+
+pub fn add_scalar(T, Double) -> T raise
+
+pub fn adjref(T) -> @ref.Ref[T] raise
+
+pub fn adjval(T) -> T raise
+
+pub fn arr_shape(T) -> Array[Int32] raise
+
+pub fn concatenate(Array[T], axis? : Int32) -> T raise
+
+pub fn copy_primal_(T) -> T
+
+pub fn cos(T) -> T raise
+
+pub fn cosh(T) -> T raise
+
+pub fn diff((T) -> T raise, T) -> T raise
+
+pub fn diff_prime((T) -> T raise, T) -> (T, T) raise
+
+pub fn div(T, T) -> T raise
+
+pub fn div_scalar(T, Double) -> T raise
+
+pub fn eldiv(T, T) -> T raise
+
+pub fn elmul(T, T) -> T raise
+
+pub fn exp(T) -> T raise
+
+pub fn f_const(Double) -> T
+
+pub fn flatten(T) -> T raise
+
+pub fn gaussian_arr(Double, Double, Array[Int32]) -> T
+
+pub fn get_slice(Array[Array[Int32]], T) -> T raise
+
+pub fn grad((T) -> T raise, T) -> T raise
+
+pub fn grad_prime((T) -> T raise, T) -> (T, T) raise
+
+pub fn hessian((T) -> T raise, T) -> T raise
+
+pub fn hessian_prime((T) -> T raise, T) -> (T, T) raise
+
+pub fn is_arr(T) -> Bool
+
+pub fn is_float(T) -> Bool
+
+pub fn jacobian((T) -> T raise, T) -> T raise
+
+pub fn jacobianTv((T) -> T raise, T, T) -> T raise
+
+pub fn jacobianTv_prime((T) -> T raise, T, T) -> (T, T) raise
+
+pub fn jacobian_prime((T) -> T raise, T) -> (T, T) raise
+
+pub fn jacobianv((T) -> T raise, T, T) -> T raise
+
+pub fn jacobianv_prime((T) -> T raise, T, T) -> (T, T) raise
+
+pub fn log(T) -> T raise
+
+pub fn make_forward(T, T, Int32) -> T
+
+pub fn make_reverse(T, Int32) -> T
+
+pub fn matmul(T, T) -> T raise
+
+pub fn mul(T, T) -> T raise
+
+pub fn mul_scalar(T, Double) -> T raise
+
+pub fn neg(T) -> T raise
+
+pub fn pack_arr(@ndarray.Ndarray) -> T
+
+pub fn pack_flt(Double) -> T
+
+pub fn pow(T, T) -> T raise
+
+pub fn primal(T) -> T
+
+pub fn primal_(T) -> T
+
+pub fn relu(T) -> T raise
+
+pub fn reset_tag() -> Unit
+
+pub fn reset_zero(T) -> T raise
+
+pub fn reshape(T, Array[Int32]) -> T raise
+
+pub fn reverse_prop(T, T) -> Unit raise
+
+pub fn reverse_push(T, T) -> Unit raise
+
+pub fn reverse_reset(T) -> Unit raise
+
+pub fn shape(T) -> Array[Int32] raise
+
+pub fn sigmoid(T) -> T raise
+
+pub fn signum(T) -> T raise
+
+pub fn sin(T) -> T raise
+
+pub fn sinh(T) -> T raise
+
+pub fn softmax(T, axis? : Int32) -> T raise
+
+pub fn softplus(T) -> T raise
+
+pub fn softsign(T) -> T raise
+
+pub fn sqr(T) -> T raise
+
+pub fn sqrt(T) -> T raise
+
+pub fn sub(T, T) -> T raise
+
+pub fn sub_scalar(T, Double) -> T raise
+
+pub fn sum(T, axis? : Int32, keep_dims? : Bool) -> T raise
+
+pub fn sum_(T) -> T raise
+
+pub fn tag() -> Int32
+
+pub fn tan(T) -> T raise
+
+pub fn tangent(T) -> T raise
+
+pub fn tanh(T) -> T raise
+
+pub fn transpose(T) -> T raise
+
+pub fn uniform_arr(Double, Double, Array[Int32]) -> T
+
+pub fn unpack_arr(T) -> @ndarray.Ndarray raise
+
+pub fn unpack_flt(T) -> Double raise
+
+pub fn zero(T) -> T
+
+pub fn zeros_arr(Array[Int32]) -> T
+
+// Errors
+
+// Types and methods
+type Op
+
+pub enum T {
+  F(Double)
+  Arr(@ndarray.Ndarray)
+  DF(T, T, Int32)
+  DR(T, @ref.Ref[T], Op, @ref.Ref[Int32], Int32, @ref.Ref[Int32])
+}
+
+// Type aliases
+
+// Traits

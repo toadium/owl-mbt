@@ -1,0 +1,439 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/ndarray"
+
+import {
+  "walkzzz/owl_mbt/core",
+}
+
+// Values
+pub fn abs(Ndarray) -> Ndarray
+
+pub fn acos(Ndarray) -> Ndarray
+
+pub fn acosh(Ndarray) -> Ndarray
+
+pub fn add(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn add_inplace(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn add_scalar(Ndarray, Double) -> Ndarray
+
+pub fn add_scalar_inplace(Ndarray, Double) -> Ndarray
+
+pub fn approx_elt_equal(Ndarray, Ndarray, eps? : Double) -> Ndarray raise
+
+pub fn approx_elt_equal_scalar(Ndarray, Double, eps? : Double) -> Ndarray
+
+pub fn approx_equal(Ndarray, Ndarray, eps? : Double) -> Bool
+
+pub fn approx_equal_scalar(Ndarray, Double, eps? : Double) -> Bool
+
+pub fn asin(Ndarray) -> Ndarray
+
+pub fn asinh(Ndarray) -> Ndarray
+
+pub fn atan(Ndarray) -> Ndarray
+
+pub fn atan2(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn atan2_scalar(Ndarray, Double) -> Ndarray
+
+pub fn atanh(Ndarray) -> Ndarray
+
+pub fn avg_pool1d(Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn avg_pool1d_backward(@core.Padding, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn avg_pool2d(Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray
+
+pub fn avg_pool2d_backward(@core.Padding, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray
+
+pub fn avg_pool3d(Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray
+
+pub fn avg_pool3d_backward(@core.Padding, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray
+
+pub fn bernoulli(Array[Int32], p? : Double) -> Ndarray
+
+pub fn ceil(Ndarray) -> Ndarray
+
+pub fn clip_by_l2norm(Double, Ndarray) -> Ndarray
+
+pub fn clip_by_value(Ndarray, amin? : Double, amax? : Double) -> Ndarray
+
+pub fn col_num(Ndarray) -> Int32
+
+pub fn concatenate(Array[Ndarray], axis? : Int32) -> Ndarray raise
+
+pub fn conv1d(Ndarray, Ndarray, Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn conv1d_backward_input(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn conv1d_backward_kernel(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn conv2d(Ndarray, Ndarray, Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn conv2d_backward_input(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn conv2d_backward_kernel(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn conv3d(Ndarray, Ndarray, Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn conv3d_backward_input(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn conv3d_backward_kernel(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn copy(Ndarray) -> Ndarray
+
+pub fn copy_(Ndarray, Ndarray) -> Unit raise
+
+pub fn copy_col_to(Ndarray, Ndarray, Int32) -> Unit raise
+
+pub fn copy_row_to(Ndarray, Ndarray, Int32) -> Unit raise
+
+pub fn cos(Ndarray) -> Ndarray
+
+pub fn cosh(Ndarray) -> Ndarray
+
+pub fn create(Array[Int32], Double) -> Ndarray
+
+pub fn dawsn(Ndarray) -> Ndarray
+
+pub fn diag(Ndarray, k? : Int32) -> Ndarray
+
+pub fn dilated_conv1d(Ndarray, Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn dilated_conv1d_backward_input(Ndarray, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn dilated_conv1d_backward_kernel(Ndarray, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn dilated_conv2d(Ndarray, Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn dilated_conv2d_backward_input(Ndarray, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn dilated_conv2d_backward_kernel(Ndarray, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn dilated_conv3d(Ndarray, Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn dilated_conv3d_backward_input(Ndarray, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn dilated_conv3d_backward_kernel(Ndarray, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn div(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn div_scalar(Ndarray, Double) -> Ndarray
+
+pub fn dot(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn draw(Ndarray, Int32, axis? : Int32) -> (Ndarray, Array[Int32]) raise
+
+pub fn elt_equal(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn elt_equal_scalar(Ndarray, Double) -> Ndarray
+
+pub fn elt_greater(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn elt_greater_equal(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn elt_greater_equal_scalar(Ndarray, Double) -> Ndarray
+
+pub fn elt_greater_scalar(Ndarray, Double) -> Ndarray
+
+pub fn elt_less(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn elt_less_equal(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn elt_less_equal_scalar(Ndarray, Double) -> Ndarray
+
+pub fn elt_less_scalar(Ndarray, Double) -> Ndarray
+
+pub fn elt_not_equal(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn elt_not_equal_scalar(Ndarray, Double) -> Ndarray
+
+pub fn equal(Ndarray, Ndarray) -> Bool
+
+pub fn equal_scalar(Ndarray, Double) -> Bool
+
+pub fn exists((Double) -> Bool, Ndarray) -> Bool
+
+pub fn exp(Ndarray) -> Ndarray
+
+pub fn expand(Ndarray, Int32, hi? : Bool) -> Ndarray
+
+pub fn eye(Int32) -> Ndarray
+
+pub fn fft(Ndarray) -> (Ndarray, Ndarray) raise
+
+pub fn filter((Double) -> Bool, Ndarray) -> Array[Int32]
+
+pub fn filteri((Int32, Double) -> Bool, Ndarray) -> Array[Int32]
+
+pub fn flatten(Ndarray) -> Ndarray
+
+pub fn floor(Ndarray) -> Ndarray
+
+pub fn fma(Ndarray, Ndarray, Ndarray) -> Ndarray raise
+
+pub fn fold((Double, Double) -> Double, Double, Ndarray, axis? : Int32) -> Ndarray raise
+
+pub fn foldi((Int32, Double, Double) -> Double, Double, Ndarray, axis? : Int32) -> Ndarray raise
+
+pub fn for_all((Double) -> Bool, Ndarray) -> Bool
+
+pub fn from_data(Array[Int32], FixedArray[Double]) -> Ndarray
+
+pub fn gaussian(Array[Int32], mu? : Double, sigma? : Double) -> Ndarray
+
+pub fn get(Ndarray, Array[Int32]) -> Double raise
+
+pub fn get_slice(Array[Array[Int32]], Ndarray) -> Ndarray raise
+
+pub fn greater(Ndarray, Ndarray) -> Bool
+
+pub fn greater_equal(Ndarray, Ndarray) -> Bool
+
+pub fn greater_equal_scalar(Ndarray, Double) -> Bool
+
+pub fn greater_scalar(Ndarray, Double) -> Bool
+
+pub fn ifft(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn init_flat(Array[Int32], (Int32) -> Double) -> Ndarray
+
+pub fn is_negative(Ndarray) -> Bool
+
+pub fn is_nonnegative(Ndarray) -> Bool
+
+pub fn is_nonpositive(Ndarray) -> Bool
+
+pub fn is_normal(Ndarray) -> Bool
+
+pub fn is_positive(Ndarray) -> Bool
+
+pub fn is_zero(Ndarray) -> Bool
+
+pub fn iter((Double) -> Unit, Ndarray) -> Unit
+
+pub fn iteri((Int32, Double) -> Unit, Ndarray) -> Unit
+
+pub fn l1norm_(Ndarray) -> Double
+
+pub fn l2norm_(Ndarray) -> Double
+
+pub fn l2norm_sqr_(Ndarray) -> Double
+
+pub fn less(Ndarray, Ndarray) -> Bool
+
+pub fn less_equal(Ndarray, Ndarray) -> Bool
+
+pub fn less_equal_scalar(Ndarray, Double) -> Bool
+
+pub fn less_scalar(Ndarray, Double) -> Bool
+
+pub fn log(Ndarray) -> Ndarray
+
+pub fn log10(Ndarray) -> Ndarray
+
+pub fn log2(Ndarray) -> Ndarray
+
+pub fn log_sum_exp(Ndarray, axis? : Int32, keep_dims? : Bool) -> Ndarray raise
+
+pub fn log_sum_exp_(Ndarray) -> Double raise
+
+pub fn map((Double) -> Double, Ndarray) -> Ndarray
+
+pub fn map_elem(Ndarray, (Double) -> Double) -> Ndarray
+
+pub fn map_elem2(Ndarray, Ndarray, (Double, Double) -> Double) -> Ndarray
+
+pub fn map_elem_inplace(Ndarray, (Double) -> Double) -> Ndarray
+
+pub fn mapi((Int32, Double) -> Double, Ndarray) -> Ndarray
+
+pub fn max(Ndarray, axis? : Int32, keep_dims? : Bool) -> Ndarray raise
+
+pub fn max_(Ndarray) -> Double raise
+
+pub fn max_pool1d(Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn max_pool1d_backward(@core.Padding, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn max_pool2d(Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray
+
+pub fn max_pool2d_backward(@core.Padding, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray
+
+pub fn max_pool3d(Ndarray, Array[Int32], Array[Int32], padding? : @core.Padding) -> Ndarray
+
+pub fn max_pool3d_backward(@core.Padding, Ndarray, Array[Int32], Array[Int32], Ndarray) -> Ndarray
+
+pub fn mean_(Ndarray) -> Double raise
+
+pub fn min(Ndarray, axis? : Int32, keep_dims? : Bool) -> Ndarray raise
+
+pub fn min_(Ndarray) -> Double raise
+
+pub fn mul(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn mul_scalar(Ndarray, Double) -> Ndarray
+
+pub fn mul_scalar_inplace(Ndarray, Double) -> Ndarray
+
+pub fn neg(Ndarray) -> Ndarray
+
+pub fn not_equal(Ndarray, Ndarray) -> Bool
+
+pub fn not_equal_scalar(Ndarray, Double) -> Bool
+
+pub fn not_exists((Double) -> Bool, Ndarray) -> Bool
+
+pub fn not_inf(Ndarray) -> Bool
+
+pub fn not_nan(Ndarray) -> Bool
+
+pub fn numel(Ndarray) -> Int32
+
+pub fn of_array(Array[Double], Array[Int32]) -> Ndarray
+
+pub fn of_arrays(Array[Array[Double]]) -> Ndarray
+
+pub fn of_cols(Array[Ndarray]) -> Ndarray
+
+pub fn of_rows(Array[Ndarray]) -> Ndarray
+
+pub fn one_hot(Int32, Ndarray) -> Ndarray
+
+pub fn ones(Array[Int32]) -> Ndarray
+
+pub fn pad(Ndarray, Array[Array[Int32]], v? : Double) -> Ndarray
+
+pub fn pow(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn pow_scalar(Ndarray, Double) -> Ndarray
+
+pub fn relu(Ndarray) -> Ndarray
+
+pub fn repeat(Ndarray, Array[Int32]) -> Ndarray raise
+
+pub fn reset(Ndarray) -> Unit
+
+pub fn reshape(Ndarray, Array[Int32]) -> Ndarray raise
+
+pub fn reverse(Ndarray) -> Ndarray
+
+pub fn round(Ndarray) -> Ndarray
+
+pub fn row(Ndarray, Int32) -> Ndarray
+
+pub fn row_num(Ndarray) -> Int32
+
+pub fn rows(Ndarray, Array[Int32]) -> Ndarray
+
+pub fn scalar_add(Double, Ndarray) -> Ndarray
+
+pub fn scalar_atan2(Double, Ndarray) -> Ndarray
+
+pub fn scalar_div(Double, Ndarray) -> Ndarray
+
+pub fn scalar_mul(Double, Ndarray) -> Ndarray
+
+pub fn scalar_pow(Double, Ndarray) -> Ndarray
+
+pub fn scalar_sub(Double, Ndarray) -> Ndarray
+
+pub fn scan((Double, Double) -> Double, Ndarray, axis? : Int32) -> Ndarray
+
+pub fn scani((Int32, Double, Double) -> Double, Ndarray, axis? : Int32) -> Ndarray
+
+pub fn sequential(Array[Int32], a? : Double, step? : Double) -> Ndarray
+
+pub fn set(Ndarray, Array[Int32], Double) -> Unit raise
+
+pub fn set_slice(Array[Array[Int32]], Ndarray, Ndarray) -> Ndarray raise
+
+pub fn shape(Ndarray) -> Array[Int32]
+
+pub fn sigmoid(Ndarray) -> Ndarray
+
+pub fn signum(Ndarray) -> Ndarray
+
+pub fn sin(Ndarray) -> Ndarray
+
+pub fn sinh(Ndarray) -> Ndarray
+
+pub fn softmax(Ndarray, axis? : Int32) -> Ndarray raise
+
+pub fn split(Ndarray, Array[Int32], axis? : Int32) -> Array[Ndarray] raise
+
+pub fn sqr(Ndarray) -> Ndarray
+
+pub fn sqrt(Ndarray) -> Ndarray
+
+pub fn squeeze(Ndarray, axis? : Array[Int32]) -> Ndarray
+
+pub fn stack(Array[Ndarray], axis? : Int32) -> Ndarray raise
+
+pub fn sub(Ndarray, Ndarray) -> Ndarray raise
+
+pub fn sub_scalar(Ndarray, Double) -> Ndarray
+
+pub fn sum(Ndarray, axis? : Int32, keep_dims? : Bool) -> Ndarray raise
+
+pub fn sum_(Ndarray) -> Double
+
+pub fn sum_reduce(Ndarray, axis? : Array[Int32]) -> Ndarray raise
+
+pub fn sum_slices(Ndarray, axis? : Int32) -> Ndarray
+
+pub fn tan(Ndarray) -> Ndarray
+
+pub fn tanh(Ndarray) -> Ndarray
+
+pub fn tile(Ndarray, Array[Int32]) -> Ndarray raise
+
+pub fn to_cols(Ndarray) -> Array[Ndarray]
+
+pub fn to_rows(Ndarray) -> Array[Ndarray]
+
+pub fn to_string(Ndarray, max_row? : Int32, max_col? : Int32) -> String
+
+pub fn trace(Ndarray) -> Double
+
+pub fn transpose(Ndarray, axis? : Array[Int32]) -> Ndarray raise
+
+pub fn transpose_conv1d(Ndarray, Ndarray, Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn transpose_conv1d_backward_input(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn transpose_conv1d_backward_kernel(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray raise
+
+pub fn transpose_conv2d(Ndarray, Ndarray, Array[Int32], padding? : @core.Padding) -> Ndarray
+
+pub fn transpose_conv2d_backward_input(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn transpose_conv2d_backward_kernel(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn transpose_conv3d(Ndarray, Ndarray, Array[Int32], padding? : @core.Padding) -> Ndarray raise
+
+pub fn transpose_conv3d_backward_input(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn transpose_conv3d_backward_kernel(Ndarray, Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn uniform(Array[Int32], a? : Double, b? : Double) -> Ndarray
+
+pub fn upsampling2d(Ndarray, Array[Int32]) -> Ndarray raise
+
+pub fn upsampling2d_backward(Ndarray, Array[Int32], Ndarray) -> Ndarray
+
+pub fn zeros(Array[Int32]) -> Ndarray
+
+// Errors
+
+// Types and methods
+pub struct Ndarray {
+  shape : Array[Int32]
+  data : FixedArray[Double]
+}
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,227 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/neural"
+
+import {
+  "moonbitlang/core/ref",
+  "walkzzz/owl_mbt/algodiff",
+}
+
+// Values
+pub fn act_elu() -> ActivationTyp
+
+pub fn act_hard_sigmoid() -> ActivationTyp
+
+pub fn act_leaky_relu(Double) -> ActivationTyp
+
+pub fn act_none() -> ActivationTyp
+
+pub fn act_relu() -> ActivationTyp
+
+pub fn act_relu6() -> ActivationTyp
+
+pub fn act_sigmoid() -> ActivationTyp
+
+pub fn act_softmax(Int32) -> ActivationTyp
+
+pub fn act_softplus() -> ActivationTyp
+
+pub fn act_softsign() -> ActivationTyp
+
+pub fn act_tanh() -> ActivationTyp
+
+pub fn act_trelu(Double) -> ActivationTyp
+
+pub fn activation(Node, ActivationTyp) -> Node raise
+
+pub fn add_node(Network, Array[Node], Node, act_typ? : ActivationTyp?) -> Node raise
+
+pub fn backward(Network, @algodiff.T) -> (Array[Array[@algodiff.T]], Array[Array[@algodiff.T]]) raise
+
+pub fn collect_output(Array[Node]) -> Array[@algodiff.T] raise
+
+pub fn dropout(Node, Double) -> Node raise
+
+pub fn flatten(Node) -> Node raise
+
+pub fn forward(Network, @algodiff.T) -> (@algodiff.T, Array[Array[@algodiff.T]]) raise
+
+pub fn get_in_shape(Neuron) -> Array[Int32]
+
+pub fn get_network(Node) -> Network
+
+pub fn get_out_shape(Neuron) -> Array[Int32]
+
+pub fn get_outputs(Network) -> Array[Node]
+
+pub fn get_roots(Network) -> Array[Node]
+
+pub fn init_gaussian(Double, Double) -> InitTyp
+
+pub fn init_glorot_normal() -> InitTyp
+
+pub fn init_glorot_uniform() -> InitTyp
+
+pub fn init_he_normal() -> InitTyp
+
+pub fn init_lecun_normal() -> InitTyp
+
+pub fn init_network(Network) -> Unit
+
+pub fn init_neuron(Neuron) -> Unit
+
+pub fn init_run(InitTyp, Array[Int32]) -> @algodiff.T
+
+pub fn init_standard() -> InitTyp
+
+pub fn init_tanh() -> InitTyp
+
+pub fn init_uniform(Double, Double) -> InitTyp
+
+pub fn input(Array[Int32]) -> Node raise
+
+pub fn lambda(Node, (@algodiff.T) -> @algodiff.T raise) -> Node raise
+
+pub fn linear(Node, Int32, init_typ? : InitTyp, act_typ? : ActivationTyp?) -> Node raise
+
+pub fn linear_nobias(Node, Int32, init_typ? : InitTyp, act_typ? : ActivationTyp?) -> Node raise
+
+pub fn neuron_input(InputNeuron) -> Neuron
+
+pub fn neuron_linear(LinearNeuron) -> Neuron
+
+pub fn reshape(Node, Array[Int32]) -> Node raise
+
+pub fn run(@algodiff.T, Network) -> @algodiff.T raise
+
+pub fn run_activation(@algodiff.T, ActivationTyp) -> @algodiff.T raise
+
+pub fn run_neuron(Array[@algodiff.T], Neuron, train? : Bool) -> @algodiff.T raise
+
+pub fn to_name(Neuron) -> String
+
+pub fn update_network(Network, Array[Array[@algodiff.T]]) -> Unit
+
+pub fn update_neuron(Neuron, Array[@algodiff.T]) -> Unit
+
+// Errors
+
+// Types and methods
+pub struct ActivationNeuron {
+  activation : ActivationTyp
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub enum ActivationTyp {
+  Elu
+  Relu
+  Sigmoid
+  HardSigmoid
+  Softmax(Int32)
+  Softplus
+  Softsign
+  Tanh
+  Relu6
+  LeakyRelu(Double)
+  TRelu(Double)
+  None
+}
+
+pub struct AddNeuron {
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct ConcatenateNeuron {
+  axis : Int32
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct DropoutNeuron {
+  rate : Double
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct FlattenNeuron {
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub enum InitTyp {
+  Uniform(Double, Double)
+  Gaussian(Double, Double)
+  Standard
+  Tanh
+  GlorotNormal
+  GlorotUniform
+  LecunNormal
+  HeNormal
+}
+
+pub struct InputNeuron {
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct LambdaNeuron {
+  lambda : (@algodiff.T) -> @algodiff.T raise
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct LinearNeuron {
+  w : @ref.Ref[@algodiff.T]
+  b : @ref.Ref[@algodiff.T]
+  init_typ : @ref.Ref[InitTyp]
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct LinearNoBiasNeuron {
+  w : @ref.Ref[@algodiff.T]
+  init_typ : @ref.Ref[InitTyp]
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+pub struct Network {
+  nnid : @ref.Ref[String]
+  size : @ref.Ref[Int32]
+  roots : @ref.Ref[Array[Node]]
+  outputs : @ref.Ref[Array[Node]]
+  topo : @ref.Ref[Array[Node]]
+}
+
+pub enum Neuron {
+  Input(InputNeuron)
+  Linear(LinearNeuron)
+  LinearNoBias(LinearNoBiasNeuron)
+  Activation(ActivationNeuron)
+  Flatten(FlattenNeuron)
+  Reshape(ReshapeNeuron)
+  Dropout(DropoutNeuron)
+  Add(AddNeuron)
+  Concatenate(ConcatenateNeuron)
+  Lambda(LambdaNeuron)
+}
+
+pub struct Node {
+  name : @ref.Ref[String]
+  prev : @ref.Ref[Array[Node]]
+  next : @ref.Ref[Array[Node]]
+  neuron : @ref.Ref[Neuron]
+  output : @ref.Ref[@algodiff.T?]
+  network : @ref.Ref[Network]
+  train : @ref.Ref[Bool]
+}
+
+pub struct ReshapeNeuron {
+  in_shape : @ref.Ref[Array[Int32]]
+  out_shape : @ref.Ref[Array[Int32]]
+}
+
+// Type aliases
+
+// Traits

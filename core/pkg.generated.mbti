@@ -1,0 +1,90 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/core"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub let e : Double
+
+pub let eps : Double
+
+pub let euler : Double
+
+pub let log10e : Double
+
+pub let log2e : Double
+
+pub let loge10 : Double
+
+pub let loge2 : Double
+
+pub let logepi : Double
+
+pub let max_float64 : Double
+
+pub let min_float64 : Double
+
+pub let min_normal64 : Double
+
+pub let pi : Double
+
+pub let pi2 : Double
+
+pub let pi4 : Double
+
+pub let pi_2 : Double
+
+pub let pi_4 : Double
+
+pub let sqrt1_2 : Double
+
+pub let sqrt2 : Double
+
+pub let sqrt3 : Double
+
+pub let sqrtpi : Double
+
+// Errors
+#derive(@debug.Debug)
+pub(all) suberror OwlError {
+  InvalidArgument(String)
+  NotFound
+  NotImplemented(String)
+  ShapeMismatch(expected~ : Array[Int32], actual~ : Array[Int32])
+  OutOfRange(index~ : Int32, bound~ : Int32)
+}
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum DeviceType {
+  Cpu
+  OpenCl
+  Cuda
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Index {
+  I(Int32)
+  L(Array[Int32])
+  R(Array[Int32])
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Number {
+  F32
+  F64
+  C32
+  C64
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Padding {
+  Same
+  Valid
+}
+
+// Type aliases
+
+// Traits

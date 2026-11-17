@@ -1,0 +1,250 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/compute"
+
+import {
+  "moonbitlang/core/ref",
+  "walkzzz/owl_mbt/core",
+  "walkzzz/owl_mbt/ndarray",
+}
+
+// Values
+pub fn connect(Node, Node) -> Unit
+
+pub fn eval_graph(Graph) -> Unit raise
+
+pub fn eval_outputs(Graph) -> Array[@ndarray.Ndarray] raise
+
+pub fn get_inputs(Graph) -> Array[Node]
+
+pub fn get_node_shape(Node) -> Array[Array[Int32]?]
+
+pub fn get_node_value(Node) -> @ndarray.Ndarray raise
+
+pub fn get_nodes(Graph) -> Array[Node]
+
+pub fn get_outputs(Graph) -> Array[Node]
+
+pub fn infer_shape(Op, Array[Array[Array[Int32]?]]) -> Array[Array[Int32]?]
+
+pub fn infer_shapes(Graph) -> Unit
+
+pub fn is_assigned(Node) -> Bool
+
+pub fn is_binary(Op) -> Bool
+
+pub fn is_unary(Op) -> Bool
+
+pub fn make_graph(String) -> Graph
+
+pub fn make_node(Graph, Op, String) -> Node
+
+pub fn node_id(Node) -> Int32
+
+pub fn node_name(Node) -> String
+
+pub fn node_op(Node) -> Op
+
+pub fn op_abs() -> Op
+
+pub fn op_add() -> Op
+
+pub fn op_const() -> Op
+
+pub fn op_copy() -> Op
+
+pub fn op_dot() -> Op
+
+pub fn op_exp() -> Op
+
+pub fn op_log() -> Op
+
+pub fn op_mul() -> Op
+
+pub fn op_neg() -> Op
+
+pub fn op_ones(Array[Int32]) -> Op
+
+pub fn op_reshape(Array[Int32]) -> Op
+
+pub fn op_sqr() -> Op
+
+pub fn op_sum() -> Op
+
+pub fn op_to_str(Op) -> String
+
+pub fn op_transpose() -> Op
+
+pub fn op_var() -> Op
+
+pub fn op_zeros(Array[Int32]) -> Op
+
+pub fn set_inputs(Graph, Array[Node]) -> Unit
+
+pub fn set_node_shape(Node, Array[Array[Int32]?]) -> Unit
+
+pub fn set_node_value(Node, @ndarray.Ndarray) -> Unit
+
+pub fn set_outputs(Graph, Array[Node]) -> Unit
+
+pub fn topological_sort(Graph) -> Array[Node]
+
+// Errors
+
+// Types and methods
+pub struct Graph {
+  name : @ref.Ref[String]
+  input : @ref.Ref[Array[Node]]
+  output : @ref.Ref[Array[Node]]
+  nodes : @ref.Ref[Array[Node]]
+  counter : @ref.Ref[Int32]
+}
+
+pub struct Node {
+  id : @ref.Ref[Int32]
+  name : @ref.Ref[String]
+  op : @ref.Ref[Op]
+  prev : @ref.Ref[Array[Node]]
+  next : @ref.Ref[Array[Node]]
+  shape : @ref.Ref[Array[Array[Int32]?]]
+  value : @ref.Ref[@ndarray.Ndarray?]
+  freeze : @ref.Ref[Bool]
+  reuse : @ref.Ref[Bool]
+  state : @ref.Ref[State]
+  is_assigned : @ref.Ref[Bool]
+}
+
+pub enum Op {
+  Noop
+  Var
+  Const
+  Empty(Array[Int32])
+  Zeros(Array[Int32])
+  Ones(Array[Int32])
+  Create(Array[Int32])
+  Sequential(Array[Int32])
+  Uniform(Array[Int32])
+  Gaussian(Array[Int32])
+  Bernoulli(Array[Int32])
+  Get(Array[Int32])
+  Set(Array[Int32])
+  Copy
+  Reset
+  Reshape(Array[Int32])
+  Reverse
+  Tile(Array[Int32])
+  Repeat(Array[Int32])
+  Concatenate(Int32)
+  Stack(Int32)
+  Split(Int32, Array[Int32])
+  Draw(Int32, Int32)
+  OneHot(Int32)
+  Abs
+  Neg
+  Floor
+  Ceil
+  Round
+  Sqr
+  Sqrt
+  Log
+  Log2
+  Log10
+  Exp
+  Sin
+  Cos
+  Tan
+  Sinh
+  Cosh
+  Tanh
+  Asin
+  Acos
+  Atan
+  Asinh
+  Acosh
+  Atanh
+  Min(Bool, Int32)
+  Max(Bool, Int32)
+  Sum(Bool, Int32)
+  SumReduce(Array[Int32])
+  Signum
+  Sigmoid
+  Relu
+  MinPrime
+  MaxPrime
+  SumPrime
+  LogSumExpPrime
+  LogSumExp(Bool, Int32)
+  L1normPrime
+  L2normPrime
+  L2NormSqrPrime
+  ClipByValue
+  ClipByL2norm
+  Pow
+  ScalarPow
+  PowScalar
+  Atan2
+  ScalarAtan2
+  Atan2Scalar
+  Hypot
+  Min2
+  Max2
+  Add
+  Sub
+  Mul
+  Div
+  AddScalar
+  SubScalar
+  MulScalar
+  DivScalar
+  ScalarAdd
+  ScalarSub
+  ScalarMul
+  ScalarDiv
+  FMA
+  EltEqual
+  EltNotEqual
+  EltLess
+  EltGreater
+  EltLessEqual
+  EltGreaterEqual
+  EltEqualScalar
+  EltNotEqualScalar
+  EltLessScalar
+  EltGreaterScalar
+  EltLessEqualScalar
+  EltGreaterEqualScalar
+  Conv1d(@core.Padding, Array[Int32])
+  Conv2d(@core.Padding, Array[Int32])
+  Conv3d(@core.Padding, Array[Int32])
+  TransposeConv1d(@core.Padding, Array[Int32])
+  TransposeConv2d(@core.Padding, Array[Int32])
+  TransposeConv3d(@core.Padding, Array[Int32])
+  MaxPool1d(@core.Padding, Array[Int32], Array[Int32])
+  MaxPool2d(@core.Padding, Array[Int32], Array[Int32])
+  MaxPool3d(@core.Padding, Array[Int32], Array[Int32])
+  AvgPool1d(@core.Padding, Array[Int32], Array[Int32])
+  AvgPool2d(@core.Padding, Array[Int32], Array[Int32])
+  AvgPool3d(@core.Padding, Array[Int32], Array[Int32])
+  UpSampling2d(Array[Int32])
+  RowNum
+  ColNum
+  Row
+  Rows(Array[Int32])
+  CopyRowTo
+  CopyColTo
+  Dot(Bool, Bool)
+  Inv
+  Trace
+  Transpose(Array[Int32])
+  ToRows
+  OfRows
+  FusedAdagrad(Double, Double)
+}
+
+pub enum State {
+  Valid
+  Invalid
+}
+
+// Type aliases
+
+// Traits

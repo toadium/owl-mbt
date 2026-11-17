@@ -1,0 +1,45 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/linalg"
+
+import {
+  "walkzzz/owl_mbt/ndarray",
+}
+
+// Values
+pub fn chol(@ndarray.Ndarray, upper? : Bool) -> @ndarray.Ndarray raise
+
+pub fn det(@ndarray.Ndarray) -> Double raise
+
+pub fn inv(@ndarray.Ndarray) -> @ndarray.Ndarray raise
+
+pub fn is_diag(@ndarray.Ndarray) -> Bool
+
+pub fn is_symmetric(@ndarray.Ndarray) -> Bool
+
+pub fn is_tril(@ndarray.Ndarray) -> Bool
+
+pub fn is_triu(@ndarray.Ndarray) -> Bool
+
+pub fn linsolve_lu(@ndarray.Ndarray, @ndarray.Ndarray) -> @ndarray.Ndarray raise
+
+pub fn logdet(@ndarray.Ndarray) -> Double raise
+
+pub fn lu(@ndarray.Ndarray) -> (@ndarray.Ndarray, @ndarray.Ndarray, Array[Int32]) raise
+
+pub fn qr(@ndarray.Ndarray, thin? : Bool) -> (@ndarray.Ndarray, @ndarray.Ndarray) raise
+
+pub fn rank(@ndarray.Ndarray, tol? : Double) -> Int32 raise
+
+pub fn svd(@ndarray.Ndarray) -> (@ndarray.Ndarray, @ndarray.Ndarray, @ndarray.Ndarray) raise
+
+pub fn trace(@ndarray.Ndarray) -> Double
+
+pub fn tridiag_solve(Array[Double], Array[Double], Array[Double], Array[Double]) -> Array[Double] raise
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

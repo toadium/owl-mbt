@@ -38,18 +38,11 @@
 
 迁移操作：调用点显式写 `Int32` 字面量或 `.to_int32()` 类转换；MoonBit 的整数字面量按上下文重载，多数 `1` / `0` 无需改动，仅需修正类型注解。
 
-## 三、可选参数语法变化（约 30 个函数）
+## 三、可选参数声明语法变化（约 30 个函数）
 
-MoonBit 工具链升级后，可选参数从 `x? : T = 默认值` 语法迁移为 `x~ : T = 默认值`，**调用点写法随之变化**：
+MoonBit 工具链升级后，可选参数的**签名声明**从 `x? : T = 默认值` 迁移为 `x~ : T = 默认值`。**调用点写法不变**：`f(x=1)` 在 0.2.0 中仍然合法（实测验证），下游调用代码无需改动。
 
-```
-0.1.1：let y = @ndarray.pad(x, 1, mode=@core.Padding::Same)
-0.2.0：let y = @ndarray.pad(x, 1, mode~=@core.Padding::Same)
-```
-
-受影响函数族（调用点需要改为 `~` 传参）：ndarray 的 `approx_equal` 族、`bernoulli`、`clip_by_value`、`concatenate`、`diag`、`expand`、`gaussian`、`log_sum_exp`、`max`、`min`、`pad`、`scan`/`scani`、`sequential`、`softmax`、`squeeze`、`stack`、`sum` 族、`to_string`；linalg 的 `chol`、`qr`、`rank`；algodiff 的 `concatenate`、`softmax`、`sum`；neural 的 `add_node`、`linear`、`linear_nobias`。
-
-迁移操作：`f(a=1)` → `f(a~1)` 或 `f(a~value)`（MoonBit 新语法，`~` 后直接跟值，带标签时写 `a~1`）。
+该变化的实际影响仅出现在：把函数作为值引用并显式书写其类型签名的场景（罕见）。受影响函数族：ndarray 的 `approx_equal` 族、`bernoulli`、`clip_by_value`、`concatenate`、`diag`、`expand`、`gaussian`、`log_sum_exp`、`max`、`min`、`pad`、`scan`/`scani`、`sequential`、`softmax`、`squeeze`、`stack`、`sum` 族、`to_string`；linalg 的 `chol`、`qr`、`rank`；algodiff 的 `concatenate`、`softmax`、`sum`；neural 的 `add_node`、`linear`、`linear_nobias`。
 
 ## 四、包引用迁移：@types → @core
 
