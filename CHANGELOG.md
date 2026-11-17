@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0] - 2026-11-16
+
+### Added
+
+- **性能基准**：`bench/` 可执行包（`moon run bench --release`）+ `docs/benchmark.md`——13 组核心操作基准（ndarray 基础/FFT/SVD/LU/gamma/j0/AD/PRNG，wasm 与 native 双 release 口径，参数数组防常量折叠），与覆盖率数据共同构成质量量化证据
+- **契约校验**：各包 `pkg.generated.mbti` 接口快照入库，CI 新增 `moon info` 契约校验步骤（mbti diff 未记录于 CHANGELOG 则阻断合并）
+- **贡献指南**：`CONTRIBUTING.md`（环境搭建/开发流程/质量门禁/API 变更流程/测试要求）
+- `bench.mbtx` standalone 基准脚本（0.3.0 发布后可 `moonx bench.mbtx` 直接运行）
+
+### Changed
+
+- CI 后端矩阵补 wasm-gc（native/wasm/wasm-gc/js 四后端，与 supported_targets 对齐）
+- 迁移指南修正：`?→~` 仅是签名声明语法变化，调用点 `f(x=1)` 写法不变（实测验证）
+- README 新增：适用与不适用场景、0.x 版本说明、FAQ 与踩坑指南、维护与反馈段（含响应时效 SLA）
+- README 记录测试覆盖率 97.7%（moon coverage analyze 实测）
+
 ## [0.2.0] - 2026-11-16
 
 ### Breaking Changes
@@ -14,9 +30,6 @@
 
 ### Added
 
-- **性能基准**：`bench/` 可执行包（`moon run bench --release`）+ `docs/benchmark.md`——13 组核心操作基准（ndarray 基础/FFT/SVD/LU/gamma/j0/AD/PRNG，wasm 与 native 双 release 口径，参数数组防常量折叠），覆盖率数据与基准结果共同构成质量量化证据
-- **契约校验**：各包 `pkg.generated.mbti` 接口快照入库，CI 新增 `moon info` 契约校验步骤（mbti diff 未记录于 CHANGELOG 则阻断合并）
-- **贡献指南**：`CONTRIBUTING.md`（环境搭建/开发流程/质量门禁/API 变更流程/测试要求）
 - 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
 - `ndarray.fft` / `ndarray.ifft`：一维 radix-2 Cooley-Tukey 快速傅里叶变换（2 的幂长度）
 - `linalg.svd`：单边 Jacobi（Hestenes）thin SVD（原项目 NOT_IMPLEMENTED 占位，本版自行实现）
