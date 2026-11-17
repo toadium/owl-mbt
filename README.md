@@ -22,6 +22,24 @@ owl-mbt 是 OCaml 生态最重要的科学计算库 [Owl](https://github.com/owl
 
 > **生态定位**：MoonBit 生态中唯一的科学计算库，与 moonbitstack/moondate（日期时间）、connect0459/almanac（日期时间）属完全不同领域，无功能重叠。
 
+### 适用与不适用场景
+
+**适用**：
+
+- MoonBit 项目中的科学计算与数值算法实现（矩阵运算、线性代数、统计分布、特殊函数）
+- 机器学习教学与算法实验（自动微分、神经网络前向/反向传播、优化器）
+- 需要 wasm/js/native 跨端发布的纯 MoonBit 依赖链（零 C FFI，浏览器与 Node 可直接使用）
+
+**不适用**：
+
+- 高性能生产级数值计算（纯 MoonBit 实现，性能低于原生 BLAS/LAPACK 后端）
+- 稀疏矩阵与 GPU 加速场景（未实现稀疏存储与设备计算）
+- 需要长期 API 冻结承诺的下游（0.x 开发阶段，见下方版本说明）
+
+### 版本说明（0.x 阶段）
+
+本项目处于 0.x 开发阶段，按 [SemVer](https://semver.org/) 0.x 规则 API 尚未冻结。**0.2.0 是一次性的布局与类型规整版本**（包路径迁移、`Int → Int32`、可选参数 `?→~` 语法），此后次版本升级不再引入同类破坏性变更。从 0.1.1 升级请先阅读 [迁移指南](docs/migration-0.1.1-to-0.2.0.md)。
+
 ## 项目信息
 
 | 项目 | 说明 |
@@ -139,6 +157,33 @@ moon info    # 生成接口
 ## 代码审查
 
 经过 6 轮代码审查（141 个问题）：P0-P1 严重项全部修复；P2-P4 共 78 项中 28 项已修复，其余项以文档标注行为或记录为已知限制（详见 `reviews/` 目录）。2026-11 迭代补齐了 ndarray 边界校验、`col_min`/`col_max` 空列、`slicing` step==0 等静默错误风险项，并完成 compute 计算图全 op 求值、Dropout/梯度裁剪/早停实现、LU 分解去重与测试盲区补齐。
+
+## FAQ 与踩坑指南
+
+**Q1：从 0.1.1 升级后编译报包找不到 / `@types` 未定义？**
+0.2.0 重构了包布局（`src/` 前缀移除、`@types`+`@const` 合并为 `@core`），按[迁移指南](docs/migration-0.1.1-to-0.2.0.md)的映射表更新 `moon.pkg` 的 import 路径。
+
+**Q2：调用 ndarray 函数报参数类型不匹配（`Int` vs `Int32`）？**
+0.2.0 将索引/形状参数统一为 `Int32`。整数字面量（`1`、`0`）按上下文自动重载无需改动，仅需修正显式类型注解；MoonBit 中 `Int` 即 `Int32`。
+
+**Q3：可选参数传参语法报错？**
+MoonBit 新语法为 `f(x~1)`（`~` 后直接跟值），旧写法 `f(x=1)` 已弃用。受影响函数清单见迁移指南第三节。
+
+**Q4：在包内添加警告抑制的正确方式？**
+`moon.pkg` 中使用 assign 语句 `warnings = "-79"`（`warn-list` 是旧 JSON 格式字段名，在新格式中会导致词法错误）。诊断编号可用 `moon explain --diagnostic 79` 查询含义。
+
+**Q5：为什么某些函数新增了 `raise` 声明？**
+0.2.0 为 ndarray 补齐了边界校验（axis 越界、形状不一致、非法步长等），这些函数从静默接受非法输入改为显式抛出 `OwlError::InvalidArgument`。若你的调用点在 `noraise` 上下文，需补 `catch` 处理。
+
+**Q6：`derive` 写在哪里？**
+使用新语法 `#derive(Debug)` 独立一行放在类型声明之前；旧式尾部 `} derive(Debug)` 已弃用。
+
+## 维护与反馈
+
+- **维护者**：walkzzz
+- **问题反馈**：[GitHub Issues](https://github.com/toadium/owl-mbt/issues)
+- **响应机制**：0.x 开发期，Bug 报告与 PR 均欢迎；发布前跑全量四后端测试（native/wasm/wasm-gc/js）与 `moon check --deny-warn` 门禁
+- **发布节奏**：功能以次版本发布，修复以补丁版本发布；版本随 mooncakes.io 发布并打 git tag
 
 ## 许可证
 

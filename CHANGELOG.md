@@ -2,6 +2,16 @@
 
 ## [0.2.0] - 2026-11-16
 
+### Breaking Changes
+
+> 0.x 阶段按 SemVer 允许 API 变化；完整迁移方案见 [docs/migration-0.1.1-to-0.2.0.md](docs/migration-0.1.1-to-0.2.0.md)。
+
+- **包布局**：源码从 `src/` 前缀迁移到模块根目录（扁平多根包布局），全部包引用路径变化；`@types` + `@const` 合并为 `@core`（25 个声明等价迁移，签名零变化）
+- **Int → Int32**：约 150 处索引/形状/计数参数与返回值
+- **可选参数语法**：`x? : T = v` → `x~ : T = v`，调用点 `f(x=1)` → `f(x~1)`（约 30 个函数）
+- **raise 变化**：ndarray 11 个函数新增 raise（边界校验显式抛错）；`maths::dawsn`/`ndarray::dawsn` 移除 raise（已实现真实算法）
+- **无 API 移除、无 API 改名**：0.1.1 的 665 个公开声明在 0.2.0 中全部可用（177 处签名变化均属上述 4 类）
+
 ### Added
 
 - 特殊函数（`maths`）：`gamma`/`log_gamma`（Lanczos 近似 + reflection）、`beta`、`j0`/`j1`（幂级数 + Hankel 渐近）、`dawsn`（原项目 NOT_IMPLEMENTED 占位，本版完整实现）
