@@ -3,6 +3,7 @@
 /// 使用 Abramowitz & Stegun 7.1.26 近似公式。
 
 ///|
+/// 误差函数 erf(x)，值域 (-1, 1)
 pub fn erf(x : Double) -> Double {
   let a = 0.254829592
   let b = -0.284496736

@@ -30,6 +30,7 @@ fn discordant(x0 : Array[Double], x1 : Array[Double]) -> Int32 {
 }
 
 ///|
+/// Kendall 秩相关系数 τ（未对 ties 校正）
 pub fn kendall_tau(x0 : Array[Double], x1 : Array[Double]) -> Double raise {
   if x0.length() < 2 {
     raise @core.OwlError::InvalidArgument(
@@ -149,18 +150,21 @@ pub fn minmax_i(x : Array[Double]) -> (Int32, Int32) raise {
 }
 
 ///|
+/// 返回最小值所在索引（空数组报错）
 pub fn min_i(x : Array[Double]) -> Int32 raise {
   let (mn, _) = minmax_i(x)
   mn
 }
 
 ///|
+/// 返回最大值所在索引（空数组报错）
 pub fn max_i(x : Array[Double]) -> Int32 raise {
   let (_, mx) = minmax_i(x)
   mx
 }
 
 ///|
+/// 返回最小值（空数组报错）
 pub fn min(x : Array[Double]) -> Double raise {
   if x.length() == 0 {
     raise @core.OwlError::InvalidArgument("min: empty array")
@@ -175,6 +179,7 @@ pub fn min(x : Array[Double]) -> Double raise {
 }
 
 ///|
+/// 返回最大值（空数组报错）
 pub fn max(x : Array[Double]) -> Double raise {
   if x.length() == 0 {
     raise @core.OwlError::InvalidArgument("max: empty array")
@@ -189,6 +194,7 @@ pub fn max(x : Array[Double]) -> Double raise {
 }
 
 ///|
+/// 返回 (最小值, 最大值)（空数组报错）
 pub fn minmax(x : Array[Double]) -> (Double, Double) raise {
   if x.length() == 0 {
     raise @core.OwlError::InvalidArgument("minmax: empty array")

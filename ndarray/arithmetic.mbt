@@ -72,26 +72,31 @@ fn _broadcasted_op(
 }
 
 ///|
+/// 逐元素相加，支持广播
 pub fn add(x : Ndarray, y : Ndarray) -> Ndarray raise {
   _broadcasted_op(x, y, fn(a, b) { a + b })
 }
 
 ///|
+/// 逐元素相减，支持广播
 pub fn sub(x : Ndarray, y : Ndarray) -> Ndarray raise {
   _broadcasted_op(x, y, fn(a, b) { a - b })
 }
 
 ///|
+/// 逐元素相乘，支持广播
 pub fn mul(x : Ndarray, y : Ndarray) -> Ndarray raise {
   _broadcasted_op(x, y, fn(a, b) { a * b })
 }
 
 ///|
+/// 逐元素相除，支持广播
 pub fn div(x : Ndarray, y : Ndarray) -> Ndarray raise {
   _broadcasted_op(x, y, fn(a, b) { a / b })
 }
 
 ///|
+/// 逐元素乘方 x^y，支持广播
 pub fn pow(x : Ndarray, y : Ndarray) -> Ndarray raise {
   _broadcasted_op(x, y, fn(a, b) { _pow(a, b) })
 }
@@ -117,6 +122,7 @@ pub fn fma(x : Ndarray, y : Ndarray, z : Ndarray) -> Ndarray raise {
 }
 
 ///|
+/// 每个元素加标量
 pub fn add_scalar(x : Ndarray, s : Double) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -128,6 +134,7 @@ pub fn add_scalar(x : Ndarray, s : Double) -> Ndarray {
 }
 
 ///|
+/// 每个元素减标量
 pub fn sub_scalar(x : Ndarray, s : Double) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -139,6 +146,7 @@ pub fn sub_scalar(x : Ndarray, s : Double) -> Ndarray {
 }
 
 ///|
+/// 每个元素乘标量
 pub fn mul_scalar(x : Ndarray, s : Double) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -150,6 +158,7 @@ pub fn mul_scalar(x : Ndarray, s : Double) -> Ndarray {
 }
 
 ///|
+/// 每个元素除以标量
 pub fn div_scalar(x : Ndarray, s : Double) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -161,11 +170,13 @@ pub fn div_scalar(x : Ndarray, s : Double) -> Ndarray {
 }
 
 ///|
+/// 标量加数组，等价于 add_scalar
 pub fn scalar_add(s : Double, x : Ndarray) -> Ndarray {
   add_scalar(x, s)
 }
 
 ///|
+/// 标量减数组 s - x（注意与 sub_scalar 的操作数顺序相反）
 pub fn scalar_sub(s : Double, x : Ndarray) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -177,11 +188,13 @@ pub fn scalar_sub(s : Double, x : Ndarray) -> Ndarray {
 }
 
 ///|
+/// 标量乘数组，等价于 mul_scalar
 pub fn scalar_mul(s : Double, x : Ndarray) -> Ndarray {
   mul_scalar(x, s)
 }
 
 ///|
+/// 标量除以数组 s / x（注意与 div_scalar 的操作数顺序相反）
 pub fn scalar_div(s : Double, x : Ndarray) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -193,6 +206,7 @@ pub fn scalar_div(s : Double, x : Ndarray) -> Ndarray {
 }
 
 ///|
+/// 标量为底的逐元素乘方 s^x
 pub fn scalar_pow(s : Double, x : Ndarray) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)
@@ -204,6 +218,7 @@ pub fn scalar_pow(s : Double, x : Ndarray) -> Ndarray {
 }
 
 ///|
+/// 逐元素以标量为指数的乘方 x^s
 pub fn pow_scalar(x : Ndarray, s : Double) -> Ndarray {
   let n = x.data.length()
   let data = FixedArray::make(n, 0.0)

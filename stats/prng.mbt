@@ -5,6 +5,7 @@
 let _rand : Ref[@random.Rand] = Ref(@random.Rand::chacha8())
 
 ///|
+/// 用给定种子重新初始化全局 PRNG（仅低 32 位参与种子）
 pub fn prng_init(seed : Int32) -> Unit {
   let b = Bytes::makei(32, fn(i) {
     match i {
@@ -19,6 +20,7 @@ pub fn prng_init(seed : Int32) -> Unit {
 }
 
 ///|
+/// 用随机熵源重新初始化全局 PRNG
 pub fn prng_self_init() -> Unit {
   _rand.val = @random.Rand::chacha8()
 }

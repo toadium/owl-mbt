@@ -2,11 +2,13 @@
 /// 描述统计。移植自 owl_base_stats.ml 第 71-178 行。
 
 ///|
+/// 数组求和
 pub fn sum(x : Array[Double]) -> Double {
   x.fold(init=0.0, fn(acc, a) { acc + a })
 }
 
 ///|
+/// 算术平均值
 pub fn mean(x : Array[Double]) -> Double {
   let n = x.length().to_double()
   sum(x) / n
@@ -36,6 +38,7 @@ pub fn variance(mean : Double?, x : Array[Double]) -> Double {
 }
 
 ///|
+/// 标准差（除以 n-1；可传入预计算均值避免重复计算）
 pub fn std(mean : Double?, x : Array[Double]) -> Double {
   variance(mean, x).sqrt()
 }
@@ -62,6 +65,7 @@ pub fn absdev(mean : Double?, x : Array[Double]) -> Double {
 }
 
 ///|
+/// 偏度（三阶标准化矩；可传入预计算均值与标准差避免重复计算）
 pub fn skew(mean : Double?, sd : Double?, x : Array[Double]) -> Double {
   let m = _get_mean(mean, x)
   let s = match sd {
@@ -78,6 +82,7 @@ pub fn skew(mean : Double?, sd : Double?, x : Array[Double]) -> Double {
 }
 
 ///|
+/// 峰度（四阶标准化矩，不减 3；正态分布结果为 3）
 pub fn kurtosis(mean : Double?, sd : Double?, x : Array[Double]) -> Double {
   let m = _get_mean(mean, x)
   let s = match sd {
@@ -95,6 +100,7 @@ pub fn kurtosis(mean : Double?, sd : Double?, x : Array[Double]) -> Double {
 }
 
 ///|
+/// n 阶中心矩 E[(x - mean)^n]
 pub fn central_moment(n : Int32, x : Array[Double]) -> Double {
   let m = n.to_double()
   let u = mean(x)
@@ -106,6 +112,7 @@ pub fn central_moment(n : Int32, x : Array[Double]) -> Double {
 }
 
 ///|
+/// 协方差（总体协方差，除以 n；可传入预计算均值避免重复计算）
 pub fn cov(
   m0 : Double?,
   m1 : Double?,

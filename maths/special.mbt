@@ -84,16 +84,19 @@ fn xlog1py(x : Double, y : Double) -> Double {
 }
 
 ///|
+/// logit 变换 ln(x / (1 - x))，sigmoid 的反函数
 pub fn logit(x : Double) -> Double {
   @math.ln(x / (1.0 - x))
 }
 
 ///|
+/// logistic 反变换 1 / (1 + e^(-x))，即 sigmoid
 pub fn expit(x : Double) -> Double {
   1.0 / (1.0 + @math.exp(-x))
 }
 
 ///|
+/// log(1 - e^x) 的数值稳定实现（要求 x < 0）
 pub fn log1mexp(x : Double) -> Double {
   if -x > @math.ln(2.0) {
     @math.ln_1p(-@math.exp(x))
@@ -103,6 +106,7 @@ pub fn log1mexp(x : Double) -> Double {
 }
 
 ///|
+/// log(1 + e^x) 的数值稳定实现（即 softplus）
 pub fn log1pexp(x : Double) -> Double {
   if x <= -37.0 {
     @math.exp(x)

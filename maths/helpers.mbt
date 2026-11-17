@@ -2,11 +2,13 @@
 /// 谓词与分类函数。移植自 owl_base_maths.ml 第 165-204 行。
 
 ///|
+/// 判断是否为 NaN
 pub fn is_nan(x : Double) -> Bool {
   x.is_nan()
 }
 
 ///|
+/// 判断是否为正负无穷
 pub fn is_inf(x : Double) -> Bool {
   x.is_inf()
 }
@@ -18,21 +20,25 @@ fn is_subnormal(x : Double) -> Bool {
 }
 
 ///|
+/// 判断是否为 normal 数（非零、非 NaN、非无穷、非次正规）
 pub fn is_normal(x : Double) -> Bool {
   x != 0.0 && !x.is_nan() && !x.is_inf() && !is_subnormal(x)
 }
 
 ///|
+/// 判断是否为奇数（对负数也成立）
 pub fn is_odd(x : Int32) -> Bool {
   x.abs() % 2 == 1
 }
 
 ///|
+/// 判断是否为偶数
 pub fn is_even(x : Int32) -> Bool {
   x % 2 == 0
 }
 
 ///|
+/// 判断是否为 2 的正整数次幂
 pub fn is_pow2(x : Int32) -> Bool {
   x > 0 && (x & (x - 1)) == 0
 }
@@ -64,11 +70,13 @@ pub fn is_simplex(x : ArrayView[Double]) -> Bool {
 }
 
 ///|
+/// 判断 Double 是否为整数值
 pub fn is_int(x : Double) -> Bool {
   @math.trunc(x) == x
 }
 
 ///|
+/// 判断是否为完全平方数
 pub fn is_sqr(x : Int32) -> Bool {
   is_int(x.to_double().sqrt())
 }

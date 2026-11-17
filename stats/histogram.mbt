@@ -2,6 +2,7 @@
 /// 直方图。移植自 owl_base_stats.ml 第 289-521 行。
 
 ///|
+/// 直方图结果。五个字段：箱边界 bins、各箱计数 counts、加权计数、归一化计数、密度（后三项可选）
 #derive(Debug)
 pub(all) struct Histogram {
   bins : Array[Double]
