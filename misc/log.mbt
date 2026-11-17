@@ -39,21 +39,25 @@ pub fn level_debug() -> LogLevel {
 }
 
 ///|
+/// 创建 INFO 日志级别。
 pub fn level_info() -> LogLevel {
   Info
 }
 
 ///|
+/// 创建 WARN 日志级别。
 pub fn level_warn() -> LogLevel {
   Warn
 }
 
 ///|
+/// 创建 ERROR 日志级别。
 pub fn level_error() -> LogLevel {
   Error
 }
 
 ///|
+/// 创建 FATAL 日志级别。
 pub fn level_fatal() -> LogLevel {
   Fatal
 }

@@ -67,6 +67,7 @@ fn make_node(
 }
 
 ///|
+/// 返回神经元类型对应的节点名称前缀。
 pub fn to_name(n : Neuron) -> String {
   match n {
     Input(_) => "input"
@@ -83,21 +84,25 @@ pub fn to_name(n : Neuron) -> String {
 }
 
 ///|
+/// 获取网络的根节点（输入节点）数组。
 pub fn get_roots(nn : Network) -> Array[Node] {
   nn.roots.val
 }
 
 ///|
+/// 获取网络的输出节点数组。
 pub fn get_outputs(nn : Network) -> Array[Node] {
   nn.outputs.val
 }
 
 ///|
+/// 获取节点所属的网络。
 pub fn get_network(n : Node) -> Network {
   n.network.val
 }
 
 ///|
+/// 收集各节点输出值；节点尚无输出时抛出异常。
 pub fn collect_output(nodes : Array[Node]) -> Array[@algodiff.T] raise {
   let result = Array::make(nodes.length(), @algodiff.pack_flt(0.0))
   for i in 0..<nodes.length() {
@@ -149,6 +154,7 @@ fn connect_to_parents(parents : Array[Node], child : Node) -> Unit {
 }
 
 ///|
+/// 向网络添加节点并连接到父节点；提供 act_typ 时自动追加激活节点。
 pub fn add_node(
   nn : Network,
   parents : Array[Node],
@@ -170,6 +176,7 @@ pub fn add_node(
 }
 
 ///|
+/// 初始化网络中所有神经元的参数（按输入形状分配权重）。
 pub fn init_network(nn : Network) -> Unit {
   for n in nn.topo.val {
     init_neuron(n.neuron.val)
@@ -201,6 +208,7 @@ fn mkadj_network(nn : Network) -> Array[Array[@algodiff.T]] raise {
 }
 
 ///|
+/// 用参数数组更新网络中各神经元的参数。
 pub fn update_network(nn : Network, us : Array[Array[@algodiff.T]]) -> Unit {
   for i in 0..<nn.topo.val.length() {
     update_neuron(nn.topo.val[i].neuron.val, us[i])
@@ -228,6 +236,7 @@ pub fn run(x : @algodiff.T, nn : Network) -> @algodiff.T raise {
 }
 
 ///|
+/// 前向传播：打标后运行网络，返回输出值与各层参数。
 pub fn forward(
   nn : Network,
   x : @algodiff.T,
@@ -250,6 +259,7 @@ pub fn backward(
 }
 
 ///|
+/// 创建输入节点并构建新网络（inputs 为输入形状）。
 #warnings("-unused_error_type")
 pub fn input(inputs : Array[Int32]) -> Node raise {
   let neuron = Input(input_create(inputs))
@@ -261,6 +271,7 @@ pub fn input(inputs : Array[Int32]) -> Node raise {
 }
 
 ///|
+/// 创建线性层节点（in_shape→outputs，含偏置）。
 pub fn linear(
   input_node : Node,
   outputs : Int32,
@@ -274,6 +285,7 @@ pub fn linear(
 }
 
 ///|
+/// 创建无偏置线性层节点。
 pub fn linear_nobias(
   input_node : Node,
   outputs : Int32,
@@ -287,6 +299,7 @@ pub fn linear_nobias(
 }
 
 ///|
+/// 在节点后追加激活层节点。
 pub fn activation(input_node : Node, typ : ActivationTyp) -> Node raise {
   let neuron = Activation(activation_create(typ))
   let nn = get_network(input_node)
@@ -295,6 +308,7 @@ pub fn activation(input_node : Node, typ : ActivationTyp) -> Node raise {
 }
 
 ///|
+/// 在节点后追加展平层节点。
 pub fn flatten(input_node : Node) -> Node raise {
   let neuron = Flatten(flatten_create())
   let nn = get_network(input_node)
@@ -303,6 +317,7 @@ pub fn flatten(input_node : Node) -> Node raise {
 }
 
 ///|
+/// 在节点后追加形状重塑层节点。
 pub fn reshape(input_node : Node, shape : Array[Int32]) -> Node raise {
   let neuron = Reshape(reshape_create(shape))
   let nn = get_network(input_node)
@@ -311,6 +326,7 @@ pub fn reshape(input_node : Node, shape : Array[Int32]) -> Node raise {
 }
 
 ///|
+/// 在节点后追加 Dropout 层节点（rate 为丢弃率）。
 pub fn dropout(input_node : Node, rate : Double) -> Node raise {
   let neuron = Dropout(dropout_create(rate))
   let nn = get_network(input_node)
@@ -319,6 +335,7 @@ pub fn dropout(input_node : Node, rate : Double) -> Node raise {
 }
 
 ///|
+/// 在节点后追加自定义函数层节点。
 pub fn lambda(
   input_node : Node,
   f : (@algodiff.T) -> @algodiff.T raise,

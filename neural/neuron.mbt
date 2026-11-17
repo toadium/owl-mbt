@@ -32,6 +32,7 @@ fn calc_fans(s : Array[Int32]) -> (Double, Double) {
 }
 
 ///|
+/// 按初始化策略生成形状为 s 的初始权重张量。
 pub fn init_run(typ : InitTyp, s : Array[Int32]) -> @algodiff.T {
   let (fan_in, fan_out) = calc_fans(s)
   let r0 = (1.0 / fan_in).sqrt()
@@ -51,6 +52,7 @@ pub fn init_run(typ : InitTyp, s : Array[Int32]) -> @algodiff.T {
 }
 
 ///|
+/// 对输入应用指定激活函数。
 pub fn run_activation(
   x : @algodiff.T,
   typ : ActivationTyp,
@@ -178,6 +180,7 @@ fn lambda_create(f : (@algodiff.T) -> @algodiff.T raise) -> LambdaNeuron {
 }
 
 ///|
+/// 获取神经元的输入形状。
 pub fn get_in_shape(n : Neuron) -> Array[Int32] {
   match n {
     Input(l) => l.in_shape.val
@@ -194,6 +197,7 @@ pub fn get_in_shape(n : Neuron) -> Array[Int32] {
 }
 
 ///|
+/// 获取神经元的输出形状。
 pub fn get_out_shape(n : Neuron) -> Array[Int32] {
   match n {
     Input(l) => l.out_shape.val
@@ -255,6 +259,7 @@ fn connect(out_shapes : Array[Array[Int32]], n : Neuron) -> Unit {
 }
 
 ///|
+/// 按已确定的输入形状初始化线性层的权重与偏置。
 pub fn init_neuron(n : Neuron) -> Unit {
   match n {
     Linear(l) => {
@@ -312,6 +317,7 @@ fn mkadj(n : Neuron) -> Array[@algodiff.T] raise {
 }
 
 ///|
+/// 用参数数组更新线性层的权重与偏置。
 pub fn update_neuron(n : Neuron, u : Array[@algodiff.T]) -> Unit {
   match n {
     Linear(l) => {

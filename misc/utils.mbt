@@ -25,11 +25,13 @@ pub fn pad_left() -> PaddingSide {
 }
 
 ///|
+/// 创建右侧填充策略。
 pub fn pad_right() -> PaddingSide {
   Right
 }
 
 ///|
+/// 创建居中填充策略。
 pub fn pad_center() -> PaddingSide {
   Center
 }
