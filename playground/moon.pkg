@@ -1,0 +1,5 @@
+pkgtype(kind: "foreign_library")
+
+import {
+  "walkzzz/owl_mbt/maths",
+}

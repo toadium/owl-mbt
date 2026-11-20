@@ -1,0 +1,27 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "walkzzz/owl_mbt/playground"
+
+// Values
+pub fn owl_det2(Double, Double, Double, Double) -> Double
+
+pub fn owl_dot4(Double, Double, Double, Double, Double, Double, Double, Double) -> Double
+
+pub fn owl_erf(Double) -> Double
+
+pub fn owl_gamma(Double) -> Double
+
+pub fn owl_j0(Double) -> Double
+
+pub fn owl_kde_pdf(Double, Double, Double, Double, Double) -> Double
+
+pub fn owl_mean4(Double, Double, Double, Double) -> Double
+
+pub fn owl_var4(Double, Double, Double, Double) -> Double
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

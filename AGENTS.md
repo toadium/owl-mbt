@@ -10,6 +10,7 @@ MoonBit 科学计算库（Owl/OCaml 的纯 MoonBit 移植，无 C FFI）。主�
 - `node scripts/check_coverage.mjs` — 覆盖率门槛（core ≥ 90%，排除 bench/examples）
 - `node scripts/mutation_test.mjs` — 10 变异点全 KILLED
 - `node scripts/check_docs.mjs` — 文档数字断言
+- `node scripts/check_pages.mjs` — 展示页自检（资源 / wasm 导出 / 数值一致性）
 - `moon run bench --release --target native` — 性能基准 smoke
 
 ## 包结构
@@ -28,9 +29,10 @@ compute/        # 计算图（shape/eval/构造）
 misc/           # 数据结构（堆/栈/DataFrame/CountMin/日志）
 bench/          # 基准可执行包
 examples/       # 可运行示例（ndarray/neural/stats）
+playground/     # 浏览器 WasmGC 导出层（#export_name + pkgtype foreign_library）
 governances/    # 治理记录
 reviews/        # 代码审查记录
-docs/           # 基准/迁移/评估文档
+docs/           # 基准/迁移/评估文档 + GitHub Pages 展示页（index.html/app.js/style.css/playground.wasm）
 ```
 
 ## 工程纪律
@@ -38,7 +40,8 @@ docs/           # 基准/迁移/评估文档
 - **零 C FFI**：全部纯 MoonBit；新增数值算法必须有测试与容差说明。
 - **契约优先**：`pkg.generated.mbti` 入库；公开 API 变化必须更新 CHANGELOG 并（破坏性时）更新迁移指南；CI 严格阻断 drift。
 - **口径可复算**：README/AGENTS/assessment 中的测试数、覆盖率、基准数字必须能被 `scripts/*.mjs` 与 `moon` 命令复算；不确定时以实测为准。
-- **覆盖率门槛**：core ≥ 90%（当前实测 90.6%，排除 bench/examples）；不得为过门槛而排除被测代码。
+- **覆盖率门槛**：core ≥ 90%（当前实测 90.6%，排除 bench/examples/playground）；不得为过门槛而排除被测代码。
+- **浏览器导出边界**：`playground/` 只导出 f64 → f64 纯函数（`#export_name` 仅可用于 `pkgtype(kind: "foreign_library")`）；跨语言字符串/数组 ABI 不承诺；页面与 wasm 必须通过 `scripts/check_pages.mjs`。
 - **变异红线**：`scripts/mutation_test.mjs` 必须 10/10 KILLED；新增核心算法应同步增加变异点。
 - **已知限制**：README「尚未移植的功能」与 `reviews/` 记录的 P2-P4 项是事实源；不得在文档中宣称已实现而未实现的能力。
 - **发布**：`moon publish` 由维护者执行；发版前必须四目标测试 + 覆盖率 + 变异 + docs 断言全绿，并回写 `moon.mod`/README/CHANGELOG/AGENTS。

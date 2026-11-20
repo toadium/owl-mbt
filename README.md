@@ -13,6 +13,7 @@
 [![Mutation](https://img.shields.io/badge/mutation-10%2F10%20KILLED-brightgreen)](scripts/mutation_test.mjs)
 [![No C FFI](https://img.shields.io/badge/No%20C%20FFI-pure%20MoonBit-orange)]()
 [![mooncakes](https://img.shields.io/badge/mooncakes-walkzzz%2Fowl__mbt-purple)](https://mooncakes.io/docs/walkzzz/owl_mbt)
+[![WebAssembly](https://img.shields.io/badge/WebAssembly-WasmGC%20live%20demo-3b82f6)](https://toadium.github.io/owl-mbt/)
 
 </div>
 
@@ -23,6 +24,10 @@
 owl-mbt 是 OCaml 生态最重要的科学计算库 [Owl](https://github.com/owlbarn/owl) 的纯 MoonBit 移植。覆盖 N 维数组、线性代数、自动微分、神经网络、优化算法、统计分布、计算图等核心功能。**14,801 行纯 MoonBit 代码，无 C FFI 依赖，支持 Native/Wasm/JS 三后端。**
 
 > **生态定位**：MoonBit 生态中唯一的科学计算库，与 moonbitstack/moondate（日期时间）、connect0459/almanac（日期时间）属完全不同领域，无功能重叠。
+
+### 在线演示（WebAssembly GC）
+
+**<https://toadium.github.io/owl-mbt/>** — 矩阵点积 / 2×2 行列式、描述统计 + 高斯 KDE、Γ / erf / J₀ 曲线；所有计算都在浏览器内的 **WasmGC 模块** 中实时完成（无服务器、无 CDN）。演示导出层见 `playground/`（`#export_name` + `pkgtype(kind: "foreign_library")`），页面源码见 `docs/`，CI 通过 `pages.yml` 重新构建 wasm 并部署到 GitHub Pages。
 
 ### 适用与不适用场景
 

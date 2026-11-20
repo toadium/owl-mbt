@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>owl-mbt · 纯 MoonBit 科学计算（WebAssembly 在线演示）</title>
+  <meta name="description" content="Owl 科学计算库的纯 MoonBit 移植：N 维数组、线性代数、自动微分、统计分布。零 C FFI，浏览器内 WasmGC 实时计算。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">MoonBit · WebAssembly GC · 零 C FFI</p>
+    <h1>owl-mbt</h1>
+    <p class="tagline">OCaml Owl 科学计算库的纯 MoonBit 移植</p>
+    <p class="sub">
+      覆盖 N 维数组、线性代数、自动微分、神经网络、优化、统计分布与计算图。
+      下面的每个结果都由 <strong>浏览器内的 WebAssembly 模块</strong> 实时计算，无服务器、无 CDN。
+    </p>
+    <div class="badges">
+      <span>582 测试 × 4 后端</span>
+      <span>核心覆盖率 90.6%</span>
+      <span>变异 10/10 KILLED</span>
+      <span>0.3.1</span>
+    </div>
+    <div class="links">
+      <a href="https://github.com/toadium/owl-mbt">GitHub</a>
+      <a href="https://mooncakes.io/docs/walkzzz/owl_mbt">mooncakes</a>
+      <a href="https://github.com/toadium/owl-mbt/blob/main/docs/benchmark.md">基准报告</a>
+      <a href="https://github.com/toadium/owl-mbt/blob/main/docs/assessment.md">质量评估</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid">
+      <article class="card">
+        <h2>矩阵内核 <span class="wasm-tag">wasm</span></h2>
+        <p class="hint">4 维点积与 2×2 行列式，直接调用 MoonBit 导出的 <code>owl_dot4</code> / <code>owl_det2</code>。</p>
+        <div class="row">
+          <label>a = <input id="a" value="1,2,3,4" /></label>
+          <label>b = <input id="b" value="4,3,2,1" /></label>
+        </div>
+        <button data-run="matrix">计算</button>
+        <output id="matrix-out">等待计算…</output>
+      </article>
+
+      <article class="card">
+        <h2>描述统计 + KDE <span class="wasm-tag">wasm</span></h2>
+        <p class="hint">4 个样本的均值/方差，以及高斯核密度曲线（<code>owl_mean4</code>/<code>owl_var4</code>/<code>owl_kde_pdf</code>）。</p>
+        <label>样本 = <input id="samples" value="1.0,2.0,3.0,5.0" /></label>
+        <button data-run="stats">计算</button>
+        <output id="stats-out">等待计算…</output>
+        <canvas id="kde" width="640" height="220"></canvas>
+      </article>
+
+      <article class="card wide">
+        <h2>特殊函数曲线 <span class="wasm-tag">wasm</span></h2>
+        <p class="hint">选择函数并设定区间：200 个采样点全部由 wasm 内的 <code>owl_gamma</code>/<code>owl_erf</code>/<code>owl_j0</code> 计算。</p>
+        <div class="row">
+          <label>函数
+            <select id="fn">
+              <option value="gamma">Γ(x)（gamma）</option>
+              <option value="erf">erf(x)</option>
+              <option value="j0">J₀(x)（Bessel）</option>
+            </select>
+          </label>
+          <label>x 起点 <input id="xmin" value="0.1" /></label>
+          <label>x 终点 <input id="xmax" value="6" /></label>
+          <button data-run="plot">绘制</button>
+        </div>
+        <canvas id="plot" width="960" height="340"></canvas>
+        <output id="plot-out">等待绘制…</output>
+      </article>
+    </section>
+
+    <section class="card how">
+      <h2>这是怎么在浏览器里跑的？</h2>
+      <ol>
+        <li><code>playground/</code> 是一个 <code>pkgtype(kind: "foreign_library")</code> 的 MoonBit 包，用 <code>#export_name</code> 导出 <code>f64 → f64</code> 包装函数。</li>
+        <li><code>moon build --target wasm-gc --release playground</code> 生成 <code>playground.wasm</code>（约 12 KB，无任何 import）。</li>
+        <li>页面 <code>fetch</code> 该 wasm 并 <code>WebAssembly.instantiate</code>，直接调用导出函数；数值算法（gamma、Bessel、erf、KDE）都来自 owl-mbt 的纯 MoonBit 实现。</li>
+        <li>CI 在工作流中重新构建 wasm 并部署到 GitHub Pages，保证页面与源码同步。</li>
+      </ol>
+      <p class="hint">
+        WasmGC 需要较新的浏览器（Chrome 119+ / Firefox 120+ / Safari 18+）。计算结果与 native 后端一致（同一份 MoonBit 源码）。
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>owl-mbt · MIT License · 上游 Owl 为 LGPL-2.1+（见 LICENSE）</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -43,7 +43,7 @@ for (const line of readFileSync(SUMMARY, 'utf8').split(/\r?\n/)) {
   const m = line.match(/^(.+\.mbt): (\d+)\/(\d+)$/);
   if (!m) continue;
   const low = m[1].toLowerCase();
-  if (low.includes('bench') || low.includes('examples')) continue;
+  if (low.includes('bench') || low.includes('examples') || low.includes('playground')) continue;
   const c = Number(m[2]);
   const t = Number(m[3]);
   if (t === 0) continue;

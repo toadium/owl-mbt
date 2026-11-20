@@ -9,11 +9,12 @@
 - `scripts/mutation_test.mjs`：10 变异点（kde/erf/bessel/special/countmin/matrix），要求 100% KILLED
 - `scripts/check_docs.mjs`：5 断言（版本/CHANGELOG、测试数、死链、覆盖率门槛+CI、assessment 口径）
 - `AGENTS.md`：构建门禁、包结构、工程纪律、版本纪律
+- **在线演示（GitHub Pages + WasmGC）**：`playground/` 导出层（`#export_name` + `pkgtype(kind: "foreign_library")`，8 个 f64 边界函数：dot4/det2/mean4/var4/gamma/j0/erf/kde_pdf）、`docs/` 静态页 + canvas 绘图、`.github/workflows/pages.yml` 自动构建 wasm 并部署、`scripts/check_pages.mjs` 自检（资源/导出/数值一致性）
 
 ### Changed
 
 - CI 重构：quality（fmt / check / `.mbti` 严格 drift / docs）/ test × 4 后端 / coverage / bench smoke / 手动 mutation
-- 覆盖率口径修正：README 旧称 97.7% → **实测 90.6%（4516/4982，排除 bench/examples）**；门槛 90%
+- 覆盖率口径修正：README 旧称 97.7% → **实测 90.6%（4516/4982，排除 bench/examples/playground）**；门槛 90%
 - 版本 0.3.1（0.3.0 为 mooncakes 已发布版本）
 
 ### Verified
