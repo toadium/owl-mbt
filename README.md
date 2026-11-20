@@ -35,10 +35,10 @@ owl-mbt 是 OCaml 生态最重要的科学计算库 [Owl](https://github.com/owl
 node scripts/serve_pages.mjs          # http://127.0.0.1:8080/
 ```
 
-**启用 GitHub Pages**（维护者一次性操作）：
+**部署方式**（已上线：Actions run 44709289486）：
 
-- 方式 A（零构建，推荐）：Settings → Pages → Source = *Deploy from a branch* → Branch `main` / Folder `/docs`；`docs/playground.wasm` 已入库，保存后即可访问。
-- 方式 B（Actions 自动构建）：Settings → Pages → Source = *GitHub Actions*，然后运行 `Pages` workflow（`gh workflow run pages.yml -R toadium/owl-mbt`）。
+- 当前模式：GitHub Actions（`pages.yml`）——`docs/**` 或 `playground/**` 变更时自动构建 wasm 并部署；也可手动运行 `gh workflow run pages.yml -R toadium/owl-mbt`。
+- 备选：Settings → Pages → Source = *Deploy from a branch* → `main` / `/docs`（`docs/playground.wasm` 已入库，零构建）。
 
 ### 适用与不适用场景
 
