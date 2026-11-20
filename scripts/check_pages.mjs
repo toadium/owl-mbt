@@ -43,9 +43,20 @@ if (!existsSync(WASM_DOCS)) {
   process.exit(1);
 }
 
-// 3. instantiate + exports
+// 3. instantiate + exports（WasmGC 需要 Node 22+ 或现代浏览器）
 const bytes = readFileSync(WASM_DOCS);
-const mod = new WebAssembly.Module(bytes);
+let mod;
+try {
+  mod = new WebAssembly.Module(bytes);
+} catch (error) {
+  check(
+    'wasm compiles (WasmGC)',
+    false,
+    `${error.message} — 需要 Node 22+ 或 Chrome 119+ / Firefox 120+ / Safari 18+`,
+  );
+  console.log(`\n=== pages check: FAIL (1) ===`);
+  process.exit(1);
+}
 const imports = WebAssembly.Module.imports(mod);
 check('wasm has no imports (self-contained)', imports.length === 0, `imports=${imports.length}`);
 const { exports } = new WebAssembly.Instance(mod, {});
