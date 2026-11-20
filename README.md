@@ -29,6 +29,17 @@ owl-mbt 是 OCaml 生态最重要的科学计算库 [Owl](https://github.com/owl
 
 **<https://toadium.github.io/owl-mbt/>** — 矩阵点积 / 2×2 行列式、描述统计 + 高斯 KDE、Γ / erf / J₀ 曲线；所有计算都在浏览器内的 **WasmGC 模块** 中实时完成（无服务器、无 CDN）。演示导出层见 `playground/`（`#export_name` + `pkgtype(kind: "foreign_library")`），页面源码见 `docs/`，CI 通过 `pages.yml` 重新构建 wasm 并部署到 GitHub Pages。
 
+**本地预览**（无需部署）：
+
+```sh
+node scripts/serve_pages.mjs          # http://127.0.0.1:8080/
+```
+
+**启用 GitHub Pages**（维护者一次性操作）：
+
+- 方式 A（零构建，推荐）：Settings → Pages → Source = *Deploy from a branch* → Branch `main` / Folder `/docs`；`docs/playground.wasm` 已入库，保存后即可访问。
+- 方式 B（Actions 自动构建）：Settings → Pages → Source = *GitHub Actions*，然后运行 `Pages` workflow（`gh workflow run pages.yml -R toadium/owl-mbt`）。
+
 ### 适用与不适用场景
 
 **适用**：

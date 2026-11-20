@@ -1,12 +1,14 @@
 name: Pages
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "docs/**"
-      - "playground/**"
-      - ".github/workflows/pages.yml"
+  # 默认手动触发：仓库需先在 Settings → Pages 启用（分支模式或 Actions 模式）。
+  # 若选择 Actions 模式并希望 push 自动部署，取消下面 push 块的注释即可。
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "docs/**"
+  #     - "playground/**"
+  #     - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
