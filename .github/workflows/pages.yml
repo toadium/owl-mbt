@@ -45,6 +45,8 @@ jobs:
           cp _build/wasm-gc/release/build/playground/playground.wasm _site/playground.wasm
           ls -la _site
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
