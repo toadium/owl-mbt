@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.3.1] - 2026-11-20
+
+### Added
+
+- **测试 561 → 582**：KDE（Scott/Silverman 带宽、单样本/常量数据异常）、erf/erfc/erfcx、Bessel J0/J1（级数/渐近/奇偶/NaN）、特殊函数分支（signum/dawsn/xlogy/logit/expit/log1mexp/log1pexp）、CountMin（初始化/非法参数/计数）、矩阵视图（row/rows/diag 正负偏移/行列转换/dot/trace）
+- `scripts/check_coverage.mjs`：覆盖率门槛（core ≥ 90%，排除 bench/examples）
+- `scripts/mutation_test.mjs`：10 变异点（kde/erf/bessel/special/countmin/matrix），要求 100% KILLED
+- `scripts/check_docs.mjs`：5 断言（版本/CHANGELOG、测试数、死链、覆盖率门槛+CI、assessment 口径）
+- `AGENTS.md`：构建门禁、包结构、工程纪律、版本纪律
+
+### Changed
+
+- CI 重构：quality（fmt / check / `.mbti` 严格 drift / docs）/ test × 4 后端 / coverage / bench smoke / 手动 mutation
+- 覆盖率口径修正：README 旧称 97.7% → **实测 90.6%（4516/4982，排除 bench/examples）**；门槛 90%
+- 版本 0.3.1（0.3.0 为 mooncakes 已发布版本）
+
+### Verified
+
+- 582 测试 × 4 后端全绿；`moon check --deny-warn --target all` 零警告
+- core 覆盖率 90.6%；变异 10/10 KILLED；docs 断言 5/5
+
 ## [0.3.0] - 2026-11-16
 
 ### Added

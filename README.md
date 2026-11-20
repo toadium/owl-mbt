@@ -4,11 +4,13 @@
 
 **Owl 科学计算库的纯 MoonBit 移植**
 
-无 C FFI · 多后端兼容 (Native/Wasm/JS) · 561 测试全通过
+无 C FFI · 多后端兼容 (Native/Wasm/JS) · 582 测试全通过
 
 [![MoonBit](https://img.shields.io/badge/MoonBit-pure%20implementation-blue)](https://www.moonbitlang.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-561%20passed-brightgreen)]()
+[![Tests](https://img.shields.io/badge/Tests-582%20passed-brightgreen)]()
+[![Coverage](https://img.shields.io/badge/coverage-90.6%25%20(core)-brightgreen)](docs/assessment.md)
+[![Mutation](https://img.shields.io/badge/mutation-10%2F10%20KILLED-brightgreen)](scripts/mutation_test.mjs)
 [![No C FFI](https://img.shields.io/badge/No%20C%20FFI-pure%20MoonBit-orange)]()
 [![mooncakes](https://img.shields.io/badge/mooncakes-walkzzz%2Fowl__mbt-purple)](https://mooncakes.io/docs/walkzzz/owl_mbt)
 
@@ -49,7 +51,7 @@ owl-mbt 是 OCaml 生态最重要的科学计算库 [Owl](https://github.com/owl
 | 移植范围 | `owl-base` 包（纯 OCaml，34,326 行），不含 C 绑定层 |
 | 本项目许可证 | MIT（详见 [LICENSE](LICENSE)） |
 | 代码规模 | 14,801 行 MoonBit 代码，79 个源文件 |
-| 测试 | 561 个，全部通过（四后端） |
+| 测试 | 582 个，全部通过（四后端） |
 | mooncakes | `walkzzz/owl_mbt` |
 
 ## 包结构
@@ -130,7 +132,7 @@ moon run examples/stats_demo     # 统计与分布采样
 
 ```sh
 moon check   # 类型检查
-moon test    # 运行测试（561 个）
+moon test    # 运行测试（582 个）
 moon fmt     # 格式化
 moon info    # 生成接口
 ```
@@ -178,7 +180,8 @@ MoonBit 新语法为 `f(x~1)`（`~` 后直接跟值），旧写法 `f(x=1)` 已�
 **Q6：`derive` 写在哪里？**
 使用新语法 `#derive(Debug)` 独立一行放在类型声明之前；旧式尾部 `} derive(Debug)` 已弃用。
 
-- 测试覆盖率：核心逻辑总体 97.7%（各包 93.5%–100%，均高于上游库规范 80% 门槛）（moon coverage analyze 实测）
+- 测试覆盖率：核心逻辑 **90.6%（4516/4982，排除 bench/examples）**，由 `node scripts/check_coverage.mjs` 实测（门槛 90%）；历史文档中的 97.7% 为旧口径，已废弃
+- 变异测试：`node scripts/mutation_test.mjs` 10/10 KILLED（kde/erf/bessel/special/countmin/matrix 关键分支）
 
 ## 维护与反馈
 

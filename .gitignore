@@ -1,2 +1,4 @@
 _build/
 wiki_output/
+cov.txt
+cov_summary.txt
