@@ -78,6 +78,45 @@ const ASSERTIONS = [
       return { tests };
     },
   },
+  {
+    id: 'A6',
+    desc: '11 个包 README 齐全，且包内相对链接无死链',
+    async run() {
+      const pkgs = [
+        'core',
+        'ndarray',
+        'linalg',
+        'maths',
+        'stats',
+        'algodiff',
+        'neural',
+        'optimise',
+        'compute',
+        'misc',
+        'playground',
+      ];
+      const missing = pkgs.filter(
+        (pkg) => !existsSync(path.join(ROOT, pkg, 'README.md')),
+      );
+      if (missing.length) throw new Error(`缺少 README: ${missing.join(', ')}`);
+
+      const dead = [];
+      for (const pkg of pkgs) {
+        const text = await read(`${pkg}/README.md`);
+        for (const match of text.matchAll(/\]\(([^)]+)\)/g)) {
+          const target = match[1];
+          if (/^(https?:|#|mailto:)/.test(target)) continue;
+          const file = target.split('#')[0];
+          if (!file) continue;
+          if (!existsSync(path.resolve(ROOT, pkg, file))) {
+            dead.push(`${pkg}/README.md -> ${target}`);
+          }
+        }
+      }
+      if (dead.length) throw new Error(`死链: ${dead.slice(0, 5).join('; ')}`);
+      return { packages: pkgs.length };
+    },
+  },
 ];
 
 const results = [];

@@ -1,115 +1,463 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>owl-mbt · 纯 MoonBit 科学计算（WebAssembly 在线演示）</title>
-  <meta name="description" content="Owl 科学计算库的纯 MoonBit 移植：N 维数组、线性代数、自动微分、统计分布。零 C FFI，浏览器内 WasmGC 实时计算。" />
+  <title>owl-mbt — 纯 MoonBit 科学计算 · WebAssembly 在线演示</title>
+  <meta name="description" content="OCaml Owl 的纯 MoonBit 移植：N 维数组、线性代数、自动微分、统计分布。零 C FFI，四后端一致，浏览器内由 WebAssembly 实时计算。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="owl-mbt — 纯 MoonBit 科学计算" />
+  <meta property="og:description" content="N 维数组、线性代数、自动微分、统计分布与神经网络。零 C FFI，582×4 测试全绿，浏览器内 WasmGC 实时计算。" />
+  <meta property="og:url" content="https://toadium.github.io/owl-mbt/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#0b1020" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230b1020'/><path d='M10 46 L22 28 L34 40 L46 18 L55 34' fill='none' stroke='%235eead4' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("owl-mbt-theme"); } catch (e) { saved = null; }
+      document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
+    })();
+  </script>
 </head>
 <body>
-  <header class="hero">
-    <p class="eyebrow">MoonBit · WebAssembly GC · 零 C FFI</p>
-    <h1>owl-mbt</h1>
-    <p class="tagline">OCaml Owl 科学计算库的纯 MoonBit 移植</p>
-    <p class="sub">
-      N 维数组、线性代数、自动微分、统计分布——v0.3.1 全部由纯 MoonBit 实现，<strong>零 C FFI</strong>。下面的每个结果都<strong>在你自己的浏览器里，由 WebAssembly 模块实时计算</strong>：没有服务器，也没有 CDN。
-    </p>
-    <div class="badges">
-      <span>582 测试 × 4 后端</span>
-      <span>核心覆盖率 90.6%</span>
-      <span>变异 10/10 KILLED</span>
-      <span>v0.3.1</span>
-    </div>
-    <div class="links">
-      <a href="https://github.com/toadium/owl-mbt" target="_blank" rel="noopener noreferrer" aria-label="GitHub（新标签页打开）">GitHub<span class="ext" aria-hidden="true">↗</span></a>
-      <a href="https://mooncakes.io/docs/walkzzz/owl_mbt" target="_blank" rel="noopener noreferrer" aria-label="mooncakes（新标签页打开）">mooncakes<span class="ext" aria-hidden="true">↗</span></a>
-      <a href="https://github.com/toadium/owl-mbt/blob/main/docs/benchmark.md" target="_blank" rel="noopener noreferrer" aria-label="基准报告（新标签页打开）">基准报告<span class="ext" aria-hidden="true">↗</span></a>
-      <a href="https://github.com/toadium/owl-mbt/blob/main/docs/assessment.md" target="_blank" rel="noopener noreferrer" aria-label="质量评估（新标签页打开）">质量评估<span class="ext" aria-hidden="true">↗</span></a>
+  <a class="skip-link" href="#main">跳到主内容</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">Ω</span>
+        <span class="brand-name">owl-mbt</span>
+        <span class="brand-ver">v0.3.1</span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#features">能力</a>
+        <a href="#demo">在线演示</a>
+        <a href="#start">快速开始</a>
+        <a href="#api">API</a>
+        <a href="#quality">工程质量</a>
+        <a href="#docs">文档</a>
+      </nav>
+      <div class="topbar-actions">
+        <button id="theme-toggle" class="icon-btn" type="button" title="切换深浅主题" aria-label="切换深浅主题">◐</button>
+        <a class="gh-btn" href="https://github.com/toadium/owl-mbt" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
     </div>
   </header>
 
-  <main>
-    <button id="retry" class="retry" type="button" data-run="retry" hidden>重试加载 WebAssembly</button>
-
-    <section class="grid" aria-label="浏览器内计算演示">
-      <article class="card">
-        <h2>矩阵内核 <span class="wasm-tag" aria-hidden="true">wasm</span></h2>
-        <p class="hint">输入两个 4 元向量（逗号或空格分隔）。点积与 2×2 行列式由 <code>owl_dot4</code> / <code>owl_det2</code> 在你的浏览器内实时计算。</p>
-        <div class="row">
-          <div class="field">
-            <label for="a">a =</label>
-            <input id="a" type="text" value="1,2,3,4" aria-describedby="a-fmt" />
-            <span id="a-fmt" class="sr-only">4 个数，逗号或空格分隔</span>
-          </div>
-          <div class="field">
-            <label for="b">b =</label>
-            <input id="b" type="text" value="4,3,2,1" aria-describedby="b-fmt" />
-            <span id="b-fmt" class="sr-only">4 个数，逗号或空格分隔</span>
-          </div>
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-text">
+        <p class="eyebrow">MoonBit · Scientific Computing · Zero C FFI</p>
+        <h1>owl-mbt</h1>
+        <p class="tagline">OCaml Owl 科学计算库的纯 MoonBit 移植</p>
+        <p class="sub">
+          N 维数组、线性代数、自动微分、统计分布与神经网络——全部由纯 MoonBit 实现。
+          右侧模块状态与下方每一个结果，都在你自己的浏览器里由 WebAssembly 实时计算：
+          没有后端，也没有 CDN。
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#demo">立即试用</a>
+          <a class="btn ghost" href="#start">快速开始</a>
         </div>
-        <button type="button" data-run="matrix" aria-disabled="true">计算</button>
-        <output id="matrix-out" class="out is-loading" role="status" aria-live="polite" aria-atomic="true">正在加载 WebAssembly…</output>
-      </article>
+        <ul class="badges" aria-label="项目指标">
+          <li>582 × 4 测试</li>
+          <li>覆盖率 90.6%</li>
+          <li>变异 10 / 10</li>
+          <li>MIT</li>
+        </ul>
+      </div>
 
-      <article class="card">
-        <h2>描述统计 + KDE <span class="wasm-tag" aria-hidden="true">wasm</span></h2>
-        <p class="hint">输入 4 个样本，均值与方差由 <code>owl_mean4</code> / <code>owl_var4</code> 计算；高斯核密度曲线由 <code>owl_kde_pdf</code> 逐点采样。横轴自动取 [最小值−1.5, 最大值+1.5]。</p>
-        <div class="field">
-          <label for="samples">样本 =</label>
-          <input id="samples" type="text" value="1.0,2.0,3.0,5.0" aria-describedby="samples-fmt" />
-          <span id="samples-fmt" class="sr-only">4 个数，逗号或空格分隔</span>
+      <div class="hero-card" aria-label="WebAssembly 模块状态与实时结果">
+        <div class="hero-card-head">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="dot" aria-hidden="true"></span>
+          <span class="dot" aria-hidden="true"></span>
+          <span class="hero-card-title">playground.wasm · 浏览器内计算</span>
         </div>
-        <button type="button" data-run="stats" aria-disabled="true">计算</button>
-        <canvas id="kde" width="640" height="220" role="img" aria-label="高斯核密度曲线，等待计算" aria-describedby="stats-out"></canvas>
-        <output id="stats-out" class="out is-loading" role="status" aria-live="polite" aria-atomic="true">正在加载 WebAssembly…</output>
-      </article>
-
-      <article class="card wide">
-        <h2>特殊函数曲线 <span class="wasm-tag" aria-hidden="true">wasm</span></h2>
-        <p class="hint">选择函数与区间：220 个采样点全部由 WebAssembly 模块中的 <code>owl_gamma</code> / <code>owl_erf</code> / <code>owl_j0</code> 实时计算。</p>
-        <div class="row">
-          <div class="field">
-            <label for="fn">函数</label>
-            <select id="fn">
-              <option value="gamma">Γ(x)（gamma）</option>
-              <option value="erf">erf(x)</option>
-              <option value="j0">J₀(x)（Bessel）</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="xmin">x 起点</label>
-            <input id="xmin" type="text" value="0.5" aria-describedby="xmin-fmt" />
-            <span id="xmin-fmt" class="sr-only">有限数字，需小于终点</span>
-          </div>
-          <div class="field">
-            <label for="xmax">x 终点</label>
-            <input id="xmax" type="text" value="6" aria-describedby="xmax-fmt" />
-            <span id="xmax-fmt" class="sr-only">有限数字，需大于起点</span>
-          </div>
-          <button type="button" data-run="plot" aria-disabled="true">绘制</button>
+        <dl class="wasm-stats">
+          <div><dt>模块大小</dt><dd id="wasm-size">加载中…</dd></div>
+          <div><dt>imports</dt><dd id="wasm-imports">—</dd></div>
+          <div><dt>导出函数</dt><dd id="wasm-exports">—</dd></div>
+        </dl>
+        <div class="hero-result">
+          <p class="hero-line"><span class="k">Γ(5)</span><output id="hero-gamma">—</output></p>
+          <p class="hero-line"><span class="k">erf(1)</span><output id="hero-erf">—</output></p>
+          <p class="hero-line"><span class="k">J₀(2)</span><output id="hero-j0">—</output></p>
         </div>
-        <canvas id="plot" width="960" height="340" role="img" aria-label="特殊函数曲线，等待绘制" aria-describedby="plot-out"></canvas>
-        <output id="plot-out" class="out is-loading" role="status" aria-live="polite" aria-atomic="true">正在加载 WebAssembly…</output>
-      </article>
+        <p class="hero-meta"><span id="hero-status">正在加载 WebAssembly…</span> · 与 native 同一份源码</p>
+      </div>
     </section>
 
-    <section class="card how" aria-labelledby="how-title">
-      <h2 id="how-title">这是怎么在浏览器里跑的？</h2>
-      <p class="summary">没有后端接口：<code>playground.wasm</code> 与页面一起被静态托管，你点击的每一次计算都只发生在自己的设备上。</p>
-      <ol>
-        <li><code>playground/</code> 是一个 <code>pkgtype(kind: "foreign_library")</code> 的 MoonBit 包，用 <code>#export_name</code> 导出 <code>f64 → f64</code> 包装函数。</li>
-        <li><code>moon build --target wasm-gc --release playground</code> 生成 <code>playground.wasm</code>（约 12 KB，无任何 import）。</li>
-        <li>页面 <code>fetch</code> 该 wasm 并 <code>WebAssembly.instantiate</code>，直接调用导出函数；数值算法（gamma、Bessel、erf、KDE）都来自 owl-mbt 的纯 MoonBit 实现。</li>
-        <li>CI 在工作流中重新构建 wasm 并部署到 GitHub Pages，保证页面与源码同步。</li>
+    <section class="section" id="features">
+      <div class="section-head">
+        <p class="kicker">Capabilities</p>
+        <h2>一条依赖链，覆盖科学计算主路径</h2>
+        <p class="lede">core 是依赖图的根；数值、线代、自动微分、神经网络逐层复用，不重复实现第二套内核。</p>
+      </div>
+      <div class="feature-grid">
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/ndarray/README.md" target="_blank" rel="noreferrer" aria-label="查看 ndarray 模块文档">
+          <span class="feature-no">01</span>
+          <h3>N 维数组</h3>
+          <p>构造、形状查询、元素读写、切片视图与内存布局。</p>
+          <code>ndarray</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/ndarray/README.md" target="_blank" rel="noreferrer" aria-label="查看 ndarray 算术文档">
+          <span class="feature-no">02</span>
+          <h3>逐元素算术</h3>
+          <p>add / sub / mul / div 与标量版本，含就地算子与广播。</p>
+          <code>ndarray</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/ndarray/README.md" target="_blank" rel="noreferrer" aria-label="查看 ndarray 矩阵与 FFT 文档">
+          <span class="feature-no">03</span>
+          <h3>矩阵与 FFT</h3>
+          <p>dot、transpose、reshape、sum 归约，以及快速傅里叶变换。</p>
+          <code>ndarray</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/linalg/README.md" target="_blank" rel="noreferrer" aria-label="查看 linalg 模块文档">
+          <span class="feature-no">04</span>
+          <h3>线性代数</h3>
+          <p>LU / Cholesky / SVD、行列式、求逆与线性方程求解。</p>
+          <code>linalg</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/maths/README.md" target="_blank" rel="noreferrer" aria-label="查看 maths 模块文档">
+          <span class="feature-no">05</span>
+          <h3>特殊函数</h3>
+          <p>Gamma、erf / erfc、第一类 Bessel，纯 MoonBit 无 libm。</p>
+          <code>maths</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/stats/README.md" target="_blank" rel="noreferrer" aria-label="查看 stats 模块文档">
+          <span class="feature-no">06</span>
+          <h3>统计与分布</h3>
+          <p>描述统计、PRNG、正态/指数/柯西采样、KDE 与直方图。</p>
+          <code>stats</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/algodiff/README.md" target="_blank" rel="noreferrer" aria-label="查看 algodiff 模块文档">
+          <span class="feature-no">07</span>
+          <h3>自动微分</h3>
+          <p>正向 / 反向模式，标量与 Ndarray 梯度，可嵌套高阶导。</p>
+          <code>algodiff</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/neural/README.md" target="_blank" rel="noreferrer" aria-label="查看 neural 模块文档">
+          <span class="feature-no">08</span>
+          <h3>神经网络</h3>
+          <p>激活函数、神经元/网络构造、前向与反向传播。</p>
+          <code>neural</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/optimise/README.md" target="_blank" rel="noreferrer" aria-label="查看 optimise 模块文档">
+          <span class="feature-no">09</span>
+          <h3>优化器</h3>
+          <p>Adam / Adagrad / RMSProp、动量、正则化、梯度裁剪。</p>
+          <code>optimise</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/compute/README.md" target="_blank" rel="noreferrer" aria-label="查看 compute 模块文档">
+          <span class="feature-no">10</span>
+          <h3>计算图</h3>
+          <p>惰性构建、形状推导、图求值与输出获取。</p>
+          <code>compute</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/misc/README.md" target="_blank" rel="noreferrer" aria-label="查看 misc 模块文档">
+          <span class="feature-no">11</span>
+          <h3>数据结构</h3>
+          <p>DataFrame、Count-Min Sketch、堆栈与轻量日志。</p>
+          <code>misc</code>
+        </a>
+        <a class="feature" href="https://github.com/toadium/owl-mbt/blob/main/playground/README.md" target="_blank" rel="noreferrer" aria-label="查看 playground 模块文档">
+          <span class="feature-no">12</span>
+          <h3>浏览器 WasmGC</h3>
+          <p>8 个 f64 导出，约 12 KB 自包含模块，零 import。</p>
+          <code>playground</code>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="section-head">
+        <p class="kicker">Live demo</p>
+        <h2>在浏览器里直接跑</h2>
+        <p class="lede">下面每个数字都由 WebAssembly 模块实时计算；页面不调用后端，也不请求第三方接口。</p>
+      </div>
+
+      <button id="retry" class="retry" type="button" data-run="retry" hidden>重试加载 WebAssembly</button>
+
+      <div class="demo-grid">
+        <article class="card">
+          <header class="card-head">
+            <h2>矩阵内核 <span class="wasm-tag" aria-hidden="true">wasm</span></h2>
+            <a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/ndarray/README.md" target="_blank" rel="noreferrer"><code>ndarray</code></a>
+          </header>
+          <p class="hint">输入两个 4 元向量（逗号或空格分隔）。点积与 2×2 行列式由 <code>owl_dot4</code> / <code>owl_det2</code> 在你的浏览器内实时计算。</p>
+          <div class="row">
+            <div class="field">
+              <label for="a">a =</label>
+              <input id="a" type="text" value="1,2,3,4" aria-describedby="a-fmt" />
+              <span id="a-fmt" class="sr-only">4 个数，逗号或空格分隔</span>
+            </div>
+            <div class="field">
+              <label for="b">b =</label>
+              <input id="b" type="text" value="4,3,2,1" aria-describedby="b-fmt" />
+              <span id="b-fmt" class="sr-only">4 个数，逗号或空格分隔</span>
+            </div>
+          </div>
+          <button type="button" data-run="matrix" aria-disabled="true">计算</button>
+          <output id="matrix-out" class="out is-loading" role="status" aria-live="polite" aria-atomic="true">正在加载 WebAssembly…</output>
+        </article>
+
+        <article class="card">
+          <header class="card-head">
+            <h2>描述统计 + KDE <span class="wasm-tag" aria-hidden="true">wasm</span></h2>
+            <a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/stats/README.md" target="_blank" rel="noreferrer"><code>stats</code></a>
+          </header>
+          <p class="hint">输入 4 个样本，均值与方差由 <code>owl_mean4</code> / <code>owl_var4</code> 计算；高斯核密度曲线由 <code>owl_kde_pdf</code> 逐点采样。横轴自动取 [最小值−1.5, 最大值+1.5]。</p>
+          <div class="field">
+            <label for="samples">样本 =</label>
+            <input id="samples" type="text" value="1.0,2.0,3.0,5.0" aria-describedby="samples-fmt" />
+            <span id="samples-fmt" class="sr-only">4 个数，逗号或空格分隔</span>
+          </div>
+          <button type="button" data-run="stats" aria-disabled="true">计算</button>
+          <canvas id="kde" width="640" height="220" role="img" aria-label="高斯核密度曲线，等待计算" aria-describedby="stats-out"></canvas>
+          <output id="stats-out" class="out is-loading" role="status" aria-live="polite" aria-atomic="true">正在加载 WebAssembly…</output>
+        </article>
+
+        <article class="card wide">
+          <header class="card-head">
+            <h2>特殊函数曲线 <span class="wasm-tag" aria-hidden="true">wasm</span></h2>
+            <a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/maths/README.md" target="_blank" rel="noreferrer"><code>maths</code></a>
+          </header>
+          <p class="hint">选择函数与区间：220 个采样点全部由 WebAssembly 模块中的 <code>owl_gamma</code> / <code>owl_erf</code> / <code>owl_j0</code> 实时计算。</p>
+          <div class="row">
+            <div class="field">
+              <label for="fn">函数</label>
+              <select id="fn">
+                <option value="gamma">Γ(x)（gamma）</option>
+                <option value="erf">erf(x)</option>
+                <option value="j0">J₀(x)（Bessel）</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="xmin">x 起点</label>
+              <input id="xmin" type="text" value="0.5" aria-describedby="xmin-fmt" />
+              <span id="xmin-fmt" class="sr-only">有限数字，需小于终点</span>
+            </div>
+            <div class="field">
+              <label for="xmax">x 终点</label>
+              <input id="xmax" type="text" value="6" aria-describedby="xmax-fmt" />
+              <span id="xmax-fmt" class="sr-only">有限数字，需大于起点</span>
+            </div>
+            <button type="button" data-run="plot" aria-disabled="true">绘制</button>
+          </div>
+          <canvas id="plot" width="960" height="340" role="img" aria-label="特殊函数曲线，等待绘制" aria-describedby="plot-out"></canvas>
+          <output id="plot-out" class="out is-loading" role="status" aria-live="polite" aria-atomic="true">正在加载 WebAssembly…</output>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="start">
+      <div class="section-head">
+        <p class="kicker">Get started</p>
+        <h2>三分钟接入</h2>
+        <p class="lede">标准 MoonBit 模块，零运行时依赖；数值算法只在 native 与 wasm 之间共享同一份源码。</p>
+      </div>
+
+      <div class="start-grid">
+        <div class="start-col">
+          <div class="code">
+            <div class="code-head">
+              <span>安装</span>
+              <button type="button" class="copy" data-copy-target="cmd-install">复制</button>
+            </div>
+            <pre id="cmd-install"><code>moon add walkzzz/owl_mbt@0.3.1</code></pre>
+          </div>
+          <div class="code">
+            <div class="code-head">
+              <span>构建浏览器演示模块</span>
+              <button type="button" class="copy" data-copy-target="cmd-wasm">复制</button>
+            </div>
+            <pre id="cmd-wasm"><code>moon build --target wasm-gc --release playground</code></pre>
+          </div>
+          <div class="code">
+            <div class="code-head">
+              <span>工程门禁</span>
+              <button type="button" class="copy" data-copy-target="cmd-gates">复制</button>
+            </div>
+            <pre id="cmd-gates"><code>moon check --deny-warn --target all
+moon test  --target all
+node scripts/check_coverage.mjs
+node scripts/mutation_test.mjs
+node scripts/check_docs.mjs
+node scripts/check_pages.mjs</code></pre>
+          </div>
+        </div>
+
+        <div class="start-col">
+          <div class="code">
+            <div class="code-head">
+              <span>Ndarray 与矩阵</span>
+              <button type="button" class="copy" data-copy-target="code-ndarray">复制</button>
+            </div>
+            <pre id="code-ndarray"><code>let a = @ndarray.of_array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2, 3])
+let t = @ndarray.transpose(a)      // [3, 2]
+let s = @ndarray.sum(a)            // 21.0
+let d = @linalg.det(@ndarray.of_arrays([[1.0, 2.0], [3.0, 4.0]]))
+// -2.0</code></pre>
+          </div>
+          <div class="code">
+            <div class="code-head">
+              <span>统计与特殊函数</span>
+              <button type="button" class="copy" data-copy-target="code-stats">复制</button>
+            </div>
+            <pre id="code-stats"><code>@stats.prng_init(42)
+let xs = @stats.gaussian_rvs(0.0, 1.0) |> fn(x) { [x, x + 1.0, x + 2.0] }
+
+let m = @stats.mean(xs)
+let g = @maths.gamma(5.0)          // 24.0
+let e = @maths.erf(1.0)            // 0.8427007929</code></pre>
+          </div>
+          <div class="code">
+            <div class="code-head">
+              <span>自动微分</span>
+              <button type="button" class="copy" data-copy-target="code-ad">复制</button>
+            </div>
+            <pre id="code-ad"><code>let f = fn(x : @algodiff.T) -> @algodiff.T raise {
+  @algodiff.sum_(@algodiff.mul(x, x))
+}
+let x = @algodiff.pack_arr(@ndarray.of_array([1.0, 2.0], [2]))
+let g = @algodiff.grad(f, x)
+// g_arr.data = [2.0, 4.0]</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>浏览器端复用：</strong>
+        <code>playground</code> 是 <code>pkgtype(kind: "foreign_library")</code> 包，用
+        <code>#export_name</code> 导出 8 个 <code>f64 → f64</code> 函数；产物约 12 KB、零 import，
+        页面直接 <code>WebAssembly.instantiate</code> 调用，无需后端。
+      </div>
+    </section>
+
+    <section class="section" id="api">
+      <div class="section-head">
+        <p class="kicker">API map</p>
+        <h2>能力与入口</h2>
+        <p class="lede">线性依赖：core → maths / stats → ndarray → linalg / algodiff → neural / optimise / compute。完整签名见各包 README 与 <code>pkg.generated.mbti</code>。</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>包</th><th>能力</th><th>主要入口</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/ndarray/README.md" target="_blank" rel="noreferrer"><code>ndarray</code></a></td><td>N 维数组</td><td><code>of_array</code> · <code>zeros</code> · <code>dot</code> · <code>sum</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/linalg/README.md" target="_blank" rel="noreferrer"><code>linalg</code></a></td><td>线性代数</td><td><code>det</code> · <code>inv</code> · <code>lu</code> · <code>svd</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/maths/README.md" target="_blank" rel="noreferrer"><code>maths</code></a></td><td>标量数学 / 特殊函数</td><td><code>gamma</code> · <code>erf</code> · <code>j0</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/stats/README.md" target="_blank" rel="noreferrer"><code>stats</code></a></td><td>统计与分布</td><td><code>mean</code> · <code>std</code> · <code>gaussian_kde</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/algodiff/README.md" target="_blank" rel="noreferrer"><code>algodiff</code></a></td><td>自动微分</td><td><code>grad</code> · <code>diff</code> · <code>pack_arr</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/neural/README.md" target="_blank" rel="noreferrer"><code>neural</code></a></td><td>神经网络</td><td><code>act_relu</code> · <code>forward</code> · <code>backward</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/optimise/README.md" target="_blank" rel="noreferrer"><code>optimise</code></a></td><td>优化器</td><td><code>lr_adam</code> · <code>minimise_fun</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/compute/README.md" target="_blank" rel="noreferrer"><code>compute</code></a></td><td>计算图</td><td><code>eval_outputs</code> · <code>get_node_shape</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/misc/README.md" target="_blank" rel="noreferrer"><code>misc</code></a></td><td>数据结构</td><td><code>make_dataframe</code> · <code>cms_init</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/core/README.md" target="_blank" rel="noreferrer"><code>core</code></a></td><td>基础类型 / 常量</td><td><code>OwlError</code> · <code>pi</code> · <code>eps</code></td></tr>
+            <tr><td><a class="pkg-link" href="https://github.com/toadium/owl-mbt/blob/main/playground/README.md" target="_blank" rel="noreferrer"><code>playground</code></a></td><td>浏览器导出层</td><td><code>owl_dot4</code> · <code>owl_gamma</code> · <code>owl_kde_pdf</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="quality">
+      <div class="section-head">
+        <p class="kicker">Quality gates</p>
+        <h2>数字可复算，结论有门禁</h2>
+        <p class="lede">四后端严格模式零警告；覆盖率、变异、文档与页面自检均有脚本与 CI 作业兜底。</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat"><strong>582</strong><span>每后端测试</span></div>
+        <div class="stat"><strong>2328</strong><span>四后端合计</span></div>
+        <div class="stat"><strong>90.6%</strong><span>核心覆盖率</span></div>
+        <div class="stat"><strong>10 / 10</strong><span>变异点 KILLED</span></div>
+        <div class="stat"><strong>0</strong><span>编译警告</span></div>
+        <div class="stat"><strong>12 KB</strong><span>自包含 wasm</span></div>
+      </div>
+
+      <div class="quality-notes">
+        <p>
+          <strong>覆盖率口径</strong>：core 4516 / 4982 = 90.6%（排除 bench / examples），
+          门槛 90%，由 <code>scripts/check_coverage.mjs</code> 实测。
+        </p>
+        <p>
+          <strong>零 C FFI</strong>：数值、线代、特殊函数、神经网络全部纯 MoonBit；
+          wasm 模块零 import，可直接 <code>WebAssembly.instantiate</code>。
+        </p>
+        <p>
+          <strong>已知边界</strong>：尚未移植的能力与 P2–P4 项以 <code>reviews/</code> 与 README
+          「尚未移植的功能」为准，不在页面宣称未实现能力。
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="docs">
+      <div class="section-head">
+        <p class="kicker">Documentation</p>
+        <h2>继续深入</h2>
+        <p class="lede">质量口径、性能基线、迁移记录与接口契约都写在仓库里。</p>
+      </div>
+
+      <div class="doc-grid">
+        <a class="doc-card" href="https://github.com/toadium/owl-mbt/blob/main/docs/assessment.md">
+          <h3>质量评估</h3>
+          <p>门禁证据、可复算口径与历史漂移修正。</p>
+        </a>
+        <a class="doc-card" href="https://github.com/toadium/owl-mbt/blob/main/docs/benchmark.md">
+          <h3>基准报告</h3>
+          <p>矩阵、SVD、特殊函数的性能基线。</p>
+        </a>
+        <a class="doc-card" href="https://github.com/toadium/owl-mbt/blob/main/docs/migration-plan.md">
+          <h3>迁移计划</h3>
+          <p>从 Owl 到纯 MoonBit 的分阶段路线。</p>
+        </a>
+        <a class="doc-card" href="https://github.com/toadium/owl-mbt/blob/main/docs/migration-0.1.1-to-0.2.0.md">
+          <h3>0.1.1 → 0.2.0</h3>
+          <p>破坏性变更与升级步骤。</p>
+        </a>
+        <a class="doc-card" href="https://github.com/toadium/owl-mbt/blob/main/pkg.generated.mbti">
+          <h3>接口契约</h3>
+          <p>生成式 mbti，公开 API 的真相源。</p>
+        </a>
+        <a class="doc-card" href="https://github.com/toadium/owl-mbt/blob/main/hackathon2026_owl_mbt_proposal.md">
+          <h3>项目申报书</h3>
+          <p>2026 MoonBit 黑客松：定位与差异化。</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="section how" id="how">
+      <div class="section-head">
+        <p class="kicker">Under the hood</p>
+        <h2>这是怎么在浏览器里跑的？</h2>
+      </div>
+      <ol class="steps">
+        <li><span class="step-no">1</span><p><code>playground/</code> 是 <code>pkgtype(kind: "foreign_library")</code> 的 MoonBit 包，用 <code>#export_name</code> 导出 <code>f64 → f64</code> 包装函数。</p></li>
+        <li><span class="step-no">2</span><p><code>moon build --target wasm-gc --release playground</code> 生成 <code>playground.wasm</code>（约 12 KB，无任何 import）。</p></li>
+        <li><span class="step-no">3</span><p>页面 <code>fetch</code> 该 wasm 并 <code>WebAssembly.instantiate</code>，直接调用导出函数；gamma、Bessel、erf、KDE 都来自 owl-mbt 的纯 MoonBit 实现。</p></li>
+        <li><span class="step-no">4</span><p>CI 重新构建 wasm 并部署到 GitHub Pages；<code>check_pages.mjs</code> 逐项验证导出与数值一致性。</p></li>
       </ol>
-      <p class="hint">WasmGC 需要较新的浏览器（Chrome 119+ / Firefox 120+ / Safari 18+）。计算结果与 native 后端一致（同一份 MoonBit 源码）。</p>
+      <p class="hint">WasmGC 需要 Chrome 119+ / Firefox 120+ / Safari 18+；Node 侧验证需 Node 22+。计算结果与 native 后端一致（同一份源码）。</p>
     </section>
   </main>
 
-  <footer>
-    <p>owl-mbt · MIT License · 上游 Owl 为 LGPL-2.1+（见 LICENSE）</p>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand"><span class="brand-mark small">Ω</span> owl-mbt · MIT · 上游 Owl 为 LGPL-2.1+</p>
+      <nav class="footer-links" aria-label="页脚导航">
+        <a href="https://github.com/toadium/owl-mbt" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://mooncakes.io/docs/walkzzz/owl_mbt" target="_blank" rel="noreferrer">mooncakes</a>
+        <a href="https://github.com/toadium/owl-mbt/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer">变更日志</a>
+        <a href="https://github.com/toadium/owl-mbt/blob/main/CONTRIBUTING.md" target="_blank" rel="noreferrer">参与贡献</a>
+      </nav>
+    </div>
   </footer>
 
   <script src="app.js"></script>

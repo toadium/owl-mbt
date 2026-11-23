@@ -455,10 +455,38 @@ function fail(kind, detail) {
   [OUT.matrix, OUT.stats, OUT.plot].forEach((id) => setOut(id, 'error', message));
   setControlsReady(false);
   $('#retry').hidden = false;
+  setHeroText('#wasm-size', '—');
+  setHeroText('#wasm-imports', '—');
+  setHeroText('#wasm-exports', '—');
+  setHeroText('#hero-gamma', '—');
+  setHeroText('#hero-erf', '—');
+  setHeroText('#hero-j0', '—');
+  setHeroText('#hero-status', 'WebAssembly 未加载');
   drawEmpty($('#kde'), 'WebAssembly 未加载，无法绘制', true);
   drawEmpty($('#plot'), 'WebAssembly 未加载，无法绘制', true);
   $('#kde').setAttribute('aria-label', '曲线不可用：WebAssembly 未加载');
   $('#plot').setAttribute('aria-label', '曲线不可用：WebAssembly 未加载');
+}
+
+function setHeroText(sel, text) {
+  const el = $(sel);
+  if (el) el.textContent = text;
+}
+
+function fillHero(wasmBytes) {
+  setHeroText('#wasm-size', `${(wasmBytes / 1024).toFixed(1)} KB`);
+  setHeroText('#wasm-imports', '0');
+  setHeroText('#wasm-exports', String(Object.keys(wasm).length));
+  try {
+    setHeroText('#hero-gamma', fmt(wasm.owl_gamma(5)));
+    setHeroText('#hero-erf', fmt(wasm.owl_erf(1)));
+    setHeroText('#hero-j0', fmt(wasm.owl_j0(2)));
+  } catch {
+    setHeroText('#hero-gamma', '—');
+    setHeroText('#hero-erf', '—');
+    setHeroText('#hero-j0', '—');
+  }
+  setHeroText('#hero-status', 'wasm 已就绪');
 }
 
 async function init() {
@@ -483,6 +511,7 @@ async function init() {
     const bytes = await response.arrayBuffer();
     const { instance } = await WebAssembly.instantiate(bytes, {});
     wasm = instance.exports;
+    fillHero(bytes.byteLength);
 
     setControlsReady(true);
     $('#retry').hidden = true;
@@ -565,5 +594,112 @@ window.addEventListener('resize', () => {
     });
   }, 150);
 });
+
+/* ---------------------------------------------------------------------------
+   页面交互：深浅主题、导航高亮、代码复制、回车提交（不改动 wasm 计算逻辑）。
+   --------------------------------------------------------------------------- */
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+const THEME_KEY = 'owl-mbt-theme';
+const themeToggle = $('#theme-toggle');
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  if (themeToggle) {
+    themeToggle.textContent = theme === 'dark' ? '◐' : '☀';
+    themeToggle.setAttribute(
+      'aria-label',
+      theme === 'dark' ? '切换到浅色主题' : '切换到深色主题',
+    );
+    themeToggle.title = themeToggle.getAttribute('aria-label');
+  }
+}
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {
+      /* 隐私模式下忽略持久化失败 */
+    }
+  });
+  applyTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+}
+
+$$('[data-copy-target]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const target = document.getElementById(button.dataset.copyTarget);
+    if (!target) return;
+    const original = button.textContent;
+    try {
+      const text = target.textContent.trim();
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        document.body.removeChild(area);
+      }
+      button.textContent = '已复制';
+      button.classList.add('copied');
+    } catch {
+      button.textContent = '复制失败';
+    }
+    setTimeout(() => {
+      button.textContent = original;
+      button.classList.remove('copied');
+    }, 1400);
+  });
+});
+
+const ENTER_ACTIONS = [
+  ['#a', 'matrix'],
+  ['#b', 'matrix'],
+  ['#samples', 'stats'],
+  ['#xmin', 'plot'],
+  ['#xmax', 'plot'],
+];
+
+ENTER_ACTIONS.forEach(([selector, action]) => {
+  const field = $(selector);
+  if (!field) return;
+  field.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    const button = $(`button[data-run="${action}"]`);
+    if (button) button.click();
+  });
+});
+
+const navLinks = $$('.nav a');
+const navSections = navLinks
+  .map((link) => document.querySelector(link.getAttribute('href')))
+  .filter(Boolean);
+
+if ('IntersectionObserver' in window && navSections.length > 0) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          link.classList.toggle(
+            'active',
+            link.getAttribute('href') === `#${entry.target.id}`,
+          );
+        });
+      });
+    },
+    { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+  );
+  navSections.forEach((section) => observer.observe(section));
+}
 
 init();
