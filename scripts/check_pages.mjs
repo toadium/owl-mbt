@@ -12,7 +12,9 @@ const WASM_BUILD = join(ROOT, '_build/wasm-gc/release/build/playground/playgroun
 const WASM_DOCS = join(ROOT, 'docs/playground.wasm');
 
 let failures = 0;
+let checks = 0;
 function check(name, ok, detail) {
+  checks += 1;
   console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? `  (${detail})` : ''}`);
   if (!ok) failures++;
 }
@@ -175,7 +177,7 @@ try {
     false,
     `${error.message} — 需要 Node 22+ 或 Chrome 119+ / Firefox 120+ / Safari 18+`,
   );
-  console.log(`\n=== pages check: FAIL (1) ===`);
+  console.log(`\n=== pages check: FAIL (1) · ${checks} checks ===`);
   process.exit(1);
 }
 const imports = WebAssembly.Module.imports(mod);
@@ -194,5 +196,5 @@ check('erf(1) = 0.8427007929', near(exports.owl_erf(1), 0.8427007929, 1e-6));
 check('j0(2) = 0.2238907791', near(exports.owl_j0(2), 0.2238907791, 1e-6));
 check('kde_pdf positive', exports.owl_kde_pdf(2.0, 1.0, 2.0, 3.0, 5.0) > 0);
 
-console.log(`\n=== pages check: ${failures === 0 ? 'PASS' : `FAIL (${failures})`} ===`);
+console.log(`\n=== pages check: ${failures === 0 ? 'PASS' : `FAIL (${failures})`} · ${checks} checks ===`);
 if (failures > 0) process.exit(1);
