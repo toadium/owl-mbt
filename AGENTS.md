@@ -1,6 +1,6 @@
 # AGENTS.md — walkzzz/owl_mbt
 
-MoonBit 科学计算库（Owl/OCaml 的纯 MoonBit 移植，无 C FFI）。主模块 `moon.mod` v0.3.1（0.3.0 为 mooncakes 已发布版本；0.3.1 待发布）。
+MoonBit 科学计算库（Owl/OCaml 的纯 MoonBit 移植，无 C FFI）。主模块 `moon.mod` v0.3.2（0.3.0–0.3.1 为 mooncakes 已发布版本；0.3.2 为许可证合规变更）。
 
 ## 构建与验证（完成标准）
 

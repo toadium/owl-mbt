@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.2] - 2026-11-27
+
+### Changed
+
+- **许可证改为 LGPL-2.1-or-later**：本项目是 Owl（LGPL-2.1+）的 MoonBit 移植，由 OCaml 源码翻译而来，属改编/衍生作品。按 LGPL-2.1 对衍生作品的要求，整体沿用原项目许可证；此前 LICENSE 声明为 MIT 的表述不成立（GitHub 亦识别为 `NOASSERTION`）。`LICENSE` 替换为 LGPL-2.1 标准全文，新增 `NOTICE` 记录本项目与上游 Owl 的版权归属、移植声明与许可证选择；`moon.mod` 的 `license` 同步为 `LGPL-2.1-or-later`；README 许可证段、License badge 与项目信息表同步更新。
+
+### Verified
+
+- 582 测试 × 4 后端全绿；本次仅许可证与文档变更，无代码改动。
+
 ## [0.3.1] - 2026-11-20
 
 ### Added

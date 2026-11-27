@@ -1,10 +1,10 @@
 name = "walkzzz/owl_mbt"
 
-version = "0.3.1"
+version = "0.3.2"
 
 readme = "README.md"
 
-license = "MIT"
+license = "LGPL-2.1-or-later"
 
 repository = "https://github.com/toadium/owl-mbt"
 

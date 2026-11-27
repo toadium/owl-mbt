@@ -147,9 +147,9 @@ mooncakes.io 上无任何科学计算库提供 Ndarray + 线性代数 + 自动�
 |-----------|-------------|
 | MoonBit 为主 | 14,801 行 100% 纯 MoonBit，无 C/其他语言源文件 |
 | 仓库公开 | GitHub 公开仓库，持续提交 |
-| 能够运行 | 3 个可运行示例 + 497 测试 + 0 warnings |
-| 工作有效 | 从 OCaml 移植到 MoonBit，独立重写，6 轮审查 |
-| 开源合规 | MIT License，原项目 LGPL-2.1+ 归属已标注 |
+| 能够运行 | 3 个可运行示例 + 582 测试 + 0 warnings |
+| 工作有效 | 从 OCaml 移植到 MoonBit（14,801 行），6 轮人工代码审查 |
+| 开源合规 | LGPL-2.1+（与上游 Owl 一致：本项目为其衍生作品，沿用原许可证），归属见 NOTICE |
 | AI 可解释 | AI 辅助开发，所有算法经人工审查 |
 
 ---
@@ -159,6 +159,7 @@ mooncakes.io 上无任何科学计算库提供 Ndarray + 线性代数 + 自动�
 - **原项目名称**：Owl
 - **原项目链接**：https://github.com/owlbarn/owl
 - **原项目许可证**：LGPL-2.1+
+- **本项目许可证**：LGPL-2.1+（`SPDX-License-Identifier: LGPL-2.1-or-later`，见 `LICENSE` 与 `NOTICE`）
 - **移植范围**：`owl-base` 包（纯 OCaml，34,326 行），不含 C FFI 绑定层
 - **未移植功能**：SVD、高级特殊函数（gamma/beta/bessel）、完整 BLAS/LAPACK 接口、稀疏矩阵、FFT、Plotting（详见 README.md）
 

@@ -7,7 +7,7 @@
 无 C FFI · 多后端兼容 (Native/Wasm/JS) · 582 测试全通过
 
 [![MoonBit](https://img.shields.io/badge/MoonBit-pure%20implementation-blue)](https://www.moonbitlang.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![License: LGPL-2.1+](https://img.shields.io/badge/License-LGPL--2.1%2B-blue)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-582%20passed-brightgreen)]()
 [![Coverage](https://img.shields.io/badge/coverage-90.6%25%20(core)-brightgreen)](docs/assessment.md)
 [![Mutation](https://img.shields.io/badge/mutation-10%2F10%20KILLED-brightgreen)](scripts/mutation_test.mjs)
@@ -65,7 +65,7 @@ node scripts/serve_pages.mjs          # http://127.0.0.1:8080/
 | 原项目 | [Owl](https://github.com/owlbarn/owl)（OCaml 科学计算库） |
 | 原项目许可证 | LGPL-2.1+ |
 | 移植范围 | `owl-base` 包（纯 OCaml，34,326 行），不含 C 绑定层 |
-| 本项目许可证 | MIT（详见 [LICENSE](LICENSE)） |
+| 本项目许可证 | LGPL-2.1+（与上游一致，详见 [LICENSE](LICENSE) 与 [NOTICE](NOTICE)） |
 | 代码规模 | 14,801 行 MoonBit 代码，79 个源文件 |
 | 测试 | 582 个，全部通过（四后端） |
 | mooncakes | `walkzzz/owl_mbt` |
@@ -210,4 +210,8 @@ MoonBit 新语法为 `f(x~1)`（`~` 后直接跟值），旧写法 `f(x=1)` 已�
 
 ## 许可证
 
-本项目采用 [MIT 许可证](LICENSE)。原项目 Owl 采用 LGPL-2.1+ 许可证，版权声明已在 LICENSE 中保留。
+本项目采用 [GNU LGPL-2.1+ 许可证](LICENSE)（`SPDX-License-Identifier: LGPL-2.1-or-later`）。
+
+本项目是 [Owl](https://github.com/owlbarn/owl)（LGPL-2.1+）的 MoonBit 移植：由 OCaml 源码翻译而来，属改编/衍生作品，因此按 LGPL-2.1 对衍生作品的要求，整体沿用原项目许可证，而非另选宽松许可证。上游版权归属、移植声明与许可证选择说明见 [NOTICE](NOTICE)；LGPL-2.1 全文见 [LICENSE](LICENSE)。
+
+使用方须知：以 MoonBit 库依赖方式链接使用本库（`moon add walkzzz/owl_mbt`）不要求下游项目改变自身许可证；若修改本库源码或以源码形式并入自有作品，则修改/衍生部分需按 LGPL-2.1+ 分发。

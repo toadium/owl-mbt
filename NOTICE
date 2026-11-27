@@ -1,0 +1,33 @@
+owl-mbt
+MoonBit port of Owl — https://github.com/toadium/owl-mbt
+
+Copyright (C) 2026 owl-mbt contributors
+Copyright (C) Liang Wang and Owl contributors (https://github.com/owlbarn/owl)
+
+This library is a port of Owl, the OCaml scientific computing library,
+originally distributed under the GNU Lesser General Public License, version 2.1
+or later (LGPL-2.1+).
+
+The port was produced by translating the OCaml source code of the `owl-base`
+package (pure OCaml, excluding the C FFI binding layer) into MoonBit. A
+translation of a copyrighted work is an adaptation and therefore a derivative
+work; accordingly this project is distributed under the same license as the
+original work: the GNU Lesser General Public License, version 2.1 or later.
+The original license and copyright notice are reproduced in LICENSE; upstream
+attribution is recorded in this file.
+
+This library is free software; you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the Free
+Software Foundation; either version 2.1 of the License, or (at your option) any
+later version.
+
+This library is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this library; if not, see <https://www.gnu.org/licenses/>. The full text
+is in the file LICENSE.
+
+SPDX-License-Identifier: LGPL-2.1-or-later
