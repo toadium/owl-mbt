@@ -1,6 +1,6 @@
 # owl-mbt 工程质量评估（2026-11-20）
 
-> 评估范围：walkzzz/owl_mbt @ 0.3.1（工作区，待发布）· 工具：moon 0.1.20261117（Windows native 实测）
+> 评估范围：walkzzz/owl_mbt @ 0.3.2（已发布 2026-11-27）· 工具：moon 0.1.20261117（Windows native 实测）
 > 口径：测试/覆盖率/变异数字均附复现命令；旧文档中不一致的历史数字以本页为准。
 
 ## 总览
@@ -14,7 +14,7 @@
 | 变异测试 | **10 / 10 KILLED** | `node scripts/mutation_test.mjs` |
 | 文档断言 | **5 / 5** | `node scripts/check_docs.mjs` |
 | 基准 | `bench/` 13 组（native release） | `moon run bench --release --target native` |
-| 版本 | `moon.mod` 0.3.1（0.3.0 为 mooncakes 已发布版本；0.3.1 待发布） | — |
+| 版本 | `moon.mod` 0.3.2（mooncakes 已发布，license LGPL-2.1-or-later） | — |
 
 ## 本轮增强（0.3.1）
 
@@ -36,7 +36,7 @@
 | `ndarray/matrix.mbt` | 64.6%（补测后应升） | 视图已补，剩余为异常/边界 |
 | `misc/dataframe.mbt` | 83.8% | DataFrame 列操作 |
 
-> 覆盖率门槛 90% 为当前红线；上述缺口合计约 300 行，补到 95%+ 属 0.4.0 可选目标，不阻塞 0.3.1 发布。
+> 覆盖率门槛 90% 为当前红线；上述缺口合计约 300 行，补到 95%+ 属 0.4.0 可选目标，不阻塞 0.3.2 发布。
 
 ## 已知限制（事实源）
 
@@ -51,4 +51,4 @@
 | 文档数字漂移 | 历史 561/97.7% 与实际 582/90.6% 不一致 | 已统一 + `check_docs.mjs` 断言化 |
 | Windows `moon prove`/平台差异 | 本项目无 proof 包，不涉及 | — |
 | 覆盖率产物误提交 | `cov.txt` 为临时产物 | 已加入 `.gitignore` 并删除 |
-| 发布节奏 | 0.3.0 已发布，0.3.1 待发布 | 发布由维护者执行 |
+| 发布节奏 | 0.3.0 / 0.3.1 / 0.3.2 均已发布 | 发布由维护者执行 |
